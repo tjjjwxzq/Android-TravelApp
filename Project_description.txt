@@ -1,0 +1,14 @@
+App description
+
+1)Itinerary Planning
+1.1 Exhaustive Search
+Recursive algorithm to generate all possible permutations of the given list of attractions.
+For every candidate order of length n, find the one which takes the least time by ranking by the time average over all three modes of transport.
+
+1.2 Fast Approximate Solver
+Each step along the path, choose the destination which minimizes cost*time average over all three modes of transport.
+
+1.3 Choosing modes of transport along each edge of the path
+Determine the average cost per edge.
+Calculate the cost of taking a taxi for all edges.
+While the total cost exceeds the budget, find the shortest edge (in terms of average cost*time), and check if walking time is less than 15min. If yes, change to walking, else, change to bus, and check whether budget is exceeded. If still exceeded, find the next shortest edge, and repeat until one is within budget.
