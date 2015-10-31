@@ -57,13 +57,36 @@ public class algorithms
 
     //Testing getTransportMode
     System.out.println("Testing getTransportMode");
-    double budget_transportmode = 2;
+    double budget_transportmode = 20;
     ArrayList<String> it_transportmode = new ArrayList<String>(Arrays.asList("Marina Bay Sands", "Buddha Tooth Relic Temple", "Singapore Flyer", "Zoo"));
-    for(int num:getTransportMode(it_transportmode,budget_transportmode))
+    //getTransportMode(it_transportmode, budget_transportmode);
+    for(ArrayList<int[]> possiblemodes_transportmode:getTransportMode(it_transportmode,budget_transportmode))
     {
-      System.out.println(num);
+
+      System.out.println("Final modes");
+      for(int[] modes_transportmode:possiblemodes_transportmode)
+      {
+        for(int num_transportmode:modes_transportmode)
+        {
+          System.out.print(num_transportmode + " ");
+        }
+        System.out.println("");
+
+      }
+
     }
 
+    //Testing sort of empty array
+    /*ArrayList<int[]> arr_emptysort = new ArrayList<int[]>();
+    arr_emptysort.sort((p1,p2)-> {
+      if(p1[0] == p2[0])
+        return 0;
+      else
+        return p1[0]<p2[0]?-1:1;
+    });
+    System.out.println(arr_emptysort);
+    System.out.println(arr_emptysort.get(0));
+*/
     /*
     //Testing behavior of default initialized objects
     System.out.println("testing indexOf on null");
@@ -182,7 +205,7 @@ public class algorithms
   /********************************************************************************************
    * Once given an optimal itinerary computed based on the time-cost average, the actual 
    * mode of transport between each node has to be determined, and is constrained by the 
-   * budget 
+   * budget
    *
    * The algorithm to determine the mode between each node starts by assuming taxi
    * for every edge; while the budget is exceeded, find the shortest edge in terms 
@@ -288,15 +311,16 @@ public class algorithms
   //0: Walk
   //1: Public Transport
   //2: Taxi
-  public static ArrayList<int[]> getTransportMode(ArrayList<String> itinerary, double budget)
+  public static ArrayList<ArrayList<int[]>> getTransportMode(ArrayList<String> itinerary, double budget)
   {
+    //ArrayList of possible overbudget and withinbudget modes
+    ArrayList<int[]> ob_possiblemodes = new ArrayList<int[]>();
+    ArrayList<int[]> wb_possiblemodes = new ArrayList<int[]>();
+
     //Set initial modes all to taxi
-    ArrayList<int[]> possiblemodes = new ArrayList<int[]>();
     int[] modes = new int[itinerary.size()];
     for(int i=0; i<modes.length;i++)
       modes[i] = 2;
-    for(int mode:modes)
-      System.out.println("mode "+mode);
     
     double totalcost = getTotalCost(modes,itinerary);
     String[] shortestedge = new String[2];
@@ -323,7 +347,9 @@ public class algorithms
     //even if cost per time is high?)
     //Measure as change in time per change in cost (for finding more time-optimal but over-budget options)
     //If the time per cost is above a certain threshold(tradeoff is worth it), then store that possibility
-    //Use total extra cost as an additional condition so that choice is not ridiculously over budget 
+    //Use total extra cost as an additional condition so that choice is not ridiculously over budget
+    //Maybe don't use time per cost or cost per time, introduces unnecessary computation; just cutoff at a certain
+    //additional time and cost, and display all possible options with the amount of time/money saved
     while(true)
     {
       System.out.println("total cost "+ totalcost);
@@ -331,56 +357,104 @@ public class algorithms
       shortedges.add(shortestedge);
       System.out.println("Shortestedge " + shortestedge[0] + " " + shortestedge[1]);
 
-      if(totalcost>budget)
+      //If walking takes less than 15 minutes, then walk
+      if(Destinations.TIME_ARR[0][Destinations.DESTINATION_MAP.get(shortestedge[0])][Destinations.DESTINATION_MAP.get(shortestedge[1])] <= 15)
       {
-        //If walking takes less than 15 minutes, then walk
-        if(Destinations.TIME_ARR[0][Destinations.DESTINATION_MAP.get(shortestedge[0])][Destinations.DESTINATION_MAP.get(shortestedge[1])] <= 15)
-        {
-          modes[itinerary.indexOf(shortestedge[0])] = 0;
-          totalcost = getTotalCost(modes,itinerary);
-        }
-        else //if not, take public transport
-        {
-          modes[itinerary.indexOf(shortestedge[0])] = 1;
-          totalcost = getTotalCost(modes,itinerary);
-        }
-        
-        if(totalcost<=budget)
-        {
-          possiblemodes.add(modes.clone());//have to clone modes so that I don't end up assigning the reference
-
-          //break;
-        }
+        modes[itinerary.indexOf(shortestedge[0])] = 0;
+        totalcost = getTotalCost(modes,itinerary);
       }
-      else
+      else //if not, take public transport
       {
-        possiblemodes.add(modes.clone());
-        //break;
+        modes[itinerary.indexOf(shortestedge[0])] = 1;
+        totalcost = getTotalCost(modes,itinerary);
+      }
+      
+      if(totalcost<=budget)
+      {
+        wb_possiblemodes.add(modes.clone());//have to clone modes so that I don't end up assigning the reference
       }
 
-      //Ran through all edges once but still over budget
+      if(totalcost>budget && totalcost<=budget+10)//parameterize this maybe
+      {
+        ob_possiblemodes.add(modes.clone());
+      }
+
+      //Don't evalutate all under budget nodes as it will slow the program
+      //5 candidates are enough, and from them choose those with worthwhile tradeoffs
+      if(wb_possiblemodes.size()>5)
+        break;
+      
+      //Ran through all edges once but still less than 5 possible modes 
       if(Arrays.stream(modes).allMatch(mode -> mode != 2))
         break;
     }
 
-    possiblemodes.sort((mode1,mode2)-> {
-      if(getTotalTime(mode1,itinerary)==getTotalTime(mode2,itinerary)) return 0;
-      getTotalTime(mode1, itinerary)<getTotalTime(mode2,itinerary)?-1:)
+    shortedges.clear();
 
-    }    shortedges.clear();
-
-    while(totalcost>budget)
+    if(wb_possiblemodes.size()<5)
     {
-      shortestedge = nextshortestEdge("walking time",itinerary, shortedges);
-      shortedges.add(shortestedge);
-      System.out.println("After no taxi, shortestedge" + shortestedge[0]+" "+shortestedge[1]);
+      while(true)
+      {
+        shortestedge = nextshortestEdge("walking time",itinerary, shortedges);
+        shortedges.add(shortestedge);
+        System.out.println("After no taxi, shortestedge" + shortestedge[0]+" "+shortestedge[1]);
 
-      modes[itinerary.indexOf(shortestedge[0])] = 0;
-      totalcost = getTotalCost(modes,itinerary);
+        modes[itinerary.indexOf(shortestedge[0])] = 0;
+        totalcost = getTotalCost(modes,itinerary);
+
+        if(totalcost<=budget) 
+        {
+          wb_possiblemodes.add(modes.clone());
+        }
+
+        if(totalcost>budget && totalcost<=budget+10)
+        {
+          ob_possiblemodes.add(modes.clone());
+        }
+
+        if(wb_possiblemodes.size()>5)
+          break;
+
+        //Ran through all the edges and changed all to walking
+        if(Arrays.stream(modes).allMatch(mode -> mode == 0))
+          break;
+
+      }
 
     }
-    System.out.println("Final total cost "+ totalcost);
-    return modes; 
+    
+    wb_possiblemodes.sort((mode1,mode2)-> {
+      if(getTotalTime(mode1,itinerary)==getTotalTime(mode2,itinerary)) return 0;
+      return getTotalTime(mode1, itinerary)<getTotalTime(mode2,itinerary)?-1:1;
+
+    });
+    System.out.println("wb_possiblemodes before removal");
+    for(int[] m:wb_possiblemodes)
+    {
+      for(int num:m)
+        System.out.print(num + " ");
+
+      System.out.println("");
+    }
+    System.out.println("ob_possiblemodes before removal");
+    for(int[] m:ob_possiblemodes)
+    {
+      for(int num:m)
+        System.out.print(num + " ");
+
+      System.out.println("");
+    }
+    int[] modes_optimum = wb_possiblemodes.remove(0);//handle the optimum and the rest separately
+    double totalcost_optimum = getTotalCost(modes_optimum, itinerary);
+    int totaltime_optimum = getTotalTime(modes_optimum, itinerary);
+    wb_possiblemodes.removeIf(m-> getTotalTime(m,itinerary) - totaltime_optimum >= 30);//either use this as cutoff, or let user specify a desired total travelling time? if the user is unreasonable, just return the optimum mode
+    ob_possiblemodes.removeIf(m->(totaltime_optimum - getTotalTime(m,itinerary))/(getTotalCost(m,itinerary)-totalcost_optimum)<=2);//parameterize this also maybe; what ratio does the user think is worthwhile?
+    
+    //return an arraylist containing modes_optimum(as ArrayList<int[]>), wb_possiblemodes with modes_optimum removed, and ob_possiblemodes 
+    ArrayList<int[]> wrappedmodes_optimum = new ArrayList<int[]>();
+    wrappedmodes_optimum.add(modes_optimum);
+    ArrayList<ArrayList<int[]>> allpossiblemodes = new ArrayList<ArrayList<int[]>>(Arrays.asList(wrappedmodes_optimum, wb_possiblemodes, ob_possiblemodes));
+    return allpossiblemodes; 
 
 
   }
