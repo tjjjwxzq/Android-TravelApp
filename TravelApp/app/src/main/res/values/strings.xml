@@ -1,4 +1,8 @@
 <resources>
-    <string name="app_name">TravelApp</string>
+    <string name="app_name">SGFun</string>
     <string name="action_settings">Settings</string>
+    <string name="search_header">Location: </string>
+    <string name="searchbutton">Find</string>
+    <string name="lochint">Location Name</string>
+    <string name="place_details">&lt;b&gt;%1$s&lt;/b&gt;&lt;br/&gt;Address: %2$s</string>
 </resources>
