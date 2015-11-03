@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">IOT project</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_map_info">MapInfo</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="Search">Search</string>
+    <string name="EnterAddress">Enter the address here:</string>
+</resources>
