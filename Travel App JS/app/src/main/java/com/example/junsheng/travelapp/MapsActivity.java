@@ -40,7 +40,7 @@ public class MapsActivity extends FragmentActivity implements
 
     private double lat = 0;
     private double lon = 0;
-    private String foundLocation = "You are here!";
+    private String foundToLocation = "You are here!";
 
     private GoogleApiClient mGoogleApiClient;
     public static final String TAG = MapsActivity.class.getSimpleName();
@@ -147,7 +147,7 @@ public class MapsActivity extends FragmentActivity implements
         Log.i("troubleshoot", "clearing map");
 
         LatLng latLng = new LatLng(lat,lon);
-        Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(foundLocation));
+        Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(foundToLocation));
         Log.i("troubleshoot","added a marker");
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
@@ -157,12 +157,12 @@ public class MapsActivity extends FragmentActivity implements
     public void Search(View view){
         Geocoder myGcdr = new Geocoder(this);
         List<Address> matchedList = null;
-        EditText address = (EditText) findViewById(R.id.address);
-        foundLocation = address.getText().toString();
+        EditText toAddress = (EditText) findViewById(R.id.toAddress);
+        foundToLocation = toAddress.getText().toString();
 
         try {
             Toast.makeText(getApplicationContext(), "Finding Location...", Toast.LENGTH_LONG).show();
-            matchedList = myGcdr.getFromLocationName(foundLocation, 1);
+            matchedList = myGcdr.getFromLocationName(foundToLocation, 1);
         } catch (IOException e){
             Toast.makeText(this, "Not able to find location" + e.getMessage(), Toast.LENGTH_LONG ).show();
         }

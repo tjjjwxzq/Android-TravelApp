@@ -33,8 +33,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="@string/EnterAddress"
-                    android:id="@+id/address"/>
+                    android:hint="@string/From"
+                    android:id="@+id/fromAddress"/>
 
                 <Button
                     android:layout_width="25dp"
@@ -47,26 +47,51 @@
 
         </LinearLayout>
 
-        <FrameLayout
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp">
+            android:orientation="horizontal">
 
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/transgray">
+                android:paddingLeft="5dp"
+                android:paddingTop="10dp">
 
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/mapTypeSwitch"
-                android:layout_marginBottom="5dp"/>
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transgray">
+
+                    <Switch
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/mapTypeSwitch"
+                        android:layout_marginBottom="5dp"/>
+
+                </FrameLayout>
 
             </FrameLayout>
 
-        </FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:background="@color/transgray"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="60dp"
+                android:layout_marginLeft="8dp">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/To"
+                    android:id="@+id/toAddress" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
 
     </LinearLayout>
