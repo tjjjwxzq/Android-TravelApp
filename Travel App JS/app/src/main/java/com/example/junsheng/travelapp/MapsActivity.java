@@ -136,10 +136,10 @@ public class MapsActivity extends FragmentActivity implements
                     .getMap();
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
             // Check if we were successful in obtaining the map.
-//            if (mMap != null) {
-//                Log.i("troubleshoot","setting up map first time");
-//                setUpMap();
-//            }
+            if (mMap != null) {
+                Log.i("troubleshoot","setting up map first time");
+                setUpMap();
+            }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         }
     }
@@ -164,7 +164,12 @@ public class MapsActivity extends FragmentActivity implements
 
         LatLngBounds latLngBounds = computeLatLngBounds(fromLat,fromLon,toLat,toLon);
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 200));
+        try {
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 200));
+        } catch (Exception ex){
+            ex.printStackTrace();
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 500, 500 , 200));
+        }
     }
 
     // Search function that activates when search button is pressed
@@ -257,16 +262,20 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     private void handleNewLocation(Location location) {
-        Log.d(TAG, location.toString());
-        mMap.clear();
-        double currentLatitude = location.getLatitude();
-        double currentLongitude = location.getLongitude();
-        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-        MarkerOptions options = new MarkerOptions()
-                .position(latLng)
-                .title(foundFromLocation);
-        mMap.addMarker(options);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
+        if (foundToLocation == "To here!" && foundFromLocation == "Going from here"){
+            Log.d(TAG, location.toString());
+            mMap.clear();
+            double currentLatitude = location.getLatitude();
+            double currentLongitude = location.getLongitude();
+            LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+            MarkerOptions options = new MarkerOptions()
+                    .position(latLng)
+                    .title(foundFromLocation);
+            mMap.addMarker(options);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
+        } else {
+            setUpMap();
+        }
     }
 
     @Override
