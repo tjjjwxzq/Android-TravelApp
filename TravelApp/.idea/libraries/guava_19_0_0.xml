@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="guava-19.0.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.janusproject.guava/guava/19.0.0/de1a578cd762f38662d7de486bec2810f99f6e47/guava-19.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.janusproject.guava/guava/19.0.0/247b3c74d30615fc6c67750a775545f16a5827bc/guava-19.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

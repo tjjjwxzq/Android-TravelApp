@@ -25,6 +25,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -38,9 +39,12 @@ public class MapsActivity extends FragmentActivity implements
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
-    private double lat = 0;
-    private double lon = 0;
-    private String foundToLocation = "You are here!";
+    private double toLat = 0;
+    private double toLon = 0;
+    private double fromLat = 0;
+    private double fromLon = 0;
+    private String foundToLocation = "To here!";
+    private String foundFromLocation = "Going from here";
 
     private GoogleApiClient mGoogleApiClient;
     public static final String TAG = MapsActivity.class.getSimpleName();
@@ -127,12 +131,13 @@ public class MapsActivity extends FragmentActivity implements
             // Try to obtain the map from the SupportMapFragment.
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
             // Check if we were successful in obtaining the map.
-            if (mMap != null) {
-                Log.i("troubleshoot","setting up map first time");
-                setUpMap();
-            }
+//            if (mMap != null) {
+//                Log.i("troubleshoot","setting up map first time");
+//                setUpMap();
+//            }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
         }
     }
 
@@ -146,23 +151,36 @@ public class MapsActivity extends FragmentActivity implements
         mMap.clear();
         Log.i("troubleshoot", "clearing map");
 
-        LatLng latLng = new LatLng(lat,lon);
-        Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(foundToLocation));
-        Log.i("troubleshoot","added a marker");
+        LatLng toLatLng = new LatLng(toLat,toLon);
+        Marker toMarker = mMap.addMarker(new MarkerOptions().position(toLatLng).title(foundToLocation));
+        LatLng fromLatLng = new LatLng(fromLat,fromLon);
+        Marker fromMarker = mMap.addMarker(new MarkerOptions().position(fromLatLng).title(foundFromLocation));
+        Log.i("troubleshoot","added markers");
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+//        centerLat = (toLat + fromLat) / 2;
+//        centerLon = (toLon + fromLon) / 2;
+//        LatLngBounds (LatLng southwest, LatLng northeast)
+
+        LatLngBounds latLngBounds = computeLatLngBounds(fromLat,fromLon,toLat,toLon);
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 200));
     }
 
     // Search function that activates when search button is pressed
     public void Search(View view){
-        Geocoder myGcdr = new Geocoder(this);
-        List<Address> matchedList = null;
+        Geocoder myGcdrTo = new Geocoder(this);
+        List<Address> matchedListTo = null;
         EditText toAddress = (EditText) findViewById(R.id.toAddress);
         foundToLocation = toAddress.getText().toString();
+        Geocoder myGcdrFrom = new Geocoder(this);
+        List<Address> matchedListFrom = null;
+        EditText fromAddress = (EditText) findViewById(R.id.fromAddress);
+        foundFromLocation = fromAddress.getText().toString();
 
         try {
             Toast.makeText(getApplicationContext(), "Finding Location...", Toast.LENGTH_LONG).show();
-            matchedList = myGcdr.getFromLocationName(foundToLocation, 1);
+            matchedListTo = myGcdrTo.getFromLocationName(foundToLocation, 1);
+            matchedListFrom = myGcdrFrom.getFromLocationName(foundFromLocation, 1);
         } catch (IOException e){
             Toast.makeText(this, "Not able to find location" + e.getMessage(), Toast.LENGTH_LONG ).show();
         }
@@ -171,8 +189,10 @@ public class MapsActivity extends FragmentActivity implements
         Log.i("troubleshoot","location found");
 
         try{
-            lat = Double.parseDouble(String.valueOf(matchedList.get(0).getLatitude()));
-            lon = Double.parseDouble(String.valueOf(matchedList.get(0).getLongitude()));
+            toLat = Double.parseDouble(String.valueOf(matchedListTo.get(0).getLatitude()));
+            toLon = Double.parseDouble(String.valueOf(matchedListTo.get(0).getLongitude()));
+            fromLat = Double.parseDouble(String.valueOf(matchedListFrom.get(0).getLatitude()));
+            fromLon = Double.parseDouble(String.valueOf(matchedListFrom.get(0).getLongitude()));
         } catch (Exception e){
             Toast.makeText(this, "A problem occured in retrieving location", Toast.LENGTH_LONG).show();
             return;
@@ -243,7 +263,7 @@ public class MapsActivity extends FragmentActivity implements
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
-                .title("I am here!");
+                .title(foundFromLocation);
         mMap.addMarker(options);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
     }
@@ -251,6 +271,32 @@ public class MapsActivity extends FragmentActivity implements
     @Override
     public void onLocationChanged(Location location) {
         handleNewLocation(location);
+    }
+
+    LatLngBounds computeLatLngBounds(double fromLat, double fromLon, double toLat, double toLon) {
+        double greaterLat;
+        double smallerLat;
+        double greaterLon;
+        double smallerLon;
+        LatLngBounds latLngBounds;
+        if (fromLat >= toLat){
+            greaterLat = fromLat;
+            smallerLat = toLat;
+        } else {
+            greaterLat = toLat;
+            smallerLat = fromLat;
+        }
+        if (fromLon >= toLon){
+            greaterLon = fromLon;
+            smallerLon = toLon;
+        } else {
+            greaterLon = toLon;
+            smallerLon = fromLon;
+        }
+        LatLng southwest = new LatLng(smallerLat,smallerLon);
+        LatLng northeast = new LatLng(greaterLat,greaterLon);
+        latLngBounds = new LatLngBounds(southwest, northeast);
+        return latLngBounds;
     }
 
 }
