@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.io.IOException;
 import java.util.List;
@@ -43,6 +44,8 @@ public class MapsActivity extends FragmentActivity implements
     private double toLon = 0;
     private double fromLat = 0;
     private double fromLon = 0;
+    private Marker fromMarker;
+    private Marker toMarker;
     private String foundToLocation = "To here!";
     private String foundFromLocation = "Going from here";
 
@@ -152,14 +155,12 @@ public class MapsActivity extends FragmentActivity implements
         Log.i("troubleshoot", "clearing map");
 
         LatLng toLatLng = new LatLng(toLat,toLon);
-        Marker toMarker = mMap.addMarker(new MarkerOptions().position(toLatLng).title(foundToLocation));
+        toMarker = mMap.addMarker(new MarkerOptions().position(toLatLng).title(foundToLocation));
         LatLng fromLatLng = new LatLng(fromLat,fromLon);
-        Marker fromMarker = mMap.addMarker(new MarkerOptions().position(fromLatLng).title(foundFromLocation));
+        fromMarker = mMap.addMarker(new MarkerOptions().position(fromLatLng).title(foundFromLocation));
         Log.i("troubleshoot","added markers");
 
-//        centerLat = (toLat + fromLat) / 2;
-//        centerLon = (toLon + fromLon) / 2;
-//        LatLngBounds (LatLng southwest, LatLng northeast)
+        drawLine();
 
         LatLngBounds latLngBounds = computeLatLngBounds(fromLat,fromLon,toLat,toLon);
 
@@ -297,6 +298,14 @@ public class MapsActivity extends FragmentActivity implements
         LatLng northeast = new LatLng(greaterLat,greaterLon);
         latLngBounds = new LatLngBounds(southwest, northeast);
         return latLngBounds;
+    }
+
+    private void drawLine(){
+        PolylineOptions options = new PolylineOptions()
+                .add(fromMarker.getPosition())
+                .add(toMarker.getPosition());
+
+        mMap.addPolyline(options);
     }
 
 }
