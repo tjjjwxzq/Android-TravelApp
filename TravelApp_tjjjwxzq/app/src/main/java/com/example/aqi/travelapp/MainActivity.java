@@ -1,5 +1,6 @@
 package com.example.aqi.travelapp;
 
+import android.app.ActionBar;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,7 +16,9 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +51,8 @@ public class MainActivity extends AppCompatActivity
     private AutoCompleteTextView mAutocompleteView;
 
     private TextView mPlaceDetailsText;
+
+    private Button mPlaceButton;
 
     private static final LatLngBounds SINGAPORE = new LatLngBounds(
             new LatLng(1.251484, 103.618240), new LatLng(1.464026, 104.110222));
@@ -160,9 +165,16 @@ public class MainActivity extends AppCompatActivity
             mPlaceDetailsText.setText(formatPlaceDetails(getResources(), place.getName(),
                     place.getAddress()));
 
+            //Create new button for adding place to itinerary
+            mPlaceButton.setText(R.string.addtoit);
+            LinearLayout ll = (LinearLayout) findViewById(R.id.main_linearlayout);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            ll.addView(mPlaceButton, lp);
+
             Log.i(TAG, "Place details received: " + place.getName());
 
-            places.release(); //releast the buffer
+            places.release(); //release the buffer
         }
     };
 

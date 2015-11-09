@@ -5,4 +5,6 @@
     <string name="searchbutton">Find</string>
     <string name="lochint">Location Name</string>
     <string name="place_details">&lt;b&gt;%1$s&lt;/b&gt;&lt;br/&gt;Address: %2$s</string>
+    <string name="title_activity_itinerary">ItineraryActivity</string>
+    <string name="addtoit">Add to itnerary</string>
 </resources>
