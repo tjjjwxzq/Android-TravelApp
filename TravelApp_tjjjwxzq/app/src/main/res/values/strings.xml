@@ -8,4 +8,9 @@
     <string name="title_activity_itinerary">ItineraryActivity</string>
     <string name="addtoit">Add to itnerary</string>
     <string name="pref_file_key">SavedItineraries</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
