@@ -7,4 +7,5 @@
     <string name="place_details">&lt;b&gt;%1$s&lt;/b&gt;&lt;br/&gt;Address: %2$s</string>
     <string name="title_activity_itinerary">ItineraryActivity</string>
     <string name="addtoit">Add to itnerary</string>
+    <string name="pref_file_key">SavedItineraries</string>
 </resources>

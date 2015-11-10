@@ -1,6 +1,8 @@
 package com.example.aqi.travelapp;
 
 import android.app.ActionBar;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -93,6 +95,9 @@ public class MainActivity extends AppCompatActivity
         //Retrieve the TextView that will display the details of the selected place
         mPlaceDetailsText = (TextView) findViewById(R.id.place_details);
 
+        //Initialize the add itinerary button
+        mPlaceButton = new Button(this);
+
         //Set up the adapter that will retrieve suggestions from the Places Geo Data API
         //that cover the entire world (no filter)
         mAdapter = new PlaceAutocompleteAdapter(this, mGoogleApiClient, SINGAPORE, null);
@@ -167,6 +172,11 @@ public class MainActivity extends AppCompatActivity
 
             //Create new button for adding place to itinerary
             mPlaceButton.setText(R.string.addtoit);
+            mPlaceButton.setOnClickListener(new View.OnClickListener(){
+                public void onClick(View v){
+
+                }
+            });
             LinearLayout ll = (LinearLayout) findViewById(R.id.main_linearlayout);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
