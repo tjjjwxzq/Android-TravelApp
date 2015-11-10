@@ -1,7 +1,9 @@
 package com.example.aqi.travelapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,6 +64,33 @@ public class AttractionLocatorFragment extends Fragment
 
     private static final String TAG = "AttrLocFrag";
 
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        // Construct a GoogleApiClient for the {@link Places#GEO_DATA_API}
+        // Not using AutoManager functionality, which automatically sets up the API client to handle Activity lifecycle
+        // events, because the fragment can't inherit from FragmentAcitvity
+        // connect() and disconnect() are called explicitly
+        // in onStart() and onStop()
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addApi(Places.GEO_DATA_API)
+                .build();
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        if(mGoogleApiClient != null)
+            mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onStop(){
+        if(mGoogleApiClient!=null && mGoogleApiClient.isConnected())
+            mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+
     public static Fragment newInstance(Context context) {
         AttractionLocatorFragment frag = new AttractionLocatorFragment();
         return frag;
@@ -72,14 +102,6 @@ public class AttractionLocatorFragment extends Fragment
         //return super.onCreateView(inflater, container, savedInstanceState);
         root = inflater.inflate(R.layout.fragment_attraction_locator, container, false);
 
-     // Construct a GoogleApiClient for the {@link Places#GEO_DATA_API} using AutoManage
-        // functionality, which automatically sets up the API client to handle Activity lifecycle
-        // events. If your activity does not extend FragmentActivity, make sure to call connect()
-        // and disconnect() explicitly.
-        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                .enableAutoManage((FragmentActivity) this.getActivity(), 0 /* clientId */, this)
-                .addApi(Places.GEO_DATA_API)
-                .build();
 
         //Retrieve the AutoCompleteTextView that will display Place suggestions
         mAutocompleteView = (AutoCompleteTextView) root.findViewById(R.id.autocomplete_places);
@@ -164,12 +186,8 @@ public class AttractionLocatorFragment extends Fragment
 
             //Create new button for adding place to itinerary
             mPlaceButton.setText(R.string.addtoit);
-            mPlaceButton.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View v){
-
-                }
-            });
-            LinearLayout ll = (LinearLayout) root.findViewById(R.id.main_linearlayout);
+            mPlaceButton.setOnClickListener(new addtoItinerary());
+            LinearLayout ll = (LinearLayout) root.findViewById(R.id.loc_linearlayout);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
             ll.addView(mPlaceButton, lp);
@@ -206,4 +224,45 @@ public class AttractionLocatorFragment extends Fragment
                 "Could not connect to Google API Client: Error " + connectionResult.getErrorCode(),
                 Toast.LENGTH_SHORT).show();
     }
+
+    public class addtoItinerary implements View.OnClickListener(View view) {
+
+        public addtoItinerary(){}
+
+        @Override
+        public void onClick(View view)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            final View dialogView = inflater.inflate(R.layout.dialog_addtoit, null);
+
+            builder.setView(dialogView);
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.addtobudget, null);
+        final EditText meow = (EditText) dialogView.findViewById(R.id.additionalBudget);
+        builder.setView(dialogView);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                //user clicked ok button
+
+                addedBudget = Double.parseDouble((meow).getText().toString());
+                budget += Math.round(addedBudget * 100) / 100;
+                updateBudgetText();
+                updateRemainingText();
+                Toast.makeText(MainActivity.this, "Budget updated successfully!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
+
 }
