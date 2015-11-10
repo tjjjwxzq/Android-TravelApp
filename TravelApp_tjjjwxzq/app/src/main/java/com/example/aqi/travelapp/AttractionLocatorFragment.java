@@ -2,6 +2,8 @@ package com.example.aqi.travelapp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
@@ -38,11 +40,6 @@ import com.google.android.gms.maps.model.LatLngBounds;
 
 /**
  * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AttractionLocatorFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link AttractionLocatorFragment#newInstance} factory method to
- * create an instance of this fragment.
  */
 public class AttractionLocatorFragment extends Fragment
  implements GoogleApiClient.OnConnectionFailedListener {
@@ -186,7 +183,7 @@ public class AttractionLocatorFragment extends Fragment
 
             //Create new button for adding place to itinerary
             mPlaceButton.setText(R.string.addtoit);
-            mPlaceButton.setOnClickListener(new addtoItinerary());
+            mPlaceButton.setOnClickListener(new addtoItinerary(place.getName()));
             LinearLayout ll = (LinearLayout) root.findViewById(R.id.loc_linearlayout);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -225,43 +222,27 @@ public class AttractionLocatorFragment extends Fragment
                 Toast.LENGTH_SHORT).show();
     }
 
-    public class addtoItinerary implements View.OnClickListener(View view) {
+    /**
+     * Listener creates a dialogfragment which allows user to choose either
+     * to save to an existing itinerary or a new itinerary
+     */
+    public class addtoItinerary implements View.OnClickListener {
 
-        public addtoItinerary(){}
+        //Pass the placename to the dialog
+        CharSequence placename;
+
+        public addtoItinerary(CharSequence placename)
+        {
+            this.placename = placename;
+        }
 
         @Override
         public void onClick(View view)
         {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            LayoutInflater inflater = getActivity().getLayoutInflater();
-            final View dialogView = inflater.inflate(R.layout.dialog_addtoit, null);
-
-            builder.setView(dialogView);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            DialogFragment newFragment = AddToItDialog1.newInstance(placename);
+            newFragment.show(ft,"dialog");
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.addtobudget, null);
-        final EditText meow = (EditText) dialogView.findViewById(R.id.additionalBudget);
-        builder.setView(dialogView);
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                //user clicked ok button
-
-                addedBudget = Double.parseDouble((meow).getText().toString());
-                budget += Math.round(addedBudget * 100) / 100;
-                updateBudgetText();
-                updateRemainingText();
-                Toast.makeText(MainActivity.this, "Budget updated successfully!", Toast.LENGTH_SHORT).show();
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User cancelled the dialog
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
 
     }
 

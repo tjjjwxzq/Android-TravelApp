@@ -16,22 +16,25 @@ import java.util.List;
  */
 public class FileUtils {
 
-    public void writeToFile(Context context, String filename, ArrayList<String> Lines)
+    public static void writeToFile(Context context, String filename,
+                                   ArrayList<ArrayList<String>> itineraries )
     {
         try{
             FileOutputStream fileout = context.
                     openFileOutput(filename, Context.MODE_APPEND); //append to existing file
             OutputStreamWriter outputWriter = new OutputStreamWriter(fileout,"UTF-8");
             BufferedWriter buffWriter = new BufferedWriter(outputWriter);
-            for(String line: Lines)
+            for(ArrayList<String> Lines: itineraries)
             {
-                buffWriter.write(line);
+                for(String line: Lines)
+                {
+                    buffWriter.write(line);
+                    buffWriter.newLine();
+                }
+                //Write a newline to demarcate itinerary entries
                 buffWriter.newLine();
-
             }
-            //Write a newline to demarcate itinerary entries
-            buffWriter.newLine();
-            buffWriter.close();
+           buffWriter.close();
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -39,7 +42,7 @@ public class FileUtils {
 
     }
 
-    public ArrayList<SavedItinerary> readFile(Context context, String filename)
+    public static ArrayList<SavedItinerary> readFile(Context context, String filename)
     {
 
         ArrayList<SavedItinerary> saveditineraries = new ArrayList<SavedItinerary>();
@@ -70,7 +73,7 @@ public class FileUtils {
         }
 
         //If the file is empty; no itineraries saved
-        if(saveditineraries.toString().equals("[null]"))
+        if(saveditineraries.toString().equals("[null]") | saveditineraries.size()==0)
             return null;
 
         return saveditineraries;

@@ -2,13 +2,20 @@ package com.example.aqi.travelapp;
 
 import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -22,20 +29,76 @@ public class AddToItDialog1 extends DialogFragment {
 
     private ListView dialogList;
 
-    private String[] dialogArray = {"Existing itinerary", "New itinerary"}
+    private ArrayAdapter<String> mAdapter;
 
-    public AddToItDialog1 newInstance() {
+    private String[] dialogArray = {"Existing itinerary", "New itinerary"};
+
+    static AddToItDialog1 newInstance(CharSequence placename) {
         AddToItDialog1 f = new AddToItDialog1();
+        Bundle args = new Bundle();
+        args.putCharSequence("placename", placename);
+        f.setArguments(args);
+        return f;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_add_to_it_dialog1, container, false);
+        //Get arguments
+        final CharSequence placename = getArguments().getCharSequence("placename");
 
-        //Assign the List view
+        // Inflate the layout for this fragment
+        final View root = inflater.inflate(R.layout.fragment_add_to_it_dialog1, container, false);
+
+        //Assign the List view and set the adapter
         dialogList = (ListView) root.findViewById(R.id.addtoitdialog1_listview);
+        mAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,dialogArray);
+        dialogList.setAdapter(mAdapter);
+
+        //Set the listener for the list view
+        dialogList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+          @Override
+              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Fragment fragment = null;
+              switch(position)
+              {
+                  case 0://Existing itinerary
+                      //Loads saved itineraries from file if not already stored in memory
+                      ItineraryActivity.loadSavedItineraries(getActivity());
+
+                      if( ItineraryActivity.saveditineraries == null) {
+                          // No saved itineraries
+                          Toast toast = Toast.makeText(getActivity(), "No saved itineraries. Create a new one instead.",
+                                  Toast.LENGTH_SHORT);
+                          LinearLayout layout = (LinearLayout) toast.getView();
+                          if (layout.getChildCount() > 0) {
+                              TextView tv = (TextView) layout.getChildAt(0);
+                              tv.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+                          }
+                          toast.show();
+
+                      }
+                      else
+                      {
+                          //Get the itinerary names to display in subsequent dialog list
+                          String[] itineraries = ItineraryActivity.extractSavedItineraries();
+                          FragmentTransaction ft = getFragmentManager().beginTransaction();
+                          DialogFragment newFragment = AddToItDialog2E.newInstance(itineraries,placename);
+                          newFragment.show(ft,"dialog");
+                      }
+                      break;
+                  case 1: //New itinerary
+                      FragmentTransaction ft = getFragmentManager().beginTransaction();
+                      DialogFragment newFragment = AddToItDialog2N.newInstance(placename);
+                      newFragment.show(ft,"dialog");
+                      break;
+              }
+
+
+              }
+          });
+
+        //Set the title
         getDialog().setTitle("Add to...");
 
         return root;

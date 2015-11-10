@@ -20,6 +20,19 @@ public class SavedItinerary {
     //Transport modes
     public int[] transportmodes;
 
+    //default constructor
+    public SavedItinerary(){}
+
+    //Constructor
+    public SavedItinerary(String name, ArrayList<String> destinations,
+                          ArrayList<String> itinerary, int[] transportmodes)
+    {
+        this.name = name;
+        this.destinations = destinations;
+        this.itinerary = itinerary;
+        this.transportmodes = transportmodes;
+    }
+
     /**
      * Sets attributes of SavedItinerary object when reading from
      * a text file, which is written to in a given format.
