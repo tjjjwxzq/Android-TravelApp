@@ -174,14 +174,17 @@ public class MapsActivity extends FragmentActivity implements
 
     // Search function that activates when search button is pressed
     public void Search(View view){
+        RobustSpellChecker RSC = new RobustSpellChecker();
         Geocoder myGcdrTo = new Geocoder(this);
         List<Address> matchedListTo = null;
         EditText toAddress = (EditText) findViewById(R.id.toAddress);
         foundToLocation = toAddress.getText().toString();
+        foundToLocation = RSC.SpellChecker(foundToLocation);
         Geocoder myGcdrFrom = new Geocoder(this);
         List<Address> matchedListFrom = null;
         EditText fromAddress = (EditText) findViewById(R.id.fromAddress);
         foundFromLocation = fromAddress.getText().toString();
+        foundFromLocation = RSC.SpellChecker(foundFromLocation);
 
         try {
             Toast.makeText(getApplicationContext(), "Finding Location...", Toast.LENGTH_LONG).show();
