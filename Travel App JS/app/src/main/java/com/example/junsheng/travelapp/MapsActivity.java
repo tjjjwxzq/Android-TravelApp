@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.io.IOException;
 import java.util.List;
@@ -43,6 +44,8 @@ public class MapsActivity extends FragmentActivity implements
     private double toLon = 0;
     private double fromLat = 0;
     private double fromLon = 0;
+    private Marker fromMarker;
+    private Marker toMarker;
     private String foundToLocation = "To here!";
     private String foundFromLocation = "Going from here";
 
@@ -133,10 +136,10 @@ public class MapsActivity extends FragmentActivity implements
                     .getMap();
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
             // Check if we were successful in obtaining the map.
-//            if (mMap != null) {
-//                Log.i("troubleshoot","setting up map first time");
-//                setUpMap();
-//            }
+            if (mMap != null) {
+                Log.i("troubleshoot","setting up map first time");
+                setUpMap();
+            }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         }
     }
@@ -152,18 +155,21 @@ public class MapsActivity extends FragmentActivity implements
         Log.i("troubleshoot", "clearing map");
 
         LatLng toLatLng = new LatLng(toLat,toLon);
-        Marker toMarker = mMap.addMarker(new MarkerOptions().position(toLatLng).title(foundToLocation));
+        toMarker = mMap.addMarker(new MarkerOptions().position(toLatLng).title(foundToLocation));
         LatLng fromLatLng = new LatLng(fromLat,fromLon);
-        Marker fromMarker = mMap.addMarker(new MarkerOptions().position(fromLatLng).title(foundFromLocation));
+        fromMarker = mMap.addMarker(new MarkerOptions().position(fromLatLng).title(foundFromLocation));
         Log.i("troubleshoot","added markers");
 
-//        centerLat = (toLat + fromLat) / 2;
-//        centerLon = (toLon + fromLon) / 2;
-//        LatLngBounds (LatLng southwest, LatLng northeast)
+        drawLine();
 
         LatLngBounds latLngBounds = computeLatLngBounds(fromLat,fromLon,toLat,toLon);
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 200));
+        try {
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 200));
+        } catch (Exception ex){
+            ex.printStackTrace();
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 500, 500 , 200));
+        }
     }
 
     // Search function that activates when search button is pressed
@@ -256,16 +262,20 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     private void handleNewLocation(Location location) {
-        Log.d(TAG, location.toString());
-        mMap.clear();
-        double currentLatitude = location.getLatitude();
-        double currentLongitude = location.getLongitude();
-        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-        MarkerOptions options = new MarkerOptions()
-                .position(latLng)
-                .title(foundFromLocation);
-        mMap.addMarker(options);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
+        if (foundToLocation == "To here!" && foundFromLocation == "Going from here"){
+            Log.d(TAG, location.toString());
+            mMap.clear();
+            double currentLatitude = location.getLatitude();
+            double currentLongitude = location.getLongitude();
+            LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+            MarkerOptions options = new MarkerOptions()
+                    .position(latLng)
+                    .title(foundFromLocation);
+            mMap.addMarker(options);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
+        } else {
+            setUpMap();
+        }
     }
 
     @Override
@@ -297,6 +307,14 @@ public class MapsActivity extends FragmentActivity implements
         LatLng northeast = new LatLng(greaterLat,greaterLon);
         latLngBounds = new LatLngBounds(southwest, northeast);
         return latLngBounds;
+    }
+
+    private void drawLine(){
+        PolylineOptions options = new PolylineOptions()
+                .add(fromMarker.getPosition())
+                .add(toMarker.getPosition());
+
+        mMap.addPolyline(options);
     }
 
 }
