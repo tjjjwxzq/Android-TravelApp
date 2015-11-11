@@ -5,4 +5,17 @@
     <string name="searchbutton">Find</string>
     <string name="lochint">Location Name</string>
     <string name="place_details">&lt;b&gt;%1$s&lt;/b&gt;&lt;br/&gt;Address: %2$s</string>
+    <string name="title_activity_itinerary">ItineraryActivity</string>
+    <string name="addtoit">Add to itnerary</string>
+    <string name="pref_file_key">SavedItineraries</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="itinerary_name">Itinerary name</string>
+    <string name="ok">OK</string>
+    <string name="alert_dialog_ok">OK</string>
+    <string name="alert_dialog_cancel">Cancel</string>
+    <string name="btn_addtoit">Add to itinerary</string>
 </resources>

@@ -1,9 +1,16 @@
 package com.example.aqi.travelapp;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -15,44 +22,38 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.location.places.AutocompletePrediction;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.PlaceBuffer;
-import com.google.android.gms.location.places.Places;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
-    implements GoogleApiClient.OnConnectionFailedListener {
-
-    EditText locationtext;
-    ListView locationlist;
-    ArrayAdapter<String> locarrayadapter;
-    ArrayList<String> locationsarr;
-
-    protected GoogleApiClient mGoogleApiClient;
-
-    private PlaceAutocompleteAdapter mAdapter;
-
-    private AutoCompleteTextView mAutocompleteView;
-
-    private TextView mPlaceDetailsText;
-
-    private static final LatLngBounds SINGAPORE = new LatLngBounds(
-            new LatLng(1.251484, 103.618240), new LatLng(1.464026, 104.110222));
+    {
 
     private static final String TAG = "MainActivity";
+
+    private ArrayAdapter<String> mDrawerAdapter;
+    private ListView mDrawerList;
+
+    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private String mActivityTitle;
+
+    final String[] osArray = { "Attraction Locator", "Itinerary Planner", "Budget Manager"};
+
+    public double budget = Math.round(0.00*100)/100.0;
+    public double addedBudget;
+    public double spent = Math.round(0.00*100)/100.0;
+    public double remaining = Math.round(0.00*100)/100.0;
+
+    public String expTitle;
+    public double expAmt;
+
+    public ArrayList<String> expenditure = new ArrayList<>();
+    public ArrayList<String> expList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,135 +71,111 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        // Construct a GoogleApiClient for the {@link Places#GEO_DATA_API} using AutoManage
-        // functionality, which automatically sets up the API client to handle Activity lifecycle
-        // events. If your activity does not extend FragmentActivity, make sure to call connect()
-        // and disconnect() explicitly.
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, 0 /* clientId */, this)
-                .addApi(Places.GEO_DATA_API)
-                .build();
 
-        //Retrieve the AutoCompleteTextView that will display Place suggestions
-        mAutocompleteView = (AutoCompleteTextView) findViewById(R.id.autocomplete_places);
+        //Set up navigation drawer
+        mDrawerList = (ListView)findViewById(R.id.left_drawer);
+        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        mActivityTitle = getTitle().toString();
 
-        //Register a listener that receives callbacks when a suggestion is selected
-        mAutocompleteView.setOnItemClickListener(mAutocompleteClickListener);
+        addDrawerItems();
+        setupDrawer();
 
-        //Retrieve the TextView that will display the details of the selected place
-        mPlaceDetailsText = (TextView) findViewById(R.id.place_details);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
-        //Set up the adapter that will retrieve suggestions from the Places Geo Data API
-        //that cover the entire world (no filter)
-        mAdapter = new PlaceAutocompleteAdapter(this, mGoogleApiClient, SINGAPORE, null);
-        mAutocompleteView.setAdapter(mAdapter);
+        //Initalize attraction locator fragment
+        Fragment fragment = new AttractionLocatorFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.relative, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
 
-        //Retrieve the text
-        locationsarr = new ArrayList<>();
-        locationlist = (ListView) findViewById(R.id.main_list);
-        locarrayadapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, locationsarr);
-        locationlist.setAdapter(locarrayadapter);
+
+
     }
 
-    /**
-     * Listener that handles selections from suggestions from the AutocompleteTextView that
-     * displays Place suggestions.
-     * Gets the place id of the selected item and issues a request to the Places Geo Data API
-     * to retrieve more details about the place.
-     */
-    private AdapterView.OnItemClickListener mAutocompleteClickListener
-            = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-        {
-            /*
-            Retrieve the place ID the selected item from the Adapter
-            Each Place suggestion is stored as an AutocompletePrediction
-            in the Adapter
-             */
+    private void addDrawerItems(){
 
-            final AutocompletePrediction item = mAdapter.getItem(position);
-            final String placeId = item.getPlaceId();
-            final CharSequence primaryText = item.getPrimaryText(null);
+        mDrawerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, osArray);
+        mDrawerList.setAdapter(mDrawerAdapter);
 
-            Log.i(TAG, "Autocomplete item selected: " + primaryText);
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Fragment fragment = null;
+                switch (position) {
+                    case 0:
+                        fragment = new AttractionLocatorFragment();
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        transaction.replace(R.id.relative, fragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                        break;
+                    case 2:
+                        fragment = new BudgetManagerFragment();
+                        FragmentManager fragmentManager1 = getFragmentManager();
+                        FragmentTransaction transaction1 = fragmentManager1.beginTransaction();
+                        transaction1.replace(R.id.relative, fragment);
+                        transaction1.addToBackStack(null);
+                        transaction1.commit();
+                        break;
+                    case 1:
+                        Intent intent = new Intent(MainActivity.this, ItineraryActivity.class);
+                        MainActivity.this.startActivity(intent);
+                        break;
+                }
+                setTitle(osArray[position]);
+                mDrawerLayout.closeDrawer(mDrawerList);
+            }
+        });
+    }
 
-            /*
-            Issue a request to the Places Geo Data API to retrieve a Place object with
-            additional details about the place
-             */
-            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
-                    .getPlaceById(mGoogleApiClient, placeId);
-            placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+    private void setupDrawer() {
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
 
-            Toast.makeText(getApplicationContext(), "Clicked: " + primaryText, Toast.LENGTH_SHORT).show();
-            Log.i(TAG, "Called getPlaceById to get Place details for " + placeId);
-        }
-
-    };
-
-    /**
-     * Callback for results from a Places Geo Data API query that shows the first place
-     * result in the details view on screen (maybe change it top three results?)
-     */
-    private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback
-            = new ResultCallback<PlaceBuffer>() {
-        @Override
-        public void onResult(PlaceBuffer places) {
-            if(!places.getStatus().isSuccess())
-            {
-                //Request did not complete successfully
-                Log.e(TAG, "Place query did not complete. Error: " + places.getStatus().toString());
-                places.release();
-                return;
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getSupportActionBar().setTitle("Navigation");
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
-            //Get the Place object from the buffer
-            final Place place = places.get(0);
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getSupportActionBar().setTitle(mActivityTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
 
-            //Format details of the place for display and show it in a TextView
-            mPlaceDetailsText.setText(formatPlaceDetails(getResources(), place.getName(),
-                    place.getAddress()));
-
-            Log.i(TAG, "Place details received: " + place.getName());
-
-            places.release(); //releast the buffer
-        }
-    };
-
-    /**
-     * Returns the place details as a styled HTML text
-     */
-    private static Spanned formatPlaceDetails(Resources res, CharSequence name, CharSequence address)
-    {
-        Log.e(TAG, res.getString(R.string.place_details, name, address));
-        return Html.fromHtml(res.getString(R.string.place_details, name, address));
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
-    /**
-     * Called when the Acitivty could not connect to GooglePlay services and the auto manager
-     * could resolve the error automatically.
-     * In this case the API is not available and notify the user.
-     *
-     * @param connectionResult can be ispected to determine the cause of the failure
-     */
+    //Save itinerary to file when activity is stopped
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult)
+    protected void onStop()
     {
-        Log.e(TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = "
-                + connectionResult.getErrorCode());
-
-        Toast.makeText(this,
-                "Could not connect to Google API Client: Error " + connectionResult.getErrorCode(),
-                Toast.LENGTH_SHORT).show();
+        ItineraryActivity.writeSavedItineraries(this);
+        Log.d(TAG, "Stoppping main");
+        super.onStop();
     }
 
-
-    public void findLocation(View view)
-    {
-        locationsarr.add(locationtext.getText().toString());
-        locarrayadapter.notifyDataSetChanged();
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
     }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -218,7 +195,12 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
