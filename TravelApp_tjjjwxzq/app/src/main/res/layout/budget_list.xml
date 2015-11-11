@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dip" >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="test"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColor="#343434"
+        android:typeface="sans" />
+
+    <TextView
+        android:id="@+id/amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColor="#343434"
+        android:typeface="sans"
+        android:layout_below="@+id/title" />
+
+    <ImageButton
+        android:id="@+id/editExpenditure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_edit"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:onClick = "onClick" />
+
+
+    <!--<ImageButton-->
+    <!--android:id="@+id/bt2"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:src="@android:drawable/btn_star_big_on"-->
+    <!--android:layout_below="@+id/amount"-->
+    <!--android:layout_toStartOf="@+id/bt" />-->
+    <!--android:onClick="createNewItinerary"-->
+
+</RelativeLayout>

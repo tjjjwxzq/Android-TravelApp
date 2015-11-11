@@ -30,24 +30,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-
     </LinearLayout>
-
-    <ImageView
+    <ToggleButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/powered_by_google_light"/>
+        android:textOn="Hide"
+        android:textOff="Show"
+        android:onClick="showlist"
+        android:id="@+id/toggleButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
 
     <LinearLayout
         android:id="@+id/loc_linearlayout"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/place_details"
             android:layout_weight="0.6"
+            android:visibility="invisible"
             android:layout_marginRight="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -62,6 +66,11 @@
 
 
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/powered_by_google_light"/>
 
 </LinearLayout>
 
