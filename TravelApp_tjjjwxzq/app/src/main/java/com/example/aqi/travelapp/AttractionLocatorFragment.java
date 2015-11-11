@@ -109,8 +109,8 @@ public class AttractionLocatorFragment extends Fragment
         //Retrieve the TextView that will display the details of the selected place
         mPlaceDetailsText = (TextView) root.findViewById(R.id.place_details);
 
-        //Initialize the add itinerary button
-        mPlaceButton = new Button(this.getActivity());
+        //Retrieve the Add to Itinerary button
+        mPlaceButton = (Button) root.findViewById(R.id.btn_addtoit);
 
         //Set up the adapter that will retrieve suggestions from the Places Geo Data API
         //that cover the entire world (no filter)
@@ -181,13 +181,9 @@ public class AttractionLocatorFragment extends Fragment
             mPlaceDetailsText.setText(formatPlaceDetails(getResources(), place.getName(),
                     place.getAddress()));
 
-            //Create new button for adding place to itinerary
-            mPlaceButton.setText(R.string.addtoit);
+            //Make add to itinerary button visible and pass the place name to its onClickListener
             mPlaceButton.setOnClickListener(new addtoItinerary(place.getName()));
-            LinearLayout ll = (LinearLayout) root.findViewById(R.id.loc_linearlayout);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT);
-            ll.addView(mPlaceButton, lp);
+            mPlaceButton.setVisibility(View.VISIBLE);
 
             Log.i(TAG, "Place details received: " + place.getName());
 
@@ -229,7 +225,7 @@ public class AttractionLocatorFragment extends Fragment
     public class addtoItinerary implements View.OnClickListener {
 
         //Pass the placename to the dialog
-        CharSequence placename;
+        private CharSequence placename;
 
         public addtoItinerary(CharSequence placename)
         {

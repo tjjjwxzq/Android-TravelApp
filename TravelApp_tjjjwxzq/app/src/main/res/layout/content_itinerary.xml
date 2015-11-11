@@ -11,6 +11,10 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_itinerary" tools:context=".ItineraryActivity">
 
+    <TextView
+        android:text="Saved itineraries"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <fragment
         android:id="@+id/fragment_list"
         android:name="com.example.aqi.travelapp.ItineraryActivityFragment"

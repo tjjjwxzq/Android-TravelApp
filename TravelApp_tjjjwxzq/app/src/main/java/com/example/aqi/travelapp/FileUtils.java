@@ -1,6 +1,7 @@
 package com.example.aqi.travelapp;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -16,12 +17,14 @@ import java.util.List;
  */
 public class FileUtils {
 
+    private static final String TAG = "FileUtils";
+
     public static void writeToFile(Context context, String filename,
                                    ArrayList<ArrayList<String>> itineraries )
     {
         try{
             FileOutputStream fileout = context.
-                    openFileOutput(filename, Context.MODE_APPEND); //append to existing file
+                    openFileOutput(filename, Context.MODE_PRIVATE); //Overwrite the existing file
             OutputStreamWriter outputWriter = new OutputStreamWriter(fileout,"UTF-8");
             BufferedWriter buffWriter = new BufferedWriter(outputWriter);
             for(ArrayList<String> Lines: itineraries)
@@ -57,15 +60,18 @@ public class FileUtils {
             {
                 saveditineraries.get(saveditineraries.size()-1)
                         .setAttributes(i,line);
-                System.out.println(line);
                 i++;
                 if(line.isEmpty())
                 {
+                    //if this happens to be the last line of the file
+                    //we will remove the new SavedItinerary with null
+                    //attributes later
                     i =0;
                     saveditineraries.add(new SavedItinerary());
                 }
             }
 
+            saveditineraries.remove(saveditineraries.size()-1);
             buffReader.close();
         } catch (Exception e)
         {

@@ -9,10 +9,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -43,19 +47,8 @@ public class AddToItDialog2N extends DialogFragment {
         final String placename = (String) getArguments().getCharSequence(ARG_PLACENAME);
 
         //Layout inflater for custom view
-        //Get itinerary name entered by user
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View v = inflater.inflate(R.layout.fragment_add_to_it_dialog2_n, null);
-        EditText itname = (EditText) v.findViewById(R.id.itinerary_name);
-        String str_itname = itname.getText().toString();
-
-        Log.d(TAG, "STring namej "+ str_itname);
-        //If itinerary name is empty, set a default name
-        if(str_itname.length() == 0)
-            str_itname = "Itinerary " + (ItineraryActivity.saveditineraries != null?
-                    ItineraryActivity.saveditineraries.size() + 1:0);
-
-        final String fin_itname = str_itname;
+        final View v = inflater.inflate(R.layout.fragment_add_to_it_dialog2_n, null);
 
         //Create builder
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -65,9 +58,28 @@ public class AddToItDialog2N extends DialogFragment {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
-                    //Load itineraries from file if not already loaded
-                    ItineraryActivity.loadSavedItineraries(getActivity());
-                    ItineraryActivity.saveNewItinerary(fin_itname, placename);
+                    //Get the name input by user
+                    EditText itname = (EditText) v.findViewById(R.id.itinerary_name);
+                    String str_itname = itname.getText().toString();
+
+                    //If itinerary name is empty, set a default name
+                    if(str_itname.length() == 0)
+                        str_itname = "Itinerary " + (ItineraryActivity.saveditineraries != null?
+                                ItineraryActivity.saveditineraries.size() + 1:1);
+
+                    //Save the new itinerary
+                    ItineraryActivity.saveNewItinerary(str_itname, placename);
+
+                    //Toast to let the user know that the itinerary has been saved
+                    Toast toast = Toast.makeText(getActivity(), "Added " + placename + " to " +
+                           str_itname, Toast.LENGTH_SHORT);
+                    LinearLayout layout = (LinearLayout) toast.getView();
+                    if (layout.getChildCount() > 0) {
+                        TextView tv = (TextView) layout.getChildAt(0);
+                        tv.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+                    }
+                    toast.show();
+
                 }
             })
             .setNegativeButton(R.string.alert_dialog_cancel, new DialogInterface.OnClickListener() {

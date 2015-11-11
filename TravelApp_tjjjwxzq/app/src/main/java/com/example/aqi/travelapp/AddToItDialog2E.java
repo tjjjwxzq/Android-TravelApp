@@ -8,9 +8,13 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -40,8 +44,29 @@ public class AddToItDialog2E extends DialogFragment {
         builder.setItems(saveditineraries, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ItineraryActivity.updateSavedItinerary(saveditineraries[which],
+                int status = ItineraryActivity.updateSavedItinerary(saveditineraries[which],
                         placename);
+
+                //Toast to let user know that the placename has been successfully added
+                //or that it was duplicate
+                Toast toast;
+                if(status == 1)
+                {
+                    toast = Toast.makeText(getActivity(), "Added " + placename + " to " +
+                            saveditineraries[which], Toast.LENGTH_SHORT);
+                }
+                else
+                {
+                    toast = Toast.makeText(getActivity(), placename +
+                            " is already in " + saveditineraries[which], Toast.LENGTH_SHORT);
+                }
+                LinearLayout layout = (LinearLayout) toast.getView();
+                if (layout.getChildCount() > 0) {
+                    TextView tv = (TextView) layout.getChildAt(0);
+                    tv.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+                }
+                toast.show();
+
             }
         });
         return builder.create();

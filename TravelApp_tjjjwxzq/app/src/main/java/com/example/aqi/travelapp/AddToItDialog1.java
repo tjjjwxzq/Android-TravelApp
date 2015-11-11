@@ -59,40 +59,52 @@ public class AddToItDialog1 extends DialogFragment {
         dialogList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
           @Override
               public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Fragment fragment = null;
-              switch(position)
-              {
-                  case 0://Existing itinerary
-                      //Loads saved itineraries from file if not already stored in memory
-                      ItineraryActivity.loadSavedItineraries(getActivity());
+                  Fragment fragment = null;
 
-                      if( ItineraryActivity.saveditineraries == null) {
-                          // No saved itineraries
-                          Toast toast = Toast.makeText(getActivity(), "No saved itineraries. Create a new one instead.",
-                                  Toast.LENGTH_SHORT);
-                          LinearLayout layout = (LinearLayout) toast.getView();
-                          if (layout.getChildCount() > 0) {
-                              TextView tv = (TextView) layout.getChildAt(0);
-                              tv.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+                  //Loads saved itineraries from file if not already stored in memory
+                  ItineraryActivity.loadSavedItineraries(getActivity());
+
+                  switch(position)
+                  {
+                      case 0://Existing itinerary
+
+                          if( ItineraryActivity.saveditineraries.size() ==0){
+                              // No saved itineraries
+                              Toast toast = Toast.makeText(getActivity(), "No saved itineraries. Create a new one instead.",
+                                      Toast.LENGTH_SHORT);
+                              LinearLayout layout = (LinearLayout) toast.getView();
+                              if (layout.getChildCount() > 0) {
+                                  TextView tv = (TextView) layout.getChildAt(0);
+                                  tv.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+                              }
+                              toast.show();
+
+                              //Don't dismiss the dialog in this case
+
                           }
-                          toast.show();
+                          else
+                          {
+                              //Get the itinerary names to display in subsequent dialog list
+                              String[] itineraries = ItineraryActivity.extractSavedItineraries();
+                              FragmentTransaction ft = getFragmentManager().beginTransaction();
+                              DialogFragment newFragment = AddToItDialog2E.newInstance(itineraries,placename);
+                              newFragment.show(ft,"dialog");
 
-                      }
-                      else
-                      {
-                          //Get the itinerary names to display in subsequent dialog list
-                          String[] itineraries = ItineraryActivity.extractSavedItineraries();
+                              //Dismiss dialog fragment
+                              dismiss();
+
+                          }
+                          break;
+                      case 1: //New itinerary
                           FragmentTransaction ft = getFragmentManager().beginTransaction();
-                          DialogFragment newFragment = AddToItDialog2E.newInstance(itineraries,placename);
+                          DialogFragment newFragment = AddToItDialog2N.newInstance(placename);
                           newFragment.show(ft,"dialog");
-                      }
-                      break;
-                  case 1: //New itinerary
-                      FragmentTransaction ft = getFragmentManager().beginTransaction();
-                      DialogFragment newFragment = AddToItDialog2N.newInstance(placename);
-                      newFragment.show(ft,"dialog");
-                      break;
-              }
+
+                          //Dismiss dialog fragment
+                          dismiss();
+                          break;
+                  }
+
 
 
               }

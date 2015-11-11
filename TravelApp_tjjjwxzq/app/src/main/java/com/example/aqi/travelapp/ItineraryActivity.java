@@ -1,23 +1,23 @@
 package com.example.aqi.travelapp;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.util.Log;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ItineraryActivity extends AppCompatActivity {
+public class ItineraryActivity {
+
+    private static final String TAG = "ItineraryActivity";
 
     public static final String FILENAME = "saveditineraries.txt";
 
     public static ArrayList<SavedItinerary> saveditineraries;
 
-    @Override
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_itinerary);
@@ -33,7 +33,7 @@ public class ItineraryActivity extends AppCompatActivity {
             }
         });
     }
-
+*/
     /**
      * Loads saved itineraries from file
      * Lazily loaded when user first chooses to add a place to an existing
@@ -66,6 +66,7 @@ public class ItineraryActivity extends AppCompatActivity {
             }
             FileUtils.writeToFile(context, FILENAME, itineraries);
         }
+        Log.d(TAG, "Writing to file");
     }
     /**
      * Adds a new itinerary to the list of saveditineraries
@@ -77,12 +78,14 @@ public class ItineraryActivity extends AppCompatActivity {
     public static void saveNewItinerary(String name, String placename)
     {
         ArrayList<String> destinations = new ArrayList<String>(Arrays.asList(placename));
-        ArrayList<String> itinerary = new ArrayList<String>(Arrays.asList(placename));
+        ArrayList<String> itinerary = new ArrayList<String>();
+        itinerary.add(placename);
         int[] transportmodes = {0};
         SavedItinerary savedit = new SavedItinerary(name,destinations,
                 itinerary, transportmodes);
         //Add new itinerary
         saveditineraries.add(savedit);
+        Log.d(TAG, "saved itineraries " + saveditineraries);
     }
 
     /**
@@ -97,6 +100,7 @@ public class ItineraryActivity extends AppCompatActivity {
             itineraries[i] = saveditineraries.get(i).name;
         }
 
+        Log.d(TAG, "extract saved itineraries " + saveditineraries);
         return itineraries;
     }
 
@@ -104,19 +108,36 @@ public class ItineraryActivity extends AppCompatActivity {
      * Updates a SavedItinerary specified with name with a new
      * destination node (itinerary and transportmodes are only updated
      * after user chooses to plan itinerary again)
+     * Should check that the itinerary doesn't already contain
+     * the destination with placename
      * @param name name of itinerary
      * @param placename name of new destination
+     * @return 1 indicates placename was added, 0 that it was not (duplicate)
      */
-    public static void updateSavedItinerary(String name, String placename)
-    {
+    public static int updateSavedItinerary(String name, String placename) {
         SavedItinerary itinerary;
-        for(int i =0; i< saveditineraries.size();i++)
+        //Use Guava Collections2.filter to get the collection filtered
+        //according to SavedItinerary.name
+        final String fname = name;
+        ArrayList<SavedItinerary> arrsavedit = new ArrayList<SavedItinerary>(
+                Collections2.filter(saveditineraries,
+                        new Predicate<SavedItinerary>() {
+                            @Override
+                            public boolean apply(SavedItinerary input) {
+                                return input.name.equals(fname);
+                            }
+                        }));
+
+        //Updated the filtered itinerary, which should have contain a pointer
+        //to the original SavedItinerary object
+        //But only if the itinerary doesn't already contain a destination with placename
+        if (!arrsavedit.get(0).destinations.contains(placename))
         {
-            if((itinerary = saveditineraries.get(i)).name == name)
-            {
-               itinerary.destinations.add(placename);
-            }
+            arrsavedit.get(0).destinations.add(placename);
+            return 1;
         }
+
+        return 0;
     }
 
 }

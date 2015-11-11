@@ -61,7 +61,7 @@ public class SavedItinerary {
           itinerary =result2;
           break;
         case 3:
-          String[] strresult = attr.split(",");
+          String[] strresult = attr.trim().split(",");
           int[] result3 = new int[strresult.length];
           for(int j=0; j< strresult.length; j++)
           {

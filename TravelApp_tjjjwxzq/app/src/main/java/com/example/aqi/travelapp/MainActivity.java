@@ -3,6 +3,7 @@ package com.example.aqi.travelapp;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void addDrawerItems(){
+
         mDrawerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mDrawerAdapter);
 
@@ -111,7 +113,7 @@ public class MainActivity extends AppCompatActivity
                         transaction.addToBackStack(null);
                         transaction.commit();
                         break;
-                    case 1:
+                    case 2:
                         fragment = new BudgetManagerFragment();
                         FragmentManager fragmentManager1 = getFragmentManager();
                         FragmentTransaction transaction1 = fragmentManager1.beginTransaction();
@@ -119,14 +121,10 @@ public class MainActivity extends AppCompatActivity
                         transaction1.addToBackStack(null);
                         transaction1.commit();
                         break;
-                    /*case 2:
-                        fragment = new ItineraryPlannerFragment();
-                        FragmentManager fragmentManager2 = getFragmentManager();
-                        FragmentTransaction transaction2 = fragmentManager2.beginTransaction();
-                        transaction2.replace(R.id.relative, fragment);
-                        transaction2.addToBackStack(null);
-                        transaction2.commit();
-                        break;*/
+                    case 1:
+                        Intent intent = new Intent(MainActivity.this, ItineraryActivity.class);
+                        MainActivity.this.startActivity(intent);
+                        break;
                 }
                 setTitle(osArray[position]);
                 mDrawerLayout.closeDrawer(mDrawerList);
@@ -157,6 +155,14 @@ public class MainActivity extends AppCompatActivity
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
+    //Save itinerary to file when activity is stopped
+    @Override
+    protected void onStop()
+    {
+        ItineraryActivity.writeSavedItineraries(this);
+        Log.d(TAG, "Stoppping main");
+        super.onStop();
+    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
