@@ -8,6 +8,9 @@
     <string name="title_activity_itinerary">ItineraryActivity</string>
     <string name="addtoit">Add to itnerary</string>
     <string name="pref_file_key">SavedItineraries</string>
+    <string name="walktext">Walk for %1$s</string>
+    <string name="bustext">Take public transport for %1$s at %2$s</string>
+    <string name="taxitext">Take a taxi for %1$s at %2$s</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -18,4 +21,5 @@
     <string name="alert_dialog_ok">OK</string>
     <string name="alert_dialog_cancel">Cancel</string>
     <string name="btn_addtoit">Add to itinerary</string>
+    <string name="btn_plan_itinerary">Plan Itinerary</string>
 </resources>

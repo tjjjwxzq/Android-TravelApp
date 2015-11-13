@@ -44,7 +44,7 @@ public class AddToItDialog2E extends DialogFragment {
         builder.setItems(saveditineraries, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                int status = ItineraryActivity.updateSavedItinerary(saveditineraries[which],
+                int status = ItineraryManager.updateSavedItinerary(saveditineraries[which],
                         placename);
 
                 //Toast to let user know that the placename has been successfully added

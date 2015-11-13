@@ -62,13 +62,13 @@ public class AddToItDialog1 extends DialogFragment {
                   Fragment fragment = null;
 
                   //Loads saved itineraries from file if not already stored in memory
-                  ItineraryActivity.loadSavedItineraries(getActivity());
+                  ItineraryManager.loadSavedItineraries(getActivity());
 
                   switch(position)
                   {
                       case 0://Existing itinerary
 
-                          if( ItineraryActivity.saveditineraries.size() ==0){
+                          if( ItineraryManager.saveditineraries.size() ==0){
                               // No saved itineraries
                               Toast toast = Toast.makeText(getActivity(), "No saved itineraries. Create a new one instead.",
                                       Toast.LENGTH_SHORT);
@@ -85,7 +85,7 @@ public class AddToItDialog1 extends DialogFragment {
                           else
                           {
                               //Get the itinerary names to display in subsequent dialog list
-                              String[] itineraries = ItineraryActivity.extractSavedItineraries();
+                              String[] itineraries = ItineraryManager.extractSavedItineraries();
                               FragmentTransaction ft = getFragmentManager().beginTransaction();
                               DialogFragment newFragment = AddToItDialog2E.newInstance(itineraries,placename);
                               newFragment.show(ft,"dialog");

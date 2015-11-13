@@ -99,7 +99,7 @@ public class PlaceAutocompleteAdapter
     @Override
     public AutocompletePrediction getItem(int position)
     {
-        return mResultList.get(position);
+        return mResultList.size()!=0?mResultList.get(position):null;
     }
 
     @Override
@@ -112,10 +112,14 @@ public class PlaceAutocompleteAdapter
 
         AutocompletePrediction item = getItem(position);
 
-        TextView textView1 = (TextView) row.findViewById(android.R.id.text1);
-        TextView textView2 = (TextView) row.findViewById(android.R.id.text2);
-        textView1.setText(item.getPrimaryText(STYLE_BOLD));
-        textView2.setText(item.getSecondaryText(STYLE_BOLD));
+        if(item!=null)
+        {
+            TextView textView1 = (TextView) row.findViewById(android.R.id.text1);
+            TextView textView2 = (TextView) row.findViewById(android.R.id.text2);
+            textView1.setText(item.getPrimaryText(STYLE_BOLD));
+            textView2.setText(item.getSecondaryText(STYLE_BOLD));
+        }
+
 
         return row;
     }
@@ -132,7 +136,8 @@ public class PlaceAutocompleteAdapter
                 //Skip the autocomplete query if no constraints are given
                 if(constraint != null){
                     ///Query the autocomplete API for the (constraint) search string
-                    mResultList = getAutocomplete(constraint);
+                    //Hack to make it turn up only singapore results
+                    mResultList = getAutocomplete(constraint + "Singapore");
                     if(mResultList!=null)
                     {
                         //The API successfully returned results

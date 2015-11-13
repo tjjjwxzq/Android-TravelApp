@@ -97,6 +97,8 @@ public class MainActivity extends AppCompatActivity
 
     private void addDrawerItems(){
 
+        ItineraryManager.loadSavedItineraries(this); //ensure the file is loaded
+        Log.d(TAG, "Loading saved itineraries in main " + ItineraryManager.saveditineraries);
         mDrawerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mDrawerAdapter);
 
@@ -104,26 +106,26 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Fragment fragment = null;
+                FragmentManager fragmentmanager = getFragmentManager();
+                FragmentTransaction transaction = fragmentmanager.beginTransaction();
                 switch (position) {
                     case 0:
                         fragment = new AttractionLocatorFragment();
-                        FragmentManager fragmentManager = getFragmentManager();
-                        FragmentTransaction transaction = fragmentManager.beginTransaction();
                         transaction.replace(R.id.relative, fragment);
                         transaction.addToBackStack(null);
                         transaction.commit();
                         break;
                     case 2:
                         fragment = new BudgetManagerFragment();
-                        FragmentManager fragmentManager1 = getFragmentManager();
-                        FragmentTransaction transaction1 = fragmentManager1.beginTransaction();
-                        transaction1.replace(R.id.relative, fragment);
-                        transaction1.addToBackStack(null);
-                        transaction1.commit();
+                        transaction.replace(R.id.relative, fragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
                         break;
                     case 1:
-                        Intent intent = new Intent(MainActivity.this, ItineraryActivity.class);
-                        MainActivity.this.startActivity(intent);
+                        fragment = new ItineraryPlannerFragment();
+                        transaction.replace(R.id.relative, fragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
                         break;
                 }
                 setTitle(osArray[position]);
@@ -159,7 +161,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStop()
     {
-        ItineraryActivity.writeSavedItineraries(this);
+        ItineraryManager.writeSavedItineraries(this);
         Log.d(TAG, "Stoppping main");
         super.onStop();
     }
@@ -202,5 +204,10 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-
+    @Override
+    public void onBackPressed()
+    {
+        //Go to previous fragment on back button
+        getFragmentManager().popBackStack();
+    }
 }

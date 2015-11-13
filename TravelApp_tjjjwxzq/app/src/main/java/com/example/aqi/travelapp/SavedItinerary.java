@@ -61,7 +61,7 @@ public class SavedItinerary {
           itinerary =result2;
           break;
         case 3:
-          String[] strresult = attr.trim().split(",");
+          String[] strresult = attr.replaceAll(" ", "").split(",");
           int[] result3 = new int[strresult.length];
           for(int j=0; j< strresult.length; j++)
           {
@@ -96,10 +96,10 @@ public class SavedItinerary {
       {
         formattedit += node+",";
       }
-      String result =name + "\n" + formatteddest+ "\n" + formatteddest+ "\n";
+      String result =name + "\n" + formatteddest+ "\n" + formattedit+ "\n";
       for(int num: transportmodes)
       {
-        result+=num + " ";
+        result+=num + ",";
       }
       return result;
     }

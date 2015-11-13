@@ -64,11 +64,11 @@ public class AddToItDialog2N extends DialogFragment {
 
                     //If itinerary name is empty, set a default name
                     if(str_itname.length() == 0)
-                        str_itname = "Itinerary " + (ItineraryActivity.saveditineraries != null?
-                                ItineraryActivity.saveditineraries.size() + 1:1);
+                        str_itname = "Itinerary " + (ItineraryManager.saveditineraries != null?
+                                ItineraryManager.saveditineraries.size() + 1:1);
 
                     //Save the new itinerary
-                    ItineraryActivity.saveNewItinerary(str_itname, placename);
+                    ItineraryManager.saveNewItinerary(str_itname, placename);
 
                     //Toast to let the user know that the itinerary has been saved
                     Toast toast = Toast.makeText(getActivity(), "Added " + placename + " to " +

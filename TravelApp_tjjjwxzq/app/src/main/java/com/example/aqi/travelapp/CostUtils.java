@@ -3,6 +3,8 @@ package com.example.aqi.travelapp;
 /**
  * Created by aqi on 2/11/15.
  */
+import android.util.Log;
+
 import java.util.*;
 import com.example.aqi.travelapp.Destinations.*;
 import com.google.common.base.Predicate;
@@ -26,6 +28,8 @@ import com.google.common.collect.Collections2;
 
 public class CostUtils {
 
+    private static final String TAG = "CostUtils";
+
 
     //Convenience method for checking if a list of arrays of objects contains a given array
     //Have to implement this because arrlist.contains uses .equals() to check equality
@@ -45,14 +49,23 @@ public class CostUtils {
 
     }
 
-    //Convenience method for checking if all values in an array match a give value
+    //Convenience method for checking if all values in an array match a given value
+    //or whether none of them match a given value
     //Since can't use Arrays.stream from Java8
-    static boolean MatchAll(int[] intarr, int value)
+    static boolean MatchAll(int mode, int[] intarr, int value)
     {
         for(int num:intarr)
         {
-            if(num != value)
-                return false;
+            if(mode==1)
+            {
+                if(num != value)
+                    return false;
+            }
+            else
+            {
+                if(num == value)
+                    return false;
+            }
         }
 
         return true;
@@ -156,18 +169,26 @@ public class CostUtils {
             testedge[0] = itinerary.get(i);
             testedge[1] = itinerary.get(i==itinerary.size()-1?0:i+1);
 
-      /*for(String node:testedge)
-        System.out.print(node+" ");
-      System.out.println("");does androidstudio use java 8
+            for(String node:testedge)
+                    Log.d(TAG, "testedge " +node);
+      /*System.out.println("");does androidstudio use java 8
       System.out.println("edge is contained? " + deepContainsArray(shortedges,testedge));
 */
             if((timecostave == -1.0 || newtimecostave < timecostave ) && !deepContainsArray(shortedges,testedge))
             {
                 timecostave = newtimecostave;
+                Log.d(TAG, "Assigning edge");
                 edge[0]= itinerary.get(i);
                 edge[1] = itinerary.get(i==itinerary.size()-1?0:i+1);
+                Log.d(TAG, "final stop " + itinerary.get(i==itinerary.size()-1?0:i+1));
+
 
             }
+
+            for(String node: edge)
+                Log.d(TAG, "shortest edge " + node);
+            Log.d(TAG, "i " + i);
+            Log.d(TAG, "shortedges "+ shortedges);
 
         }
 
@@ -207,9 +228,16 @@ public class CostUtils {
         String[] shortestedge = new String[2];
         ArrayList<String[]> shortedges = new ArrayList<String[]>();
 
+        Log.d(TAG, "Itinerary passed " + itinerary);
+
+        int i =0;
+
         while(true)
         {
-            System.out.println("total cost "+ totalcost);
+            Log.d(TAG, "number of times checking edges " + i);
+            for(int num: modes)
+                Log.d(TAG, "modes " + num);
+            i++;
             shortestedge = nextshortestEdge("time-cost-ave",itinerary, shortedges);
             shortedges.add(shortestedge);
             System.out.println("Shortestedge " + shortestedge[0] + " " + shortestedge[1]);
@@ -236,14 +264,18 @@ public class CostUtils {
                 ob_possiblemodes.add(modes.clone());
             }
 
-            //Don't evalutate all under budget nodes as it will slow the program
+            //Don't evaluate all under budget nodes as it will slow the program
             //5 candidates are enough, and from them choose those with worthwhile tradeoffs
             if(wb_possiblemodes.size()>5)
                 break;
 
+
+            for(int num: modes)
+                Log.d(TAG, "modes after " + num);
             //Ran through all edges once but still less than 5 possible modes
+            // (None of the modes are taxi)
             //Arrays.stream is in Java8, which is not supported in Android Studio
-            if(MatchAll(modes, 2))
+            if(MatchAll(0, modes, 2))
                 break;
         }
 
@@ -274,7 +306,7 @@ public class CostUtils {
                     break;
 
                 //Ran through all the edges and changed all to walking
-                if(MatchAll(modes, 0))
+                if(MatchAll(1, modes, 0))
                     break;
 
             }
@@ -317,20 +349,20 @@ public class CostUtils {
         // Ignore the IDEs suggestion to change to lambda!
         // Won't work unless you use gradle-retrolambda
         // Type cast since Collections2.filter returns type Collections<E>
-        wb_possiblemodes = (ArrayList<int[]>) Collections2.filter(wb_possiblemodes, new Predicate<int[]>() {
+        wb_possiblemodes = new ArrayList<int[]>(Collections2.filter(wb_possiblemodes, new Predicate<int[]>() {
             @Override
             public boolean apply(int[] m) {
                 return getTotalTime(m, itinerary) - totaltime_optimum >= 30;
                 //either use this as cutoff, or let user specify a desired total travelling time? if the user is unreasonable, just return the optimum mode
             }
-        });
-        ob_possiblemodes = (ArrayList<int[]>) Collections2.filter(ob_possiblemodes, new Predicate<int[]>() {
+        }));
+        ob_possiblemodes = new ArrayList<int[]>(Collections2.filter(ob_possiblemodes, new Predicate<int[]>() {
             @Override
             public boolean apply(int[] m) {
                 return (totaltime_optimum - getTotalTime(m,itinerary))/(getTotalCost(m,itinerary)-totalcost_optimum) <= 2;
                 //parameterize this also maybe; what ratio does the user think is worthwhile?
             }
-        });
+        }));
 
         //return an arraylist containing modes_optimum(as ArrayList<int[]>), wb_possiblemodes with modes_optimum removed, and ob_possiblemodes
         ArrayList<int[]> wrappedmodes_optimum = new ArrayList<int[]>();

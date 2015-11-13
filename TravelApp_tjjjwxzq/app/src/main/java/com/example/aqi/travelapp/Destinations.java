@@ -12,7 +12,7 @@ public class Destinations {
     {
       DESTINATION_MAP.put("Marina Bay Sands",0);
       DESTINATION_MAP.put("Singapore Flyer",1);
-      DESTINATION_MAP.put("Vivo City",2);
+      DESTINATION_MAP.put("VivoCity",2);
       DESTINATION_MAP.put("Resorts World Sentosa",3);
       DESTINATION_MAP.put("Buddha Tooth Relic Temple",4);
       DESTINATION_MAP.put("Zoo",5);
