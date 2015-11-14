@@ -78,5 +78,6 @@ public class BudgetListAdapter extends BaseAdapter {
         TextView amtView;
         ImageButton image;
     }
+
 }
 

@@ -30,14 +30,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements BudgetAdapterCallback
     {
 
     private static final String TAG = "MainActivity";
 
-    private static final String MAP_FRAGMENT = "MapFragment";
+    private static final String FRAG_ATTRLOC = "AttractionLocatorFragment";
+
+    private static final String FRAG_BUDGET = "BudgetManagerFragment";
 
     private ArrayAdapter<String> mDrawerAdapter;
     private ListView mDrawerList;
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements BudgetAdapterCall
     private String mActivityTitle;
 
     private FragmentManager fragmentmanager;
+
+    private Fragment frag_attrloc;
 
     final String[] osArray = { "Attraction Locator", "Itinerary Planner", "Budget Manager"};
 
@@ -65,14 +68,6 @@ public class MainActivity extends AppCompatActivity implements BudgetAdapterCall
     public static Search searchlistner;
     //Google Maps
     public static MapFragment mapfragment;
-
-    private ArrayList<Double> lon = new ArrayList<Double>(Arrays.asList(0.0, 0.0));
-    private ArrayList<Double> lat = new ArrayList<Double>(Arrays.asList(0.0,0.0));
-    private ArrayList<Integer> transportModes = new ArrayList<Integer>(Arrays.asList(1,2));
-    private ArrayList<String> locations = new ArrayList<String>(Arrays.asList("Going from here", "To here!"));
-    private String destination;
-
-    private int checkpoints;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,18 +97,18 @@ public class MainActivity extends AppCompatActivity implements BudgetAdapterCall
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        //Initalize attraction locator fragment and map fragment
-        Fragment frag_attrloc = new AttractionLocatorFragment();
-        fragmentmanager = getFragmentManager();
-        FragmentTransaction transaction = fragmentmanager.beginTransaction();
-        transaction.replace(R.id.relative, frag_attrloc);
-        transaction.addToBackStack(null);
-
         //Start MapFragment
         mapfragment = new MapFragment();
+        fragmentmanager = getFragmentManager();
+        FragmentTransaction transaction = fragmentmanager.beginTransaction();
         Log.d(TAG, "map fragment " + mapfragment);
         //Tag the fragment so it can be removed from MainActivity
         transaction.replace(R.id.myMapFragment, mapfragment, "MapFragment");
+
+        //Initalize attraction locator fragment and map fragment
+        frag_attrloc = new AttractionLocatorFragment();
+        transaction.replace(R.id.relative, frag_attrloc, FRAG_ATTRLOC);
+        transaction.addToBackStack(FRAG_ATTRLOC);
         transaction.commit();
 
         //Initialize search listener
@@ -125,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements BudgetAdapterCall
     private void addDrawerItems(){
 
         ItineraryManager.loadSavedItineraries(this); //ensure the file is loaded
-        Log.d(TAG, "Loading saved itineraries in main " + ItineraryManager.saveditineraries);
         mDrawerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mDrawerAdapter);
 
@@ -136,41 +130,39 @@ public class MainActivity extends AppCompatActivity implements BudgetAdapterCall
                 FragmentTransaction transaction = fragmentmanager.beginTransaction();
                 switch (position) {
                     case 0:
-                        //Pop previous fragment from backstack
-                        fragmentmanager.popBackStack();
+                        //pops till the named fragment, non-inclusive
+                        fragmentmanager.popBackStackImmediate(FRAG_ATTRLOC, 0);
 
-                        //
-                        Log.d(TAG, "fragment added?" + mapfragment.isAdded());
                         findViewById(R.id.myMapFragment).setVisibility(View.VISIBLE);
 
-                        fragment = new AttractionLocatorFragment();
-                        transaction.replace(R.id.relative, fragment);
+                        transaction.replace(R.id.relative, fragmentmanager.findFragmentByTag(FRAG_ATTRLOC));
                         transaction.addToBackStack(null);
                         transaction.commit();
                         break;
                     case 2:
-                        //Pop previous fragment from backstack
-                        //only if its not the attraction locator fragment
-                        //which starts when MainActivity is created
-                        //and is always the first in the stack
-                        if (fragmentmanager.getBackStackEntryCount() > 1)
-                            fragmentmanager.popBackStack();
+                        //Pop up to but not including the attraction locator
+                        fragmentmanager.popBackStackImmediate(FRAG_ATTRLOC,0);
 
                         //Remove map fragment and set containing view to gone
                         findViewById(R.id.myMapFragment).setVisibility(View.GONE);
 
-                        fragment = new BudgetManagerFragment();
-                        transaction.replace(R.id.relative, fragment);
+                        if(fragmentmanager.findFragmentByTag(FRAG_BUDGET)==null)
+                        {
+                            fragment = new BudgetManagerFragment();
+                            transaction.replace(R.id.relative, fragment,FRAG_BUDGET);
+                        }
+                        else
+                        {
+                           transaction.replace(R.id.relative, frag_attrloc);
+                        }
+
                         transaction.addToBackStack(null);
                         transaction.commit();
                         break;
                     case 1:
-                        ///Pop previous fragment from backstack
-                        //only if its not the attraction locator fragment
-                        //which starts when MainActivity is created
-                        //and is always the first in the stack
-                        if (fragmentmanager.getBackStackEntryCount() > 1)
-                            fragmentmanager.popBackStack();
+
+                       //Pop up to but not including the attraction locator
+                        fragmentmanager.popBackStackImmediate(FRAG_ATTRLOC,0);
 
                         //Remove map fragment and set container visibility to gone
                         findViewById(R.id.myMapFragment).setVisibility(View.GONE);
@@ -205,8 +197,7 @@ public class MainActivity extends AppCompatActivity implements BudgetAdapterCall
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
-
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
+mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
@@ -261,8 +252,13 @@ public class MainActivity extends AppCompatActivity implements BudgetAdapterCall
     public void onBackPressed()
     {
         //Go to previous fragment on back button
-        if(getFragmentManager().getBackStackEntryCount()==1)
+        if(getFragmentManager().getBackStackEntryAt(
+                getFragmentManager().getBackStackEntryCount()-1
+        ).getName() == FRAG_ATTRLOC)
+        {
+            Log.d(TAG,"Topmost is frag attrloc, quit app on bacpress");
             super.onBackPressed();
+        }
         else
             getFragmentManager().popBackStack();
     }

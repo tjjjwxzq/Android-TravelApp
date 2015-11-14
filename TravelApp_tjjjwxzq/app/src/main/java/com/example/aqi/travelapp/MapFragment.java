@@ -35,7 +35,7 @@ public class MapFragment extends Fragment implements
         GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener{
 
-    private View root;
+    public View root;
     private MapView mMapView;
     private GoogleMap googleMap;
 
@@ -266,6 +266,7 @@ public class MapFragment extends Fragment implements
     //Update for searching only one location
     public void update(String destination)
     {
+        googleMap.clear();
         double[] latlonarr = getLocationfromAddress(destination);
 
         if(latlonarr == null)
@@ -317,9 +318,10 @@ public class MapFragment extends Fragment implements
         Log.d(TAG, "Lat lon bounds are " + latLngBounds);
 
         try {
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 200));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 200));
         } catch (Exception ex){
             ex.printStackTrace();
+            Log.d(TAG, "CAMERA PROBLEM");
             googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 500, 500, 200));
         }
     }

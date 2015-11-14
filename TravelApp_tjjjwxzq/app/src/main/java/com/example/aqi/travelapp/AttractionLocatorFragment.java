@@ -75,6 +75,9 @@ public class AttractionLocatorFragment extends Fragment
         super.onStart();
         if(mGoogleApiClient != null)
             mGoogleApiClient.connect();
+
+        //Set map to visible
+        getActivity().findViewById(R.id.myMapFragment).setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -113,7 +116,6 @@ public class AttractionLocatorFragment extends Fragment
         //Retrieve the Find button
         mFindButton = (Button) root.findViewById(R.id.btn_findloc);
         mFindButton.setOnClickListener(MainActivity.searchlistner);
-
 
         //Set toggle for google maps
 
