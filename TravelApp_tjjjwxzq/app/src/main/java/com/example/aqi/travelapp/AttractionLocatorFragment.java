@@ -1,17 +1,11 @@
 package com.example.aqi.travelapp;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DialogFragment;
-import android.app.FragmentTransaction;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.res.Resources;
-import android.net.Uri;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.res.Resources;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
@@ -21,8 +15,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +36,8 @@ import com.google.android.gms.maps.model.LatLngBounds;
 public class AttractionLocatorFragment extends Fragment
  implements GoogleApiClient.OnConnectionFailedListener {
 
+    private static final String TAG = "AttrLocFrag";
+
     private View root;
 
     protected GoogleApiClient mGoogleApiClient;
@@ -56,10 +50,10 @@ public class AttractionLocatorFragment extends Fragment
 
     private Button mPlaceButton;
 
+    private Button mFindButton;
+
     private static final LatLngBounds SINGAPORE = new LatLngBounds(
             new LatLng(1.251484, 103.618240), new LatLng(1.464026, 104.110222));
-
-    private static final String TAG = "AttrLocFrag";
 
     public void onCreate(Bundle savedInstanceState)
     {
@@ -72,6 +66,8 @@ public class AttractionLocatorFragment extends Fragment
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addApi(Places.GEO_DATA_API)
                 .build();
+
+
     }
 
     @Override
@@ -85,13 +81,10 @@ public class AttractionLocatorFragment extends Fragment
     public void onStop(){
         if(mGoogleApiClient!=null && mGoogleApiClient.isConnected())
             mGoogleApiClient.disconnect();
+
         super.onStop();
     }
 
-    public static Fragment newInstance(Context context) {
-        AttractionLocatorFragment frag = new AttractionLocatorFragment();
-        return frag;
-    }
 
     @Nullable
     @Override
@@ -116,6 +109,35 @@ public class AttractionLocatorFragment extends Fragment
         //that cover the entire world (no filter)
         mPlaceAdapter = new PlaceAutocompleteAdapter(this.getActivity(), mGoogleApiClient, SINGAPORE, null);
         mAutocompleteView.setAdapter(mPlaceAdapter);
+
+        //Retrieve the Find button
+        mFindButton = (Button) root.findViewById(R.id.btn_findloc);
+        mFindButton.setOnClickListener(MainActivity.searchlistner);
+
+
+        //Set toggle for google maps
+
+
+
+        /*Switch mapTypeSwitch = (Switch) root.findViewById(R.id.mapTypeSwitch);
+
+        //set the switch to ON
+        mapTypeSwitch.setChecked(true);
+        //attach a listener to check for changes in state
+        mapTypeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+
+                if (isChecked) {
+                    fragment.setNormalMap();
+                } else {
+                    fragment.setSatelliteMap();
+                }
+
+            }
+        });*/
 
 
         return root;
@@ -180,6 +202,7 @@ public class AttractionLocatorFragment extends Fragment
             //Format details of the place for display and show it in a TextView
             mPlaceDetailsText.setText(formatPlaceDetails(getResources(), place.getName(),
                     place.getAddress()));
+            mPlaceDetailsText.setVisibility(View.VISIBLE);
 
             //Make add to itinerary button visible and pass the place name to its onClickListener
             mPlaceButton.setOnClickListener(new addtoItinerary(place.getName()));
@@ -241,5 +264,8 @@ public class AttractionLocatorFragment extends Fragment
         }
 
     }
+
+
+
 
 }

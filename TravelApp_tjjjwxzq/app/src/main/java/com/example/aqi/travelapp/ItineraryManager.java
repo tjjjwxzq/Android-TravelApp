@@ -6,9 +6,7 @@ import android.util.Log;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ItineraryManager{
 

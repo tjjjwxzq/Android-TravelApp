@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_main" tools:context=".MainActivity">
+    tools:context=".MainActivity">
 
     <LinearLayout
         android:orientation = "horizontal"
@@ -30,7 +30,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-
     </LinearLayout>
 
     <ImageView
@@ -41,7 +40,7 @@
     <LinearLayout
         android:id="@+id/loc_linearlayout"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -62,6 +61,7 @@
 
 
     </LinearLayout>
+
 
 </LinearLayout>
 

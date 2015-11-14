@@ -36,6 +36,8 @@ public class ItineraryPlannerFragment extends Fragment {
                 Fragment fragment = ItineraryFragment.newInstance(position);
                 FragmentManager fragmentmanager = getFragmentManager();
                 FragmentTransaction transaction = fragmentmanager.beginTransaction();
+                getActivity().findViewById(R.id.myMapFragment).setVisibility(View.VISIBLE);
+                transaction.replace(R.id.myMapFragment, MainActivity.mapfragment);
                 transaction.replace(R.id.relative, fragment);
                 transaction.addToBackStack(null);
                 transaction.commit();

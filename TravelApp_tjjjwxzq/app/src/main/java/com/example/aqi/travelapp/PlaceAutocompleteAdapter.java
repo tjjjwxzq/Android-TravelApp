@@ -136,12 +136,14 @@ public class PlaceAutocompleteAdapter
                 //Skip the autocomplete query if no constraints are given
                 if(constraint != null){
                     ///Query the autocomplete API for the (constraint) search string
-                    //Hack to make it turn up only singapore results
-                    mResultList = getAutocomplete(constraint + "Singapore");
+                    mResultList = getAutocomplete(constraint);
                     if(mResultList!=null)
                     {
                         //The API successfully returned results
                         results.values = mResultList;
+                        //add filtering to results list here based on whether
+                        //the autocomplete prediction full text contains "Singapore"
+                        Log.d(TAG, "results list" + mResultList);
                         results.count = mResultList.size();
                     }
                 }

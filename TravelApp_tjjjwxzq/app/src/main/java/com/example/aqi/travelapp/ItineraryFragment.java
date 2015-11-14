@@ -1,9 +1,7 @@
 package com.example.aqi.travelapp;
 
-import android.app.Activity;
-import android.net.Uri;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +10,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -107,6 +103,7 @@ public class ItineraryFragment extends Fragment {
                 .get(0).get(0);
                 Log.d(TAG, "saveditineraries" + ItineraryManager.saveditineraries);
                 mAdapter.notifyDataSetChanged();
+                MainActivity.mapfragment.update(itinerary.itinerary,itinerary.transportmodes);
             }
             else
             {
