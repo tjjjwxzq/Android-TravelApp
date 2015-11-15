@@ -23,7 +23,6 @@ SGFun is an Android Travel App for Singapore that is able to do daily itinerary 
 ![Image of nav drawer](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062301.jpg)
 
 The opening screen of our app is the Tourist Attraction Locator screen, and tapping the top left corner opens the side drawer, allowing access to the other features of our app, the Itinerary Planner and Budget Manager.
-(put images here: opening screen, side drawer)
 
 2) Tourist Attraction Locator <br />
 
@@ -31,19 +30,17 @@ The opening screen of our app is the Tourist Attraction Locator screen, and tapp
 ![Image of map view](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062300.jpg) 
 ![Image of satellite view](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062306.jpg)
 ![Image of itinerary creation](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062292.jpg) 
-![Image of itinerary list](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062298.jpg) 
 
 
 By using the searchbar, the user can easily find the tourist attractions they want with AutoComplete and Robust Spell Checking implemented. The map also shows the address and postal code of the location, and can move around the map to look for landmarks or nearby train stations. By clicking the "+" Icon, the user can then add different locations to their Itinerary, and name their Itinerary according to their preferences (e.g. "Tomorrow's Itinerary"). Multiple Itineraries are supported, so so the user can plan their trips few days in advance.
-(images of autocomplete/robustspellcheck e.g. "sentozza", map view, satellite view, new itinerary, adding to itinerary, multiple itinerary list)
 
 3) Itinerary Planner <br />
 
+![Image of itinerary list](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062298.jpg) 
 ![Image of itinerary planner](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062295.jpg)
 ![Image of planned itinerary](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062290.jpg)
 
 With that, we come to the Itinerary Planner, where the user can select an Itinerary and specify a budget. The App will then calculate the fastest and cheapest way based on the budget specified. This includes deciding the order of seeing the attractions, and starts and ends at your original position (for example, your hotel). Our optimisation algorithm is fast and effective, and will return a quick result even if you wanted to visit 100 attractions at once (we wouldn't recommend doing that though)!
-(ui images of itinerary planner)
 
 4) Budget Manager <br />
 
@@ -52,25 +49,20 @@ With that, we come to the Itinerary Planner, where the user can select an Itiner
 ![Image of editing stuff](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062302.jpg)
 
 Lastly, we have a budget manager that allows the user to keep track of their expenses from day-to-day. The user can add their budget for the day, and by adding their daily expenses, can observe at a glance the balance left for the day. These expenses can also be named, allowing the user to identify which daily expense (for example, transportation) is too much, and make prudent adjustments to their routine.
-(ui images of budget manager)
 
 ## In-depth: Features
 1)Itinerary Planning <br />
-TODO: edit?
 1.1 Exhaustive Search <br />
-Recursive algorithm to generate all possible permutations of the given list of attractions.
-For every candidate order of length n, find the one which takes the least time by ranking by the time average over all three modes of transport.
+The itinerary planning involved a recursive algorithm that generates all possible permutations of the given list of attractions. For every candidate order of length n, it finds the one that takes the least time by ranking the time average over all three modes of transport. 
 
 1.2 Fast Approximate Solver <br />
-Each step along the path, choose the destination which minimizes cost*time average over all three modes of transport.
+Each step along the path, the solver will choose the destination which minimizes cost*time average over all three modes of transport.
 
 1.3 Choosing modes of transport along each edge of the path <br />
-Determine the average cost per edge.
-Calculate the cost of taking a taxi for all edges.
-While the total cost exceeds the budget, find the shortest edge (in terms of average cost*time), and check if walking time is less than 15min. If yes, change to walking, else, change to bus, and check whether budget is exceeded. If still exceeded, find the next shortest edge, and repeat until one is within budget.
+Lastly, the mode of transport chosen will be first determined through the average cost per edge, then through the cost of taking a taxi for all edges. While the total cost exceeds the budget, find the shortest edge (in terms of average cost*time), and check if walking time is less than 15min. If yes, change to walking, else, change to bus, and check whether budget is exceeded. If still exceeded, find the next shortest edge, and repeat until one is within budget.
 
 2) Tourist Attraction Locator <br />
-TODO: elaborate
+#TODO: elaborate
 2.1 Robust Spell Checker <br />
 Our Robust Spell Checker makes use of FREJ (Fuzzy Regular Expressions for Java), an external Java Library that allows us to quickly make Fuzzy Regular Expressions for the different tourist attractions. These operate on the lines of edit distance and regular expression, and create a match when the input is "close enough" (for example, sentozza matches "Sentosa", but sentozzzzszaaa does not create a match). 
 
@@ -82,7 +74,11 @@ Our Maps fragment uses Maps API, and toggles between satellite view and normal v
 
 
 3) Budget Manager <br />
-TODO: do
+3.1 Acquiring Costs from Itinerary Planner <br />
+The budget manager first acquires the transport cost from each itinerary and takes that into account. 
+
+3.2 Editable Inputs <br /> 
+The budget that the user has, as well as each item in the expenditure list can be edited if required. The balance that the user has left, as well as the total expenditure will change accordingly. 
 
 4) More detail <br />
 More detail can be found in our source code with docstrings. 
