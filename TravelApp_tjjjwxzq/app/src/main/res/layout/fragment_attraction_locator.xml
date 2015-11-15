@@ -20,16 +20,35 @@
         <AutoCompleteTextView
             android:id="@+id/autocomplete_places"
             android:hint="@string/lochint"
-            android:layout_weight="0.7"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:layout_weight="0.3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/btn_findloc"
-            android:text="Find"
-            android:layout_weight="0.3"
+        <!--Clear EditText-->
+        <ImageButton
+            android:id="@+id/btn_clear_edittext"
+            android:src="@drawable/abc_ic_clear_mtrl_alpha"
+            android:tint="@color/colorLightGrey"
+            android:tintMode="src_atop"
+            android:background="@null"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+
+        <!-- Find the location on the map-->
+        <ImageButton
+            android:id="@+id/btn_findloc"
+            android:src="@drawable/search_icon_nobg"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:layout_gravity="center_vertical"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
 
     </LinearLayout>
 
@@ -47,16 +66,18 @@
 
         <TextView
             android:id="@+id/place_details"
-            android:layout_weight="0.6"
-            android:layout_marginRight="5dp"
-            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.8"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_width="0dp"
             android:layout_height="wrap_content" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_addtoit"
-            android:text="@string/btn_addtoit"
-            android:visibility="invisible"
-            android:layout_weight="0.3"
+            android:src="@drawable/add_icon"
+            android:tint="@color/colorAccent"
+            android:tintMode="src_atop"
+            android:background="@null"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

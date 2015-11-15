@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,11 +49,13 @@ public class AttractionLocatorFragment extends Fragment
 
     public static TextView mPlaceDetailsText;
 
-    public static Button mPlaceButton;
+    public static ImageButton mPlaceButton;
 
     private static FragmentManager fragmentManager;
 
-    private Button mFindButton;
+    private ImageButton mFindButton;
+
+    private ImageButton mClearButton;
 
     private static final LatLngBounds SINGAPORE = new LatLngBounds(
             new LatLng(1.251484, 103.618240), new LatLng(1.464026, 104.110222));
@@ -111,7 +113,7 @@ public class AttractionLocatorFragment extends Fragment
         mPlaceDetailsText = (TextView) root.findViewById(R.id.place_details);
 
         //Retrieve the Add to Itinerary button
-        mPlaceButton = (Button) root.findViewById(R.id.btn_addtoit);
+        mPlaceButton = (ImageButton) root.findViewById(R.id.btn_addtoit);
 
         //Set up the adapter that will retrieve suggestions from the Places Geo Data API
         //that cover the entire world (no filter)
@@ -119,9 +121,17 @@ public class AttractionLocatorFragment extends Fragment
         mAutocompleteView.setAdapter(mPlaceAdapter);
 
         //Retrieve the Find button
-        mFindButton = (Button) root.findViewById(R.id.btn_findloc);
+        mFindButton = (ImageButton) root.findViewById(R.id.btn_findloc);
         mFindButton.setOnClickListener(MainActivity.searchlistner);
 
+        //Retrieve the Clear edittext button
+        mClearButton = (ImageButton) root.findViewById(R.id.btn_clear_edittext);
+        mClearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               mAutocompleteView.setText("");
+            }
+        });
 
         return root;
     }
@@ -156,6 +166,8 @@ public class AttractionLocatorFragment extends Fragment
             PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
                     .getPlaceById(mGoogleApiClient, placeId);
             placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
+
+            mAutocompleteView.setText(primaryText);
 
             Toast.makeText(getActivity().getApplicationContext(), "Clicked: " + primaryText, Toast.LENGTH_SHORT).show();
             Log.i(TAG, "Called getPlaceById to get Place details for " + placeId);

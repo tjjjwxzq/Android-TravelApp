@@ -266,7 +266,7 @@ public class MapFragment extends Fragment implements
             for(int i =0; i<add.getMaxAddressLineIndex();i++ )
                 address += add.getAddressLine(i);
             if(add.getPostalCode()!=null)
-                address += add.getPostalCode();
+                address += " " + add.getPostalCode();
 
         }
         catch(Exception e)

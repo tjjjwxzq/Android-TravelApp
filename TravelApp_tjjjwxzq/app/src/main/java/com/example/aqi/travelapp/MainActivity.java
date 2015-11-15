@@ -262,10 +262,12 @@ mDrawerToggle.setDrawerIndicatorEnabled(true);
             //Spell Check
             RobustSpellChecker RSC = new RobustSpellChecker();
             //Get address directly from autocomplete text
-            String address =((EditText) findViewById(R.id.autocomplete_places)).getText().toString();
+            String address="";
+            String name =((EditText) findViewById(R.id.autocomplete_places)).getText().toString().trim();
             String autocomplete = AttractionLocatorFragment.mPlaceDetailsText.getText()
-                            .toString().split("Address:")[0];
-            if(address.equals(autocomplete))
+                            .toString().split("Address:")[0].trim();
+
+            if(name.equals(autocomplete) && !name.isEmpty())
             {
                 address = AttractionLocatorFragment.mPlaceDetailsText.getText()
                         .toString().split("Address:")[1];
@@ -275,7 +277,7 @@ mDrawerToggle.setDrawerIndicatorEnabled(true);
             String placeName = mapfragment.update(address);
 
             //Set the placeName text if search address was not taken from autocomplete result
-            if(!address.equals(autocomplete))
+            if(!name.equals(autocomplete))
             {
                 AttractionLocatorFragment.mPlaceDetailsText.setVisibility(View.VISIBLE);
                 AttractionLocatorFragment.mPlaceButton.setVisibility(View.VISIBLE);

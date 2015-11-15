@@ -66,7 +66,7 @@ public class BudgetListAdapter extends BaseAdapter {
         Log.d(TAG, "exp item is " + listData.get(position).getExp());
         Log.d(TAG, "number of exp items" + listData.size());
         holder.expView.setText(listData.get(position).getExp());
-        holder.amtView.setText(listData.get(position).getAmt());
+        holder.amtView.setText(String.format("%.2f", Double.parseDouble(listData.get(position).getAmt())));
         return convertView;
     }
 
