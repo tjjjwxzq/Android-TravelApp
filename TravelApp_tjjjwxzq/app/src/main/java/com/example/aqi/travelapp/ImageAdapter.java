@@ -1,17 +1,13 @@
 package com.example.aqi.travelapp;
 
 import android.content.Context;
-import android.media.Image;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -69,17 +65,18 @@ public class ImageAdapter extends BaseAdapter {
 
     // references to our images
     private Integer[] mThumbIds = {
-            R.drawable.sample_2, R.drawable.sample_3,
-            R.drawable.sample_4, R.drawable.sample_5,
-            R.drawable.sample_6, R.drawable.sample_7,
-            /*R.drawable.sample_0, R.drawable.sample_1,
-            R.drawable.sample_2, R.drawable.sample_3,
-            R.drawable.sample_4, R.drawable.sample_5,
-            R.drawable.sample_6, R.drawable.sample_7,
-            R.drawable.sample_0, R.drawable.sample_1,
-            R.drawable.sample_2, R.drawable.sample_3,
-            R.drawable.sample_4, R.drawable.sample_5,
-            R.drawable.sample_6, R.drawable.sample_7*/
+            R.drawable.merlion_icon_skyblue, R.drawable.merlion_icon_violet,
+            R.drawable.merlion_icon_lilac, R.drawable.merlion_icon_pinklilac,
+            R.drawable.merlion_icon_pink, R.drawable.merlion_icon_tangerine,
+            R.drawable.merlion_icon_lime, R. drawable.merlion_icon_teal,
+            R.drawable.merlion_icon_skyblue, R.drawable.merlion_icon_violet,
+            R.drawable.merlion_icon_lilac, R.drawable.merlion_icon_pinklilac,
+            R.drawable.merlion_icon_pink, R.drawable.merlion_icon_tangerine,
+            R.drawable.merlion_icon_lime, R. drawable.merlion_icon_teal,
+            R.drawable.merlion_icon_skyblue, R.drawable.merlion_icon_violet,
+            R.drawable.merlion_icon_lilac, R.drawable.merlion_icon_pinklilac,
+            R.drawable.merlion_icon_pink, R.drawable.merlion_icon_tangerine,
+            R.drawable.merlion_icon_lime, R. drawable.merlion_icon_teal
     };
 
 }

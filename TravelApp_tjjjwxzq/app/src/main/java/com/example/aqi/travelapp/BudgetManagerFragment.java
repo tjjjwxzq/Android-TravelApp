@@ -16,8 +16,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,9 +23,6 @@ import java.util.ArrayList;
 public class BudgetManagerFragment extends Fragment implements BudgetAdapterCallback
 {
     private static final String TAG = "BudgetFrag";
-
-    //File name for saving budget info
-    private static final String BUDGET_FILENAME = "BudgetFile";
 
     private View root;
 
@@ -74,13 +69,6 @@ public class BudgetManagerFragment extends Fragment implements BudgetAdapterCall
         //Get the remaining field
         remainingfield = (TextView) root.findViewById(R.id.remainingDouble);
 
-        //Initialize the ExpItem array and budget info from the file
-        ArrayList<Object> budgetInfo = FileUtils.readBudgetFromFile(getActivity(), BUDGET_FILENAME);
-        BudgetManager.totalBudget = ((double[]) budgetInfo.get(0))[0];
-        BudgetManager.totalSpent = ((double[]) budgetInfo.get(0))[1];
-        BudgetManager.totalRemaining = ((double[]) budgetInfo.get(0))[2];
-        BudgetManager.expItemsArr = (ArrayList<ExpItem>) budgetInfo.get(1);
-
         //Get the expenditure list view
         expenditurelist = (ListView) root.findViewById(R.id.expenditureList);
 
@@ -105,7 +93,7 @@ public class BudgetManagerFragment extends Fragment implements BudgetAdapterCall
     public void onStop()
     {
         //Write budget info to file
-        FileUtils.writeBudgetToFile(getActivity(),BUDGET_FILENAME,
+        FileUtils.writeBudgetToFile(getActivity(),BudgetManager.BUDGET_FILENAME,
                 BudgetManager.totalBudget, BudgetManager.totalSpent, BudgetManager.totalRemaining, BudgetManager.expItemsArr);
         super.onStop();
     }
@@ -209,7 +197,7 @@ public class BudgetManagerFragment extends Fragment implements BudgetAdapterCall
                                     toast.show();
                                 } else {
                                     BudgetManager.totalSpent +=  Double.parseDouble(expamount);
-                                    BudgetManager.totalRemaining += BudgetManager.totalBudget-BudgetManager.totalSpent;
+                                    BudgetManager.totalRemaining = BudgetManager.totalBudget - BudgetManager.totalSpent;
 
                                     spentfield.setText(String.format("%.2f",BudgetManager.totalSpent));
                                     remainingfield.setText(String.format("%.2f",BudgetManager.totalRemaining));

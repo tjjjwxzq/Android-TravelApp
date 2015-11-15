@@ -20,6 +20,8 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity
     {
 
@@ -91,6 +93,14 @@ public class MainActivity extends AppCompatActivity
 
         //Initialize search listener
         searchlistner = new Search();
+
+        //Initialize the ExpItem array and budget info from the file
+        ArrayList<Object> budgetInfo = FileUtils.readBudgetFromFile(this, BudgetManager.BUDGET_FILENAME);
+        BudgetManager.totalBudget = ((double[]) budgetInfo.get(0))[0];
+        BudgetManager.totalSpent = ((double[]) budgetInfo.get(0))[1];
+        BudgetManager.totalRemaining = ((double[]) budgetInfo.get(0))[2];
+        BudgetManager.expItemsArr = (ArrayList<ExpItem>) budgetInfo.get(1);
+
 
 
     }
@@ -273,8 +283,9 @@ mDrawerToggle.setDrawerIndicatorEnabled(true);
                         .toString().split("Address:")[1];
             }
 
-            address = RSC.SpellChecker(address);
+            address = RSC.SpellChecker(name);
             String placeName = mapfragment.update(address);
+            Log.d(TAG, "address is " + address);
 
             //Set the placeName text if search address was not taken from autocomplete result
             if(!name.equals(autocomplete))

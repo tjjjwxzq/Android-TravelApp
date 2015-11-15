@@ -7,6 +7,9 @@ import java.util.ArrayList;
  */
 public class BudgetManager {
 
+    //File name for saving budget info
+    public static final String BUDGET_FILENAME = "BudgetFile";
+
     public static ArrayList<ExpItem> expItemsArr;
 
     public static double totalBudget;
