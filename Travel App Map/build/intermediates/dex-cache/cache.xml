@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.0\jars\libs\internal_impl-23.1.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="8716243bf04bae8d6c9ca94d27b9a9be7236f0a3">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\internal_impl-23.1.0-17ded740d26620df00f9467a966a0dfed36e15a0.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="325788a04b436a0bccbc5b4c54cf0f12ebdcbd2d">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-c82f4351e376d6f5eb91916913150b3991696149.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-drive\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="3c729e6d76a36c5dc27e6a4c4009296f49eaa88a">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-0e4059be901f06b653750a85894e3787fa65374b.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\22.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="dcf8c83c3dead00a6c4fe313e95f7aaca20dc641">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-733aab8ada3fd7f19455d763af1ae770464eef1e.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appinvite\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="b92002cb2f0e11a226ac5bac6dff1dc2a9d0b774">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-289d68cd662c18bf67b92da4a8cca9f8f366b72c.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="97f3b099801a9ad9d70e835b9125273e986eb68d">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-07c7151fb8ea970244892026500038c698974f93.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d61920aba361832a9545a43fa8c9453eb02f18f7">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-2d98118645a57d9544c770d5ee6b3309f1c09376.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-4a76d78453971c43962344975c20cc076fc804cb.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d0dda274b703dd9c5bb056867649d22b4171ae7d">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-8ab10a7689ea00991d576af80f03bebd432e5dc8.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="95758a2905669affbffc5ddd262921d375674fad">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-a1c6b7ac37fe84b6b4e3987b20645f3e393f6928.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\libs\frej.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="9709efd77a687f7628b3a3c88b99842a100e9613">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\frej-4a2989af3db2c303fc2a2cfb47bd534b934bf88d.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.1.0\support-annotations-23.1.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\support-annotations-23.1.0-bebb68d02752b6929d403c25d35f1282632dcf94.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-fitness\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="9cf8c0ef60847621c7ad00b4f78dbfc9daba4af2">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-7cd6d05f91a35b1bb14076a38b1d86f7ccddad45.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="3178362320bcf51228835b60ff978efadfd1f783">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-f9b0939ac928b33d8632bda334c1ca8a95cf6c9e.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d294caf562c4c678b2ef351662a0ca6f1a4d06c0">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-540cfb70faa1bcd0a3e073768f3b06d42e0fda14.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\22.2.0\jars\libs\internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="0632f06970823b7e3436f649bfa65b47035c91d0">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\internal_impl-22.2.0-d24c0755c446e8cee12580e517d89604875da776.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-measurement\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="482de223655d06253cc6a4955d653f8994169500">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-7c132b4e199d453785babbad9854da41e8d4df6c.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appstate\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="82054090e487d78e163a988557db62d809fa9b95">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-009c6c00786ed57a41774886643fbd21928bda2c.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="4477ea44f5ec5ad064022a22691732d7638ff197">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-9da7cd10c26c280b1c6494ed24eb9f3af27ea4b9.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="3aed37c38c56679602255dd72ef356da5d327cda">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-82cc34eb0b70f0c8db4c09da0ca3c81e5446680e.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-vision\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="17449c47df35c754b257532052f1270c444f7993">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-8f814f3c5a05b8ef203e9c39249c3c9e72c0e011.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-panorama\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d93480da1d303122ee67dc3bc23e6297bdef9951">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-df88bfd6a0fe826c771b15b4d9b19dd4e876e79b.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-games\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="993834cb17d07d51b92db89d2c330243592ebf77">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-3f79a940f7aca0b7f95714f9611ae543aadc9c7a.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="997773777cf3904c11d6764fe3b7668538220e49">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-d745cbe913858e78028569ea2cd4f16f4c2de619.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-safetynet\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="3b05c18f60969ecc2ba49c0409c4b96be2d9cb0c">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-931a52dfd0d4408babb5a780036433d788ccba23.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="dcb5b75baf05d92e61d5706737200ee55949f97b">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-5d466f35b57ba479f758223406d3430dc0deb307.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="041d93cf0533591c29d1d7263b2fa114dbfb20bd">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-6f77a78bc2dd1b2acfdf6a6153dc2e9686d6414b.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="82825756edeeb3b56b15e73b2edd56e93da5a444">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-7e2f5c95d0e573ca6ca0bbb8a304c24dbeae48e4.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\8.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="2a7e47da654546f9457deb6132364f1bf33a1857">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-d53b7ce21f1913bdd1568925157457c2d8f3fd1b.jar" />
+    </item>
+    <item
+        jar="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
+        <dex dex="C:\Users\tanju_000\Documents\My-Documents\Projects\Coding\Android\Android-TravelApp\Travel App Map\app\build\intermediates\pre-dexed\debug\classes-e8adf7237d4e634c463f1fa52753ff80ab285844.jar" />
+    </item>
+
+</items>
