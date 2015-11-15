@@ -211,6 +211,7 @@ public class MainActivity extends AppCompatActivity implements BudgetAdapterCall
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     @Override
     public void onBackPressed()
     {
@@ -218,6 +219,8 @@ public class MainActivity extends AppCompatActivity implements BudgetAdapterCall
         getFragmentManager().popBackStack();
     }
 =======
+=======
+>>>>>>> 40e7c7b189968f53c08925809b095c8a0cd99748
 //        public void search(View view){
 //            Button search = (Button) findViewById(R.id.button);
 //
