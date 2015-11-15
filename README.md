@@ -19,36 +19,37 @@ SGFun is an Android Travel App for Singapore that is able to do daily itinerary 
 ## App Details
 1) Overview <br />
 
-![Image of opening screen](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/photo127526564546062305.jpg)
-![Image of nav drawer](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/photo127526564546062301.jpg)
+![Image of opening screen](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062305.jpg)
+![Image of nav drawer](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062301.jpg)
 
 The opening screen of our app is the Tourist Attraction Locator screen, and tapping the top left corner opens the side drawer, allowing access to the other features of our app, the Itinerary Planner and Budget Manager.
 (put images here: opening screen, side drawer)
 
 2) Tourist Attraction Locator <br />
 
-![Image of autocomplete](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/photo127526564546062293.jpg)
-![Image of map view](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/photo127526564546062300.jpg) 
-![Image of satellite view](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/photo127526564546062306.jpg)
-![Image of itinerary creation](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/photo127526564546062292.jpg) 
-![Image of itinerary list](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/photo127526564546062298.jpg) 
+![Image of autocomplete](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062293.jpg)
+![Image of map view](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062300.jpg) 
+![Image of satellite view](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062306.jpg)
+![Image of itinerary creation](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062292.jpg) 
+![Image of itinerary list](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062298.jpg) 
+
 
 By using the searchbar, the user can easily find the tourist attractions they want with AutoComplete and Robust Spell Checking implemented. The map also shows the address and postal code of the location, and can move around the map to look for landmarks or nearby train stations. By clicking the "+" Icon, the user can then add different locations to their Itinerary, and name their Itinerary according to their preferences (e.g. "Tomorrow's Itinerary"). Multiple Itineraries are supported, so so the user can plan their trips few days in advance.
 (images of autocomplete/robustspellcheck e.g. "sentozza", map view, satellite view, new itinerary, adding to itinerary, multiple itinerary list)
 
 3) Itinerary Planner <br />
 
-![Image of itinerary planner](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/photo127526564546062295.jpg)
-![Image of planned itinerary](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/photo127526564546062290.jpg)
+![Image of itinerary planner](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062295.jpg)
+![Image of planned itinerary](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062290.jpg)
 
 With that, we come to the Itinerary Planner, where the user can select an Itinerary and specify a budget. The App will then calculate the fastest and cheapest way based on the budget specified. This includes deciding the order of seeing the attractions, and starts and ends at your original position (for example, your hotel). Our optimisation algorithm is fast and effective, and will return a quick result even if you wanted to visit 100 attractions at once (we wouldn't recommend doing that though)!
 (ui images of itinerary planner)
 
 4) Budget Manager <br />
 
-![Image of budget manager](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/photo127526564546062299.jpg)
-![Image of adding moneys](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/photo127526564546062303.jpg)
-![Image of editing stuff](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/photo127526564546062302.jpg)
+![Image of budget manager](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062299.jpg)
+![Image of adding moneys](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062303.jpg)
+![Image of editing stuff](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062302.jpg)
 
 Lastly, we have a budget manager that allows the user to keep track of their expenses from day-to-day. The user can add their budget for the day, and by adding their daily expenses, can observe at a glance the balance left for the day. These expenses can also be named, allowing the user to identify which daily expense (for example, transportation) is too much, and make prudent adjustments to their routine.
 (ui images of budget manager)
