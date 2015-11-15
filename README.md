@@ -14,7 +14,7 @@
 
 ![Image of App Icon](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/TravelApp_tjjjwxzq/app/src/main/res/drawable/launcher_icon_highres.png)
 
-SGFun is an Android Travel App for Singapore that is able to do daily itinerary planning, locate popular tourist attractions such as Resorts World Sentosa, and a budget manager to keep track of your expenses - all in one app! The app also features a simple and clean UI that is pleasing to the eye, along with convenient features such as autocomplete and robust spell checking. Accurate GPS relying on Maps API allows for quick map results on either map or satellite view, and itinerary planning helps optimise your trips in both time and money. Enjoy our App! :)
+SGFun is an Android Travel App for Singapore that is able to do daily itinerary planning, locate popular tourist attractions such as Resorts World Sentosa, and manage your budget to keep track of your expenses - all in one app! The app also features a simple and clean UI that is pleasing to the eye, along with convenient features such as autocomplete and robust spell checking. Accurate GPS relying on Maps API allows for quick map results on either map or satellite view, and itinerary planning helps optimise your trips in both time and money. Enjoy our App! :)
 
 ## App Details
 1) Overview <br />
