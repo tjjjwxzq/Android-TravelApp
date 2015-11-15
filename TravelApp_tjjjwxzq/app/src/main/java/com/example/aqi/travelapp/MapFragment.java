@@ -6,10 +6,13 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -38,14 +41,6 @@ public class MapFragment extends Fragment implements
     public View root;
     private MapView mMapView;
     private GoogleMap googleMap;
-
-    private ArrayList<Double> lon;
-    private ArrayList<Double> lat;
-    private ArrayList<String> locations;
-    private ArrayList<Integer> transportModes;
-    private String foundToLocation = "To here!";
-    private String foundFromLocation = "Going from here";
-    private int checkpoints;
 
     private GoogleApiClient mGoogleApiClient;
     public static final String TAG = "MapFragment";
@@ -88,6 +83,24 @@ public class MapFragment extends Fragment implements
             googleMap.setMyLocationEnabled(true);
         }
 
+        Switch mapTypeSwitch = (Switch) root.findViewById(R.id.mapTypeSwitch);
+
+        //set the switch to ON
+        mapTypeSwitch.setChecked(true);
+        //attach a listener to check for changes in state
+        mapTypeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+                if (isChecked) {
+                    MainActivity.mapfragment.setNormalMap();
+                } else {
+                    MainActivity.mapfragment.setSatelliteMap();
+                }
+
+            }
+        });
+
         return root;
     }
 
@@ -106,11 +119,11 @@ public class MapFragment extends Fragment implements
     private void drawLine(Marker fromMarker, Marker toMarker, int transportmode){
         int color;
         if (transportmode == 0){
-            color = 0xffff0000;             //walking
+            color = ContextCompat.getColor(getActivity(),R.color.colorWalk);//walking
         } else if (transportmode == 1){
-            color = 0xff00ff00;             //public transport
+            color = ContextCompat.getColor(getActivity(),R.color.colorBus);//public transport
         } else {
-            color = 0xffffff00;             //taxi
+            color = ContextCompat.getColor(getActivity(),R.color.colorTaxi);//taxi
         }
         PolylineOptions options = new PolylineOptions()
                 .add(fromMarker.getPosition())
@@ -180,8 +193,8 @@ public class MapFragment extends Fragment implements
             double currentLongitude = location.getLongitude();
             LatLng latLng = new LatLng(currentLatitude, currentLongitude);
             MarkerOptions options = new MarkerOptions()
-                    .position(latLng)
-                    .title(foundFromLocation);
+                    .position(latLng);
+                    //.title(foundFromLocation);
             googleMap.addMarker(options);
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
     }
@@ -243,6 +256,28 @@ public class MapFragment extends Fragment implements
 
     }
 
+    public String getAddressfromLocation(double lat, double lon)
+    {
+        String address = "";
+        try {
+            Geocoder myGcdr = new Geocoder(getActivity());
+            List<Address> matchedList = myGcdr.getFromLocation(lat, lon, 1);
+            Address add = matchedList.get(0);
+            for(int i =0; i<add.getMaxAddressLineIndex();i++ )
+                address += add.getAddressLine(i);
+            if(add.getPostalCode()!=null)
+                address += add.getPostalCode();
+
+        }
+        catch(Exception e)
+        {
+            Toast.makeText(getActivity(), "A problem occurred in retrieving the address",
+                    Toast.LENGTH_SHORT).show();
+        }
+        return address;
+
+    }
+
     public double[] getLocationfromAddress(String address)
     {
         double[] latlon = new double[2];
@@ -264,24 +299,32 @@ public class MapFragment extends Fragment implements
     }
 
     //Update for searching only one location
-    public void update(String destination)
+    //Returns the address string
+    public String update(String destination)
     {
         googleMap.clear();
         double[] latlonarr = getLocationfromAddress(destination);
 
         if(latlonarr == null)
-            return;
+            return null;
 
+        //Get the placename to put into the text view
+        String placeName = getAddressfromLocation(latlonarr[0],latlonarr[1]);
+        Log.d(TAG,"placeName"+placeName);
+
+        //Add marker and update the camera
         LatLng latlon = new LatLng(latlonarr[0],latlonarr[1]);
         MarkerOptions marker = new MarkerOptions()
                 .position(latlon)
-                .title(destination);
+                .title(placeName);
         googleMap.addMarker(marker);
         try {
             googleMap.animateCamera(CameraUpdateFactory.newLatLng(latlon));
         } catch (Exception ex){
             ex.printStackTrace();
         }
+
+        return placeName;
     }
 
     //Update to show all the nodes in an itinerary

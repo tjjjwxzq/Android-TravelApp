@@ -1,92 +1,160 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/relative"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add to Budget"
-        android:id="@+id/addBudgetButton"
-        android:onClick = "addtobudget"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+    <LinearLayout
+        android:background="@color/colorBudgetBg"
+        android:orientation="horizontal"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New expenditure"
-        android:id="@+id/addExpenditureButton"
-        android:onClick = "addnewexpenditure"
-        android:layout_alignParentTop="true"
-        android:layout_alignEnd="@+id/expenditureList" />
+        <ImageView
+            android:tint="@color/colorBudget"
+            android:tintMode="src_atop"
+            android:src="@drawable/budget_icon_large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
+        <TextView
+            android:id="@+id/text_budget"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_weight="0.4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="26sp"
+            android:text="Budget"
+            />
 
+        <TextView
+            android:id="@+id/budgetDouble"
+            android:layout_weight="0.4"
+            android:gravity="end"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:textSize="30sp"
+           />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Remaining:"
-        android:id="@+id/textView"
-        android:layout_marginBottom="58dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+    </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Spent:"
-        android:id="@+id/textView2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignTop="@+id/textView" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-
-        android:id="@+id/remainingDouble"
-        android:layout_below="@+id/textView2"
-        android:layout_alignStart="@+id/textView" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-
-        android:layout_below="@+id/textView2"
-        android:id="@+id/spentDouble"
-        android:layout_alignStart="@+id/textView2" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Total Budget:"
-        android:id="@+id/textView5"
-        android:layout_alignTop="@+id/textView"
-        android:layout_alignParentRight="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/budgetDouble"
-        android:layout_below="@+id/textView5"
-        android:layout_alignStart="@+id/textView5" />
 
     <ListView
+        android:id="@+id/expenditureList"
+        android:layout_weight="0.7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/expenditureList"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/addBudgetButton"/>
 
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/addBudgetButton"
-        android:layout_above="@+id/textView" />
 
-</RelativeLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:tint="@color/colorBalance"
+            android:tintMode="src_atop"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:src="@drawable/budget_icon_large"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+        <TextView
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_weight="0.3"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Balance"
+            android:id="@+id/text_balance"/>
+
+        <TextView
+            android:layout_weight="0.2"
+            android:gravity="start"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/remainingDouble"
+            />
+        <ImageButton
+            android:layout_weight="0.2"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addBudgetButton"
+            android:background="@null"
+            android:tint="@color/colorIconGrey"
+            android:tintMode="src_atop"
+            android:src="@android:drawable/ic_input_add" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:tint="@color/colorSpent"
+            android:tintMode="src_atop"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:src="@drawable/budget_icon_large"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <TextView
+            android:layout_weight="0.3"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Spent"
+            android:id="@+id/text_spent"
+            android:layout_alignParentLeft="true"
+          />
+
+        <TextView
+            android:gravity="start"
+            android:layout_weight="0.2"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/spentDouble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_below="@+id/text_spent"
+            android:layout_alignLeft="@id/text_spent" />
+
+        <ImageButton
+            android:layout_weight="0.2"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addExpenditureButton"
+            android:background="@null"
+            android:tint="@color/colorIconGrey"
+            android:tintMode="src_atop"
+            android:src="@android:drawable/ic_input_add" />
+
+
+      </LinearLayout>
+
+</LinearLayout>
+
 

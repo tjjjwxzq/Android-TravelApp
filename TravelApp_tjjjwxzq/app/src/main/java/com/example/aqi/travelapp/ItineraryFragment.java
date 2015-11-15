@@ -149,8 +149,6 @@ public class ItineraryFragment extends Fragment {
 
     public class planItineraryListener implements View.OnClickListener
     {
-
-
         @Override
         public void onClick(View view)
         {
@@ -204,6 +202,15 @@ public class ItineraryFragment extends Fragment {
                                             .get(0).get(0);
                                     Log.d(TAG, "saveditineraries" + ItineraryManager.saveditineraries);
 
+                                    double totalcost = CostUtils
+                                            .getTotalCost(itinerary.transportmodes, itinerary.itinerary);
+
+                                    //Automatically save to budget
+                                    BudgetManager.totalBudget += budget;
+                                    BudgetManager.totalRemaining += budget;
+                                    BudgetManager.expItemsArr.add(new ExpItem("Transport",
+                                            Double.toString(totalcost)));
+
                                     //Update list view
                                     mAdapter.notifyDataSetChanged();
 
@@ -240,8 +247,10 @@ public class ItineraryFragment extends Fragment {
 
         getActivity().findViewById(R.id.myMapFragment).setVisibility(View.GONE);
         Log.d(TAG, "Map fragment visible?" + getActivity().findViewById(R.id.myMapFragment).
-        getVisibility());
+                getVisibility());
 
+        FileUtils.writeBudgetToFile(getActivity(), "BudgetFile", BudgetManager.totalBudget,
+                BudgetManager.totalSpent, BudgetManager.totalRemaining, BudgetManager.expItemsArr);
         ItineraryManager.writeSavedItineraries(getActivity());
         Log.d(TAG, "writing saved itineraries");
         super.onStop();

@@ -1,37 +1,26 @@
 package com.example.aqi.travelapp;
 
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-
-public class MainActivity extends AppCompatActivity implements BudgetAdapterCallback
+public class MainActivity extends AppCompatActivity
     {
 
     private static final String TAG = "MainActivity";
@@ -53,17 +42,6 @@ public class MainActivity extends AppCompatActivity implements BudgetAdapterCall
 
     final String[] osArray = { "Attraction Locator", "Itinerary Planner", "Budget Manager"};
 
-    public double budget = Math.round(0.00*100)/100.0;
-    public double addedBudget;
-    public double spent = Math.round(0.00*100)/100.0;
-    public double remaining = Math.round(0.00*100)/100.0;
-
-    public String expTitle;
-    public double expAmt;
-
-    public ArrayList<String> expenditure = new ArrayList<>();
-    public ArrayList<String> expList = new ArrayList<>();
-
     // For maps
     public static Search searchlistner;
     //Google Maps
@@ -76,14 +54,14 @@ public class MainActivity extends AppCompatActivity implements BudgetAdapterCall
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
 
         //Set up navigation drawer
@@ -271,183 +249,10 @@ mDrawerToggle.setDrawerIndicatorEnabled(true);
 
 
 
-    //BEGIN BUDGET PART
-    public void updateBudgetText(){
-        TextView addToBudget = (TextView) findViewById(R.id.budgetDouble);
-        budget = Math.round(budget*100)/100;
-        addToBudget.setText(Double.toString(budget));
-    }
 
-    public void updateSpentText() {
-        TextView spentAmt = (TextView) findViewById(R.id.spentDouble);
-        spent = Math.round(spent*100)/100;
-        spentAmt.setText(Double.toString(spent));
-    }
-
-    public void updateRemainingText() {
-        TextView remainingAmt = (TextView) findViewById(R.id.remainingDouble);
-        remaining = Math.round((budget-spent)*100)/100;
-        remainingAmt.setText(Double.toString(remaining));
-    }
-
-    public void addtobudget(View view) {
-        Button btn2 = (Button) findViewById(R.id.addBudgetButton);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.addtobudget, null);
-        final EditText meow = (EditText) dialogView.findViewById(R.id.additionalBudget);
-        builder.setView(dialogView);
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                //user clicked ok button
-                if((meow.getText().toString()).equals("")) {
-                    Toast.makeText(MainActivity.this, "Please enter an amount!", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    addedBudget = Double.parseDouble((meow).getText().toString());
-                    budget += Math.round(addedBudget * 100) / 100;
-                    updateBudgetText();
-                    updateRemainingText();
-                    Toast.makeText(MainActivity.this, "Budget updated successfully!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User cancelled the dialog
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-    }
-
-    public void addnewexpenditure(View view) {
-        Button btn3 = (Button) findViewById(R.id.addExpenditureButton);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.addexpenditure, null);
-        final EditText title = (EditText) dialogView.findViewById(R.id.expenditureTitle);
-        final EditText amt = (EditText) dialogView.findViewById(R.id.expenditureAmount);
-        builder.setView(dialogView);
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                if ((amt.getText().toString()).equals("")) {
-                    Toast.makeText(MainActivity.this, "Please enter an amount", Toast.LENGTH_SHORT).show();
-                } else {
-                    expTitle = title.getText().toString();
-                    expAmt = Double.parseDouble((amt).getText().toString());
-                    if (budget == 0.00) {
-                        Toast.makeText(MainActivity.this, "Please enter your budget first!", Toast.LENGTH_SHORT).show();
-                    } else if (remaining <= expAmt) {
-                        Toast.makeText(MainActivity.this, "Not enough money to make purchase", Toast.LENGTH_SHORT).show();
-                    } else if (expTitle.equals("")) {
-                        Toast.makeText(MainActivity.this, "Please enter a title.", Toast.LENGTH_SHORT).show();
-                    } else {
-                        expenditure.add(expTitle);
-                        expList.add(Double.toString(expAmt));
-                        spent += Math.round(expAmt * 100) / 100;
-                        remaining = budget - spent;
-                        updateSpentText();
-                        updateRemainingText();
-
-//                        ArrayAdapter<String> expAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1 ,expList);
-//
-//                        ListView expList = (ListView) findViewById(R.id.expenditureList);
-//                        expList.setAdapter(expAdapter);
-
-                        ArrayList exp_details = getExpData();
-                        final ListView lv1 = (ListView) findViewById(R.id.expenditureList);
-                        BudgetListAdapter budgetAdapter = new BudgetListAdapter(getApplicationContext(), exp_details);
-                        budgetAdapter.setCallback(MainActivity.this);
-                        lv1.setAdapter(budgetAdapter);
-
-                    }
-
-                }
-
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User cancelled the dialog
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-    }
-
-    public void editExpenditure(View view, int position) {
-        ImageButton btn = (ImageButton) findViewById(R.id.editExpenditure);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.editexpenditure, null);
-        final EditText title = (EditText) dialogView.findViewById(R.id.editExpenditureTitle);
-        final EditText amt = (EditText) dialogView.findViewById(R.id.editExpenditureAmount);
-        final int position1 = position;
-        final Double originalAmt = Double.parseDouble(expList.get(position1));
-        title.setText(expenditure.get(position1), TextView.BufferType.EDITABLE);
-        amt.setText(expList.get(position1), TextView.BufferType.EDITABLE);
-        builder.setView(dialogView);
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                expAmt = Double.parseDouble(amt.getText().toString());
-
-                if(remaining<(expAmt-originalAmt)) {
-                    Toast.makeText(MainActivity.this, "Not enough money to make purchase!", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    expTitle = title.getText().toString();
-                    expList.set(position1, Double.toString(expAmt));
-                    expenditure.set(position1, expTitle);
-
-                    spent = spent - originalAmt + expAmt;
-
-                    updateSpentText();
-                    updateRemainingText();
-
-                    ArrayList exp_details = getExpData();
-                    final ListView lv1 = (ListView) findViewById(R.id.expenditureList);
-                    BudgetListAdapter budgetAdapter = new BudgetListAdapter(getApplicationContext(), exp_details);
-                    budgetAdapter.setCallback(MainActivity.this);
-                    lv1.setAdapter(budgetAdapter);
-                }
-
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                //User cancelled the dialog
-            }
-
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-    }
-
-    private ArrayList getExpData() {
-        ArrayList<ExpItem> results = new ArrayList<>();
-        for (int i = 0; i < expenditure.size(); i++){
-            ExpItem exp = new ExpItem();
-            exp.setExp(expenditure.get(i));
-            exp.setAmt(expList.get(i));
-            results.add(exp);
-        }
-        return results;
-    }
-
-            //MapFragment part
-
-    /*private void setUpMapCheckpoints() {
-        //Update the fragment with many locations
-        mapfragment.update(lon, lat, locations, transportModes, checkpoints);
-    }*/
-
+    /****************
+     * Handling MapFragment
+      */
     // Search function that activates when search button is pressed
     public class Search implements View.OnClickListener {
 
@@ -456,11 +261,29 @@ mDrawerToggle.setDrawerIndicatorEnabled(true);
         {
             //Spell Check
             RobustSpellChecker RSC = new RobustSpellChecker();
-            EditText toAddress = (EditText) findViewById(R.id.autocomplete_places);
-            destination = toAddress.getText().toString();
-            destination = RSC.SpellChecker(destination);
+            //Get address directly from autocomplete text
+            String address =((EditText) findViewById(R.id.autocomplete_places)).getText().toString();
+            String autocomplete = AttractionLocatorFragment.mPlaceDetailsText.getText()
+                            .toString().split("Address:")[0];
+            if(address.equals(autocomplete))
+            {
+                address = AttractionLocatorFragment.mPlaceDetailsText.getText()
+                        .toString().split("Address:")[1];
+            }
 
-            mapfragment.update(destination);
+            address = RSC.SpellChecker(address);
+            String placeName = mapfragment.update(address);
+
+            //Set the placeName text if search address was not taken from autocomplete result
+            if(!address.equals(autocomplete))
+            {
+                AttractionLocatorFragment.mPlaceDetailsText.setVisibility(View.VISIBLE);
+                AttractionLocatorFragment.mPlaceButton.setVisibility(View.VISIBLE);
+                AttractionLocatorFragment.mPlaceDetailsText.setText("Address: " + placeName);
+                AttractionLocatorFragment.mPlaceButton.setOnClickListener(
+                        new AttractionLocatorFragment.addtoItinerary(placeName)
+                );
+            }
 
             // Check if no view has focus
             // This makes sure that the soft keyboard hides after hitting the search

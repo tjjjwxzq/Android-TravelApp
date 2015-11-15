@@ -14,9 +14,11 @@
         class="com.google.android.gms.maps.SupportMapFragment" />
 
      <Switch
+        android:id="@+id/mapTypeSwitch"
+        android:layout_margin = "@dimen/activity_horizontal_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/mapTypeSwitch"
-        android:layout_marginBottom="5dp"/>
+
+         />
 
 </RelativeLayout>

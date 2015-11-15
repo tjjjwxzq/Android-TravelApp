@@ -43,7 +43,7 @@ public class ItineraryManager{
     public static void loadSavedItineraries(Context context)
     {
         if(saveditineraries == null)
-            saveditineraries = FileUtils.readFile(context, FILENAME);
+            saveditineraries = FileUtils.readItinerariesFromFile(context, FILENAME);
 
         if(saveditineraries==null)
             saveditineraries = new ArrayList<SavedItinerary>();
@@ -63,7 +63,7 @@ public class ItineraryManager{
             {
                 itineraries.add(it.convertToFileOutput());
             }
-            FileUtils.writeToFile(context, FILENAME, itineraries);
+            FileUtils.writeItineraryToFile(context, FILENAME, itineraries);
         }
         Log.d(TAG, "Writing to file");
     }

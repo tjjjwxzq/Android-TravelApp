@@ -4,6 +4,12 @@ public class ExpItem {
     private String exp;
     private String amt;
 
+    public ExpItem(String exp, String amt)
+    {
+        this.exp = exp;
+        this.amt = amt;
+    }
+
     public String getExp() {
         return exp;
     }
@@ -18,6 +24,11 @@ public class ExpItem {
 
     public void setAmt(String address) {
         this.amt=address;
+    }
+
+    @Override
+    public String toString(){
+        return exp+","+amt;
     }
 }
 

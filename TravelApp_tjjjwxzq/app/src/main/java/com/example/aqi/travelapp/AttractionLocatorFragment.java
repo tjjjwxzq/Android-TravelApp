@@ -2,6 +2,7 @@ package com.example.aqi.travelapp;
 
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -46,9 +47,11 @@ public class AttractionLocatorFragment extends Fragment
 
     private AutoCompleteTextView mAutocompleteView;
 
-    private TextView mPlaceDetailsText;
+    public static TextView mPlaceDetailsText;
 
-    private Button mPlaceButton;
+    public static Button mPlaceButton;
+
+    private static FragmentManager fragmentManager;
 
     private Button mFindButton;
 
@@ -66,6 +69,8 @@ public class AttractionLocatorFragment extends Fragment
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addApi(Places.GEO_DATA_API)
                 .build();
+
+        fragmentManager = getFragmentManager();
 
 
     }
@@ -116,30 +121,6 @@ public class AttractionLocatorFragment extends Fragment
         //Retrieve the Find button
         mFindButton = (Button) root.findViewById(R.id.btn_findloc);
         mFindButton.setOnClickListener(MainActivity.searchlistner);
-
-        //Set toggle for google maps
-
-
-
-        /*Switch mapTypeSwitch = (Switch) root.findViewById(R.id.mapTypeSwitch);
-
-        //set the switch to ON
-        mapTypeSwitch.setChecked(true);
-        //attach a listener to check for changes in state
-        mapTypeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
-
-                if (isChecked) {
-                    fragment.setNormalMap();
-                } else {
-                    fragment.setSatelliteMap();
-                }
-
-            }
-        });*/
 
 
         return root;
@@ -247,7 +228,7 @@ public class AttractionLocatorFragment extends Fragment
      * Listener creates a dialogfragment which allows user to choose either
      * to save to an existing itinerary or a new itinerary
      */
-    public class addtoItinerary implements View.OnClickListener {
+    public static class addtoItinerary implements View.OnClickListener {
 
         //Pass the placename to the dialog
         private CharSequence placename;
@@ -260,7 +241,7 @@ public class AttractionLocatorFragment extends Fragment
         @Override
         public void onClick(View view)
         {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            FragmentTransaction ft = fragmentManager.beginTransaction();
             DialogFragment newFragment = AddToItDialog1.newInstance(placename);
             newFragment.show(ft,"dialog");
         }

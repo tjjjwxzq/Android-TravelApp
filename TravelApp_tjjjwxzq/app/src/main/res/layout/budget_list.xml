@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_margin="@dimen/activity_horizontal_margin"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -10,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="test"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="#343434"
         android:typeface="sans" />
@@ -20,9 +21,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="12"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        android:textColor="#343434"
+        android:textSize="20sp"
+        android:textColor="@color/colorIconGrey"
         android:typeface="sans"
         android:layout_below="@+id/title" />
 
@@ -30,11 +30,11 @@
         android:id="@+id/editExpenditure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_edit"
+        android:src="@drawable/edit_icon"
+        android:background="@null"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:onClick = "onClick" />
+        android:layout_alignParentRight="true"/>
 
 
     <!--<ImageButton-->
