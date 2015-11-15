@@ -62,15 +62,14 @@ Each step along the path, the solver will choose the destination which minimizes
 Lastly, the mode of transport chosen will be first determined through the average cost per edge, then through the cost of taking a taxi for all edges. While the total cost exceeds the budget, find the shortest edge (in terms of average cost*time), and check if walking time is less than 15min. If yes, change to walking, else, change to bus, and check whether budget is exceeded. If still exceeded, find the next shortest edge, and repeat until one is within budget.
 
 2) Tourist Attraction Locator <br />
-#TODO: elaborate
 2.1 Robust Spell Checker <br />
-Our Robust Spell Checker makes use of FREJ (Fuzzy Regular Expressions for Java), an external Java Library that allows us to quickly make Fuzzy Regular Expressions for the different tourist attractions. These operate on the lines of edit distance and regular expression, and create a match when the input is "close enough" (for example, sentozza matches "Sentosa", but sentozzzzszaaa does not create a match). 
+Our Robust Spell Checker makes use of FREJ (Fuzzy Regular Expressions for Java), an external Java Library that allows us to quickly make Fuzzy Regular Expressions for the different tourist attractions. These operate on the lines of edit distance and regular expression, and create a match when the input is "close enough" (for example, sentozza matches "Sentosa", but sentozzzzszaaa does not create a match). Using this library makes possible expansion of the number of tourist attractions much easier and quicker, for future versions of the App.
 
 2.2 AutoComplete <br />
-The Autocomplete function makes use of Google API to predict and list possible tourist locations given an input string. 
+The Autocomplete function makes use of Google API to predict and list possible tourist locations given an input string. The resulting input from the user is then passed to the maps Fragment.
 
 2.3 Maps Fragment <br />
-Our Maps fragment uses Maps API, and toggles between satellite view and normal view with a toggle button. The itinerary planner, after implementing the algorithm, passes the route and the map fragment is updated using update(). (colours)- coloured polylines are drawn using polylineoptions, representing different modes of travel. 
+The Maps Fragment then centers on the passed input. For the itinerary, the app takes in the lowest and highest latitude and longitude of the itinerary's locations; then frames the camera to fit these latitudes and longitudes. Our Maps fragment uses Maps API, and toggles between satellite view and normal view with a toggle button. The itinerary planner, after implementing the algorithm, passes the route and the map fragment is updated using update(). Coloured polylines are drawn using polylineoptions, representing different modes of travel. 
 
 
 3) Budget Manager <br />
