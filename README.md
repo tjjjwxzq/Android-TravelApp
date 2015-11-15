@@ -12,22 +12,44 @@
 
 ## App description
 
+![Image of App Icon](http://imgur.com/share/i/D7GrhBu)
+
 SGFun is an Android Travel App for Singapore that is able to do daily itinerary planning, locate popular tourist attractions such as Resorts World Sentosa, and a budget manager to keep track of your expenses - all in one app! The app also features a simple and clean UI that is pleasing to the eye, along with convenient features such as autocomplete and robust spell checking. Accurate GPS relying on Maps API allows for quick map results on either map or satellite view, and itinerary planning helps optimise your trips in both time and money. Enjoy our App! :)
 
 ## App Details
 1) Overview <br />
+
+![Image of opening screen](http://imgur.com/SNqpNoQ)
+![Image of nav drawer](http://imgur.com/xbBY8BO)
+
 The opening screen of our app is the Tourist Attraction Locator screen, and tapping the top left corner opens the side drawer, allowing access to the other features of our app, the Itinerary Planner and Budget Manager.
 (put images here: opening screen, side drawer)
 
 2) Tourist Attraction Locator <br />
+
+![Image of autocomplete](http://imgur.com/9p8loc4)
+![Image of map view](http://imgur.com/A0GaaIr) 
+![Image of satellite view](http://imgur.com/18htIJe)
+![Image of itinerary creation](http://imgur.com/0cU11wO) 
+![Image of itinerary list](http://imgur.com/eQzL5Df) 
+
 By using the searchbar, the user can easily find the tourist attractions they want with AutoComplete and Robust Spell Checking implemented. The map also shows the address and postal code of the location, and can move around the map to look for landmarks or nearby train stations. By clicking the "+" Icon, the user can then add different locations to their Itinerary, and name their Itinerary according to their preferences (e.g. "Tomorrow's Itinerary"). Multiple Itineraries are supported, so so the user can plan their trips few days in advance.
 (images of autocomplete/robustspellcheck e.g. "sentozza", map view, satellite view, new itinerary, adding to itinerary, multiple itinerary list)
 
 3) Itinerary Planner <br />
+
+![Image of itinerary planner](
+![Image of planned itinerary](http://imgur.com/share/i/D7GrhBu)
+
 With that, we come to the Itinerary Planner, where the user can select an Itinerary and specify a budget. The App will then calculate the fastest and cheapest way based on the budget specified. This includes deciding the order of seeing the attractions, and starts and ends at your original position (for example, your hotel). Our optimisation algorithm is fast and effective, and will return a quick result even if you wanted to visit 100 attractions at once (we wouldn't recommend doing that though)!
 (ui images of itinerary planner)
 
 4) Budget Manager <br />
+
+![Image of budget manager](http://imgur.com/BS4ZJpn)
+![Image of adding moneys](http://imgur.com/UJ0uDZH)
+![Image of editing stuff](http://imgur.com/NgczDn7)
+
 Lastly, we have a budget manager that allows the user to keep track of their expenses from day-to-day. The user can add their budget for the day, and by adding their daily expenses, can observe at a glance the balance left for the day. These expenses can also be named, allowing the user to identify which daily expense (for example, transportation) is too much, and make prudent adjustments to their routine.
 (ui images of budget manager)
 
