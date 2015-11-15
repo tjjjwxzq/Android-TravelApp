@@ -4,7 +4,11 @@ package com.example.aqi.travelapp;
 import net.java.frej.Regex;
 
 /**
- * Created by Arbiter on 13/11/2015.
+ * RobustSpellChecker which checks a given string against
+ * destinations in our dataset.
+ * Uses FREJ library for fuzzy string matching
+ * (See FuzzyStringMatcher class for our own fuzzy
+ * matching implementation)
  */
 
 

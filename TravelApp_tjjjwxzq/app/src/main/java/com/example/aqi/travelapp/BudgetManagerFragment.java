@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,11 @@ import android.widget.Toast;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Budget manager fragment.
+ * Shows total budget, total expenditure and total balance
+ * Expenditure items are added to a list view and can be edited
+ * Adding an expenditure modifies the total expenditure
+ * and one can also add to the total budget
  */
 public class BudgetManagerFragment extends Fragment implements BudgetAdapterCallback
 {
@@ -98,6 +101,12 @@ public class BudgetManagerFragment extends Fragment implements BudgetAdapterCall
         super.onStop();
     }
 
+    /**
+     * OnClickListener for the addToBudget button
+     * Creates a dialog that prompts for the amount to add
+     * and persists until the user gives a valid input
+     * The total budget and balance are updated to reflect the added amount
+     */
     public class addToBudget implements View.OnClickListener{
 
         @Override
@@ -136,7 +145,7 @@ public class BudgetManagerFragment extends Fragment implements BudgetAdapterCall
                                         Double.parseDouble(text_dialogaddbudget.getText().toString()));
                                 BudgetManager.totalBudget += budget;
                                 BudgetManager.totalRemaining += budget;
-                                Log.d(TAG, "remaininig " + BudgetManager.totalRemaining);
+
                                 budgetfield.setText(String.format("%.2f",BudgetManager.totalBudget));
                                 remainingfield.setText(String.format("%.2f",BudgetManager.totalRemaining));
                                 dialog.dismiss();
@@ -152,6 +161,14 @@ public class BudgetManagerFragment extends Fragment implements BudgetAdapterCall
         }
           }
 
+    /**
+     * OnClickListener for addNewExpenditure button
+     * Starts a dialog which prompts for the new expenditure title
+     * and expenditure amounts. The dialog persists until a valid
+     * input is given.
+     * The total spent and total balance are accordingly updated
+     * and the expenditure item is added to the list view
+     */
     public class addNewExpenditure implements View.OnClickListener {
 
         @Override
@@ -224,6 +241,14 @@ public class BudgetManagerFragment extends Fragment implements BudgetAdapterCall
 
     }
 
+    /**
+     * Function for BudgetManager to implement BudgetAdapterCallback.
+     * This method is called in the BudgetListAdapter inside the onClickListner
+     * of the edit expenditure button (implemented as an interface method
+     * so that the current BudgetManagerFragment instance can be passed
+     * to the BudgetListAdapter and call this method)
+     * @param position the position of the list item
+     */
     public void editExpenditure(int position) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -233,14 +258,16 @@ public class BudgetManagerFragment extends Fragment implements BudgetAdapterCall
         final EditText text_amount = (EditText) dialogView.findViewById(R.id.editExpenditureAmount);
         final ExpItem expItem = BudgetManager.expItemsArr.get(position);
 
+
         //Set text to display current title and amount
         text_title.setText(expItem.getExp(), TextView.BufferType.EDITABLE);
-        text_amount.setText(expItem.getAmt(), TextView.BufferType.EDITABLE);
+        text_amount.setText(String.format("%.2f", Double.parseDouble(expItem.getAmt()))
+                , TextView.BufferType.EDITABLE);
 
         builder.setView(dialogView)
                 .setPositiveButton("OK", null) //Override below
                 .setNegativeButton("Cancel", null)
-                .setTitle("Add new expenditure");
+                .setTitle("Edit expenditure");
 
         //Persist dialog until user gives valid input
         final AlertDialog dialog = builder.create();
@@ -271,11 +298,14 @@ public class BudgetManagerFragment extends Fragment implements BudgetAdapterCall
                                 toast.setText("Not enough money to make purchase");
                                 toast.show();
                             } else {
+                                //Amend spent amount
+                                BudgetManager.totalSpent -= Double.parseDouble(expItem.getAmt());
+
                                 expItem.setExp(exptitle);
                                 expItem.setAmt(expamount);
 
                                 BudgetManager.totalSpent +=  Double.parseDouble(expamount);
-                                BudgetManager.totalRemaining += BudgetManager.totalBudget-BudgetManager.totalSpent;
+                                BudgetManager.totalRemaining = BudgetManager.totalBudget-BudgetManager.totalSpent;
 
                                 spentfield.setText(String.format("%.2f",
                                         BudgetManager.totalSpent));

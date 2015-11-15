@@ -1,7 +1,6 @@
 package com.example.aqi.travelapp;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter for the budget expenditure list
+ */
 public class BudgetListAdapter extends BaseAdapter {
 
     private static final String TAG = "BudgetAdapter";
@@ -41,6 +43,7 @@ public class BudgetListAdapter extends BaseAdapter {
         return position;
     }
 
+
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
@@ -62,18 +65,22 @@ public class BudgetListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Log.d(TAG, "budget list updating");
-        Log.d(TAG, "exp item is " + listData.get(position).getExp());
-        Log.d(TAG, "number of exp items" + listData.size());
         holder.expView.setText(listData.get(position).getExp());
         holder.amtView.setText(String.format("%.2f", Double.parseDouble(listData.get(position).getAmt())));
         return convertView;
     }
 
+    /**
+     * Assign the callback instance
+     * @param callback instance of BudgetAdapterCallback
+     */
     public void setCallback(BudgetAdapterCallback callback) {
         this.callback = callback;
     }
 
+    /**
+     * View holder to allow smoother loading of list view
+     */
     static class ViewHolder {
         TextView expView;
         TextView amtView;

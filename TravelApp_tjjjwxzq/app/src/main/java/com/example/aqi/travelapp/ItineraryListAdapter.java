@@ -11,7 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
- * Created by Arbiter on 12/11/2015.
+ * Displays the list of destinations in the itinerary
+ * If the itinerary has been planned, update the view
+ * to show the transport modes as well as total cost and time
+ * and a button to show the itinerary on the map
  */
 public class ItineraryListAdapter extends BaseAdapter {
 
@@ -118,7 +121,6 @@ public class ItineraryListAdapter extends BaseAdapter {
        }
         else //otherwise just display the destination names
         {
-            Log.d(TAG, "Itinerary not planned, just showing det");
             if(position!=itinerary.destinations.size())
                nodeName.setText(itinerary.destinations.get(finposition));
             else

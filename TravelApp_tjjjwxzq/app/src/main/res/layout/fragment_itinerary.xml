@@ -12,8 +12,9 @@
 
         <TextView
         android:id="@+id/itinerary_name"
+        android:maxLines="2"
         android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:textSize="24sp"/>
 

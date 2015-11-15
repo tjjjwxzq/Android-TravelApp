@@ -1,7 +1,8 @@
 package com.example.aqi.travelapp;
 
 /**
- * Created by aqi on 2/11/15.
+ * Destinations class holds the cost-time data and a hashmap
+ * of the valid destinations (mapping to their corresponding indices)
  */
 import java.util.*;
 
@@ -15,7 +16,7 @@ public class Destinations {
       DESTINATION_MAP.put("VivoCity",2);
       DESTINATION_MAP.put("Resorts World Sentosa",3);
       DESTINATION_MAP.put("Buddha Tooth Relic Temple",4);
-      DESTINATION_MAP.put("Zoo",5);
+      DESTINATION_MAP.put("Singapore Zoo",5);
     }
 
     public static final int NUM_DESTINATIONS = DESTINATION_MAP.size();

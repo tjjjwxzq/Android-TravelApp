@@ -3,7 +3,9 @@ package com.example.aqi.travelapp;
 import java.util.ArrayList;
 
 /**
- * Created by Arbiter on 15/11/2015.
+ * Class for storing budget info during an app session
+ * Class fields are written to file when the app stops
+ * and are read from file when the app starts
  */
 public class BudgetManager {
 

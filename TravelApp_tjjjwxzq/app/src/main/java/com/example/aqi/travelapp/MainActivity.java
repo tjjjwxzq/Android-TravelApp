@@ -105,6 +105,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+        /**
+         * Set up the items in the navigation drawer
+         */
     private void addDrawerItems(){
 
         ItineraryManager.loadSavedItineraries(this); //ensure the file is loaded
@@ -119,6 +122,8 @@ public class MainActivity extends AppCompatActivity
                 switch (position) {
                     case 0:
                         //pops till the named fragment, non-inclusive
+                        //this will be the first AttractionLocatorFragment
+                        //started when the app is first launched
                         fragmentmanager.popBackStackImmediate(FRAG_ATTRLOC, 0);
 
                         findViewById(R.id.myMapFragment).setVisibility(View.VISIBLE);
@@ -127,11 +132,24 @@ public class MainActivity extends AppCompatActivity
                         transaction.addToBackStack(null);
                         transaction.commit();
                         break;
+                    case 1:
+
+                       //Pop up to but not including the attraction locator
+                        fragmentmanager.popBackStackImmediate(FRAG_ATTRLOC,0);
+
+                        //Hide mapfragment
+                        findViewById(R.id.myMapFragment).setVisibility(View.GONE);
+
+                        fragment = new ItineraryPlannerFragment();
+                        transaction.replace(R.id.relative, fragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                        break;
                     case 2:
                         //Pop up to but not including the attraction locator
                         fragmentmanager.popBackStackImmediate(FRAG_ATTRLOC,0);
 
-                        //Remove map fragment and set containing view to gone
+                        //Hide mapfragment
                         findViewById(R.id.myMapFragment).setVisibility(View.GONE);
 
                         if(fragmentmanager.findFragmentByTag(FRAG_BUDGET)==null)
@@ -147,20 +165,7 @@ public class MainActivity extends AppCompatActivity
                         transaction.addToBackStack(null);
                         transaction.commit();
                         break;
-                    case 1:
-
-                       //Pop up to but not including the attraction locator
-                        fragmentmanager.popBackStackImmediate(FRAG_ATTRLOC,0);
-
-                        //Remove map fragment and set container visibility to gone
-                        findViewById(R.id.myMapFragment).setVisibility(View.GONE);
-
-                        fragment = new ItineraryPlannerFragment();
-                        transaction.replace(R.id.relative, fragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
-                        break;
-                }
+                                   }
                 setTitle(osArray[position]);
                 mDrawerLayout.closeDrawer(mDrawerList);
             }
@@ -258,12 +263,14 @@ mDrawerToggle.setDrawerIndicatorEnabled(true);
         }
 
 
-
-
-    /****************
-     * Handling MapFragment
-      */
-    // Search function that activates when search button is pressed
+        /**
+         * OnClickListner for the search button in attraction locator
+         * Handles the search gracefully so that one can search
+         * from a custom address string keyed into the edit text
+         * or from the address returned by autocompletion
+         * updates the textview that displays the destination
+         * address and makes the addToItinerary button visible
+         */
     public class Search implements View.OnClickListener {
 
         @Override

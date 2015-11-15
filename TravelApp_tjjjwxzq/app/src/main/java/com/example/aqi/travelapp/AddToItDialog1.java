@@ -1,11 +1,9 @@
 package com.example.aqi.travelapp;
 
-import android.app.AlertDialog;
 import android.app.DialogFragment;
-import android.app.FragmentTransaction;
-import android.net.Uri;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +15,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
+ * Dialog Fragment that is created when the use presses
+ * the addToItinerary button.
+ * Prompts the user to select either exisiting itinerary
+ * or a new itinerary, each of which go to new dialogs
  */
 public class AddToItDialog1 extends DialogFragment {
 
@@ -33,6 +31,14 @@ public class AddToItDialog1 extends DialogFragment {
 
     private String[] dialogArray = {"Existing itinerary", "New itinerary"};
 
+    /**
+     * Factory method to pass the placename to the fragment
+     * The placename is needed to be passed to the child dialogs
+     * that this dialog will spawn, since the name must eventually
+     * be saved to ItinerayManager.saveditineraries
+     * @param placename name of destination
+     * @return a new Instance of AddToItDialog1
+     */
     static AddToItDialog1 newInstance(CharSequence placename) {
         AddToItDialog1 f = new AddToItDialog1();
         Bundle args = new Bundle();
@@ -68,8 +74,8 @@ public class AddToItDialog1 extends DialogFragment {
                   {
                       case 0://Existing itinerary
 
+                          // No saved itineraries
                           if( ItineraryManager.saveditineraries.size() ==0){
-                              // No saved itineraries
                               Toast toast = Toast.makeText(getActivity(), "No saved itineraries. Create a new one instead.",
                                       Toast.LENGTH_SHORT);
                               LinearLayout layout = (LinearLayout) toast.getView();

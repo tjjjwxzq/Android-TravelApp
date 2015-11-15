@@ -3,7 +3,6 @@ package com.example.aqi.travelapp;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,12 +22,11 @@ import java.util.ArrayList;
 
 
 /**
- * A simple {@link Fragment} subclass.
  * This class defines the dialog that opens when a user chooses
  * to add a place to a new itinerary
  * The dialog prompts for a name for the itinerary
  * If the user presses OK without adding a name
- * a default name is given
+ * the dialog persists until he inputs a proper name
  */
 public class AddToItDialog2N extends DialogFragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

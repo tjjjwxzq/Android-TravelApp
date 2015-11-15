@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by Arbiter on 11/11/2015.
+ * ImageAdapter for the ItineraryPlannerFragment grid view
  */
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;

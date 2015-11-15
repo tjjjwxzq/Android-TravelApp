@@ -1,7 +1,10 @@
 package com.example.aqi.travelapp;
 
 /**
- * Created by aqi on 2/11/15.
+ * Brute force solver that generates all possible permutations of a given
+ * list of destinations and retursn the most optimal itinerary from it
+ * Optimality is given in terms of the time-cost average as defined
+ * in the CostUtils class
  */
 
 import java.util.*;
@@ -9,17 +12,19 @@ import static com.example.aqi.travelapp.CostUtils.*;
 
 public class CrappyBruteSolver {
 
-    //Generates an arraylist of all possible permutations of an arraylist of strings
+    /**
+     * Generates an arraylist of all the permutations of a given list of desinations
+     * @param destinations the list of destinations to permuatate
+     * @return arraylist of different permutations
+     */
     public static ArrayList<ArrayList<String>> generatePermutations(ArrayList<String> destinations)
     {
-        if(destinations.size() == 1)
+        if(destinations.size() <= 1)
         {
             ArrayList<ArrayList<String>> permutelists = new ArrayList<ArrayList<String>>();
             permutelists.add(destinations);
             return permutelists;
         }
-        //Note that arrlist.remove(int index) returns the element removed!
-        //It mutates the arrlist
         String lastele = destinations.remove(0); //remove the first element from destinations
         ArrayList<ArrayList<String>> oldpermutelists = generatePermutations(destinations);
         ArrayList<ArrayList<String>> newpermutelists = new ArrayList<ArrayList<String>>();
@@ -37,7 +42,12 @@ public class CrappyBruteSolver {
         return newpermutelists;
     }
 
-    //Returns the optimal itinerary based on the total time-cost average
+    /**
+     * Returns the optimal itinerary from an arraylist of different permutations
+     * based on the total time-cost average
+     * @param itineraries list of permutations
+     * @return optimal itinerary
+     */
     public static ArrayList<String> getOptimalItinerary(ArrayList<ArrayList<String>> itineraries)
     {
     double optimaltimecost = -1.0;

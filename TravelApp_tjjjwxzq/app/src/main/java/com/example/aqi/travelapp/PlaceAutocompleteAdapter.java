@@ -143,17 +143,6 @@ public class PlaceAutocompleteAdapter
                     {
                         //The API successfully returned results
                         results.values = mResultList;
-                        //add filtering to results list here based on whether
-                        //the autocomplete prediction full text contains "Singapore"
-                        mResultList = new ArrayList<AutocompletePrediction>(
-                                Collections2.filter(mResultList, new Predicate<AutocompletePrediction>() {
-                                    @Override
-                                    public boolean apply(AutocompletePrediction input) {
-                                        return input.getFullText(null).toString().contains("Singapore");
-                                    }
-                                })
-                        );
-                        Log.d(TAG, "results list" + mResultList);
                         results.count = mResultList.size();
                     }
                 }
@@ -164,6 +153,18 @@ public class PlaceAutocompleteAdapter
             protected void publishResults(CharSequence constraint, FilterResults results){
                 if(results != null && results.count >0)
                 {
+                    //add filtering to results list here based on whether
+                    //the autocomplete prediction full text contains "Singapore"
+                    //filter in publishResults which runs on the UI thread, and
+                    //not in the background thread
+                    mResultList = new ArrayList<AutocompletePrediction>(
+                            Collections2.filter(mResultList, new Predicate<AutocompletePrediction>() {
+                                @Override
+                                public boolean apply(AutocompletePrediction input) {
+                                    return input.getFullText(null).toString().contains("Singapore");
+                                }
+                            })
+                    );
                     //The API returned at least one result, update the data
                     notifyDataSetChanged();
                 }
@@ -226,7 +227,8 @@ public class PlaceAutocompleteAdapter
             final Status status = autocompletePredictions.getStatus();
             if(!status.isSuccess())
             {
-                Toast.makeText(getContext(), "Error contacting API: " + status.toString(),
+                Toast.makeText(getContext(), "Error contacting API. Please ensure that" +
+                                " you are connected to the Internet",
                         Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "Error getting autocomplete prediction API call: " + status.toString());
                 autocompletePredictions.release();

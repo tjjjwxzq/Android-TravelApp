@@ -10,7 +10,8 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 /**
- * A placeholder fragment containing a simple view.
+ * Fragment which shows a gridview of all the user's itineraries
+ * and allows the user to select an itinerary to go to
  */
 public class ItineraryPlannerFragment extends Fragment {
 

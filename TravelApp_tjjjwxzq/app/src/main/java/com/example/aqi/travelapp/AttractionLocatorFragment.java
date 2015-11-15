@@ -32,7 +32,15 @@ import com.google.android.gms.maps.model.LatLngBounds;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Attraction locator fragment contains an AutoCompleteTextView
+ * in which the user can key in their location searches.
+ * The Google Places API is used to fetch autocomplete results
+ * if the user is connected to the internet.
+ * The search button shows the location on the map and will
+ * display the address of the location as well as button to add
+ * the location to an itinerary.
+ * Selecting an autocomplete result will display the address
+ * and button as well
  */
 public class AttractionLocatorFragment extends Fragment
  implements GoogleApiClient.OnConnectionFailedListener {
@@ -169,7 +177,6 @@ public class AttractionLocatorFragment extends Fragment
 
             mAutocompleteView.setText(primaryText);
 
-            Toast.makeText(getActivity().getApplicationContext(), "Clicked: " + primaryText, Toast.LENGTH_SHORT).show();
             Log.i(TAG, "Called getPlaceById to get Place details for " + placeId);
         }
 
@@ -232,7 +239,8 @@ public class AttractionLocatorFragment extends Fragment
                 + connectionResult.getErrorCode());
 
         Toast.makeText(getActivity(),
-                "Could not connect to Google API Client: Error " + connectionResult.getErrorCode(),
+                "Could not connect to Google API Client. Please ensure that you are connected "
+                +"the Internet",
                 Toast.LENGTH_SHORT).show();
     }
 

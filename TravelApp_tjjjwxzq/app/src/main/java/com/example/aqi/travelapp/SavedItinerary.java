@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Created by Arbiter on 10/11/2015.
+ * Class to store itinerary data
  */
 public class SavedItinerary {
 
@@ -73,6 +73,11 @@ public class SavedItinerary {
     }
 
 
+    /**
+     * Returns the SavedItinerary in a format
+     * for writing to file
+     * @return an arraylist of strings representing lines to write
+     */
     public ArrayList<String> convertToFileOutput()
     {
         return new ArrayList<String>(Arrays

@@ -1,5 +1,9 @@
 package com.example.aqi.travelapp;
 
+/**
+ * Class to contain expenditure into
+ */
+
 public class ExpItem {
     private String exp;
     private String amt;

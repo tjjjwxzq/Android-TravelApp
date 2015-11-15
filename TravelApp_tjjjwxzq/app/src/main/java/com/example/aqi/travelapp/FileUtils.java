@@ -12,12 +12,24 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 /**
- * Created by Arbiter on 10/11/2015.
+ * Class containing utility methods to read and write
+ * SavedItinerary fields and BudgetManager fields from
+ * and to files
  */
 public class FileUtils {
 
     private static final String TAG = "FileUtils";
 
+    /**
+     * Writes SavedItineraries fields to file;
+     * Each field in the SavedItineary is written as a line
+     * Each SavedItinerary is passed as an arraylist of its field lines
+     * The function takes an arraylist of these SavedItineraries in
+     * the above form
+     * @param context
+     * @param filename
+     * @param itineraries SavedItineraries in form for writing to file
+     */
     public static void writeItineraryToFile(Context context, String filename,
                                             ArrayList<ArrayList<String>> itineraries)
     {
@@ -44,6 +56,12 @@ public class FileUtils {
 
     }
 
+    /**
+     * Reads and retunrs an ArrayList of SavedItineraries from a file
+     * @param context
+     * @param filename
+     * @return
+     */
     public static ArrayList<SavedItinerary> readItinerariesFromFile(Context context, String filename)
     {
 
@@ -85,6 +103,18 @@ public class FileUtils {
 
     }
 
+    /**
+     * Writes BudgetManager info to file
+     * The totalBudget, totalSpend, and totalRemaining take up the first 3 lines
+     * Expenditure items each take one line, with the title
+     * demarcated from the amount by a comma
+     * @param context
+     * @param filename
+     * @param totalBudget
+     * @param totalSpent
+     * @param totalRemaining
+     * @param expItems
+     */
     public static void writeBudgetToFile(Context context, String filename,
                                          double totalBudget, double totalSpent, double totalRemaining,
                                          ArrayList<ExpItem> expItems)
@@ -118,6 +148,16 @@ public class FileUtils {
     }
 
 
+    /**
+     * Reads BudgetManager info from a file
+     * returning them as an ArrayList of Objects,
+     * the first being a double[3] containing the
+     * totalBudget, totalSpend, and totalRemaining
+     * the second beind an ArrayList of ExpItems
+     * @param context
+     * @param filename
+     * @return
+     */
     public static ArrayList<Object> readBudgetFromFile(Context context, String filename)
     {
         Log.d(TAG, "reading file");

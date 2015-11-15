@@ -3,12 +3,14 @@ package com.example.aqi.travelapp;
 /**
  * Created by aqi on 2/11/15.
  */
-import android.util.Log;
-
-import java.util.*;
-import com.example.aqi.travelapp.Destinations.*;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /*************************************************************************************************
  * Contains some utility methods needed by the itinerary planner
@@ -31,10 +33,12 @@ public class CostUtils {
     private static final String TAG = "CostUtils";
 
 
-    //Convenience method for checking if a list of arrays of objects contains a given array
-    //Have to implement this because arrlist.contains uses .equals() to check equality
-    //But this does only shallow checking. To check equality of arrays of objects, one should use
-    //Arrays.deepEquals
+    /**
+     *Convenience method for checking if a list of arrays of objects contains a given array
+     *Have to implement this because arrlist.contains uses .equals() to check equality
+     *But this does only shallow checking. To check equality of arrays of objects, one should use
+     *Arrays.deepEquals
+     * */
     public static boolean deepContainsArray(List<? extends Object[]> list, Object[] oarr)
     {
         for(Object[] objarr:list)
@@ -49,9 +53,15 @@ public class CostUtils {
 
     }
 
-    //Convenience method for checking if all values in an array match a given value
-    //or whether none of them match a given value
-    //Since can't use Arrays.stream from Java8
+    /**
+     * Convenince method for checking if all values in an array match a given value
+     * or whether none of them match a given value
+     * Since we can't use Arrays.stream from Java8
+     * @param mode all match a given value or none match a given value
+     * @param intarr array to check
+     * @param value value to check against
+     * @return boolean value
+     */
     static boolean MatchAll(int mode, int[] intarr, int value)
     {
         for(int num:intarr)
@@ -80,21 +90,40 @@ public class CostUtils {
      * all the way
      *
      * Might implement a true brute-force optimal finder as well
+     * (Didn't do it)
      * ***************************************************************************/
 
-    //Returns the time for a given mode of transport of an edge specified by fromNode and toNode
+    /**
+     * Returns the time for given mode of transport between two modes
+     * @param mode
+     * @param fromNode
+     * @param toNode
+     * @return
+     */
     public static int getTime(int mode, String fromNode, String toNode)
     {
         return Destinations.TIME_ARR[mode][Destinations.DESTINATION_MAP.get(fromNode)][Destinations.DESTINATION_MAP.get(toNode)];
     }
 
-    //Returns the cost for a given mode of transport of an edge specified by fromNode and toNode
+    /**
+     * REturns the cost for a given mode of transport between two nodes
+     * @param mode
+     * @param fromNode
+     * @param toNode
+     * @return
+     */
     public static double getCost(int mode, String fromNode, String toNode)
     {
         return Destinations.COST_ARR[mode][Destinations.DESTINATION_MAP.get(fromNode)][Destinations.DESTINATION_MAP.get(toNode)];
     }
 
-    //Returns the total time given a mode array which corresponds to an itinerary
+    /**
+     * Returns the total time given an itinerary and the transport modes
+     * between each node
+     * @param modes
+     * @param itinerary
+     * @return
+     */
     public static int getTotalTime(int[] modes, ArrayList<String> itinerary)
     {
         int total=0;
@@ -106,7 +135,13 @@ public class CostUtils {
         return total;
     }
 
-    //Returns the total cost given a mode array which corresponds to an itinerary
+    /**
+     * Returns the total cost given an itinerary and the transport modes
+     * between each node
+     * @param modes
+     * @param itinerary
+     * @return
+     */
     public static double getTotalCost(int[] modes, ArrayList<String> itinerary)
     {
         double total=0;
@@ -119,7 +154,12 @@ public class CostUtils {
     }
 
 
-    //Returns the time-cost average of a given edge (specifed by fromNode and toNode)
+    /**
+     * Returns the time cost average of travelling between two nodes
+     * @param fromNode
+     * @param toNode
+     * @return
+     */
     public static double TimeCostAve(String fromNode, String toNode)
     {
         double walkTimeCost = 1.0*Destinations.TIME_ARR[0][Destinations.DESTINATION_MAP.get(fromNode)][
@@ -135,7 +175,12 @@ public class CostUtils {
 
     }
 
-    //Returns the total time-cost average of a given itinerary
+    /**
+     * Returns the total time cost average of a given itinerary
+     * where the nodes are assumed to be traversed int the given order
+     * @param path
+     * @return
+     */
     public static double TotalTimeCostAve(ArrayList<String> path)
     {
         double total = 0;
@@ -150,11 +195,16 @@ public class CostUtils {
         }
         return total;
     }
-    //Returns the shortest edge, represented as an array of fromNode and toNode, from the itinerary that
-    //is not already in the sortedges array
-    //@param type: determines method to evaluate shortness of the edge; can be
-    //"time-cost-ave" : lowest time-cost average
-    //"walking time" : shortest walking time
+
+    /**
+     * Returns the shortest edge in an itinerary
+     * that is not already in the shortedges array
+     * @param type determines the method with which to evaluate 'shortness': by
+     *             time-cost averate or walking time
+     * @param itinerary
+     * @param shortedges
+     * @return
+     */
     public static String[] nextshortestEdge(String type, ArrayList<String> itinerary, ArrayList<String[]> shortedges)
     {
         double timecostave = -1.0;
@@ -170,26 +220,14 @@ public class CostUtils {
             testedge[1] = itinerary.get(i==itinerary.size()-1?0:i+1);
 
             for(String node:testedge)
-                    Log.d(TAG, "testedge " +node);
-      /*System.out.println("");does androidstudio use java 8
-      System.out.println("edge is contained? " + deepContainsArray(shortedges,testedge));
-*/
             if((timecostave == -1.0 || newtimecostave < timecostave ) && !deepContainsArray(shortedges,testedge))
             {
                 timecostave = newtimecostave;
-                Log.d(TAG, "Assigning edge");
                 edge[0]= itinerary.get(i);
                 edge[1] = itinerary.get(i==itinerary.size()-1?0:i+1);
-                Log.d(TAG, "final stop " + itinerary.get(i==itinerary.size()-1?0:i+1));
 
 
             }
-
-            for(String node: edge)
-                Log.d(TAG, "shortest edge " + node);
-            Log.d(TAG, "i " + i);
-            Log.d(TAG, "shortedges "+ shortedges);
-
         }
 
         return edge;
@@ -208,11 +246,18 @@ public class CostUtils {
      * is exceeded; repeat until budget is no longer exceeded
      *
      * *****************************************************************************************/
-    //Returns an array of integers, with size equal that of the itinerary size.
-    //Integers specifiy the mode of transport
-    //0: Walk
-    //1: Public Transport
-    //2: Taxi
+
+    /**
+     * Returns the transport modes as an array of integers; 0: walk, 1: public transport; 2:taxi
+     * Actually returns a few possible transport modes arrays
+     * Originally intended to give user choice to choose from a few
+     * The default optimizes time as long as the cost is under budget,
+     * but cheaper but less time-optimal possibilities are also
+     * found by this method and returned
+     * @param itinerary
+     * @param budget
+     * @return
+     */
     public static ArrayList<ArrayList<int[]>> getTransportMode(final ArrayList<String> itinerary, double budget)
     {
         //ArrayList of possible overbudget and withinbudget modes
@@ -228,19 +273,10 @@ public class CostUtils {
         String[] shortestedge = new String[2];
         ArrayList<String[]> shortedges = new ArrayList<String[]>();
 
-        Log.d(TAG, "Itinerary passed " + itinerary);
-
-        int i =0;
-
         while(true)
         {
-            Log.d(TAG, "number of times checking edges " + i);
-            for(int num: modes)
-                Log.d(TAG, "modes " + num);
-            i++;
             shortestedge = nextshortestEdge("time-cost-ave",itinerary, shortedges);
             shortedges.add(shortestedge);
-            System.out.println("Shortestedge " + shortestedge[0] + " " + shortestedge[1]);
 
             //If walking takes less than 15 minutes, then walk
             if(Destinations.TIME_ARR[0][Destinations.DESTINATION_MAP.get(shortestedge[0])][Destinations.DESTINATION_MAP.get(shortestedge[1])] <= 15)
@@ -269,9 +305,6 @@ public class CostUtils {
             if(wb_possiblemodes.size()>5)
                 break;
 
-
-            for(int num: modes)
-                Log.d(TAG, "modes after " + num);
             //Ran through all edges once but still less than 5 possible modes
             // (None of the modes are taxi)
             //Arrays.stream is in Java8, which is not supported in Android Studio

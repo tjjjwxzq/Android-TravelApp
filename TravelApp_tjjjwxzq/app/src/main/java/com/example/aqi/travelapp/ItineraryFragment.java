@@ -21,7 +21,13 @@ import java.util.ArrayList;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * ItineraryFragment displays the individual itineraries above a map view
+ * where the user can view the planned route/ individual nodes
+ * The itinerary title is displayed along with a plan itinerary button
+ * and a list of nodes. When the button is pressed, and if the nodes are valid
+ * (within our cost-time dataset), the optimal route will be planned,
+ * the list view will update, and the route and markers will be drawn
+ * onto the map.
  */
 public class ItineraryFragment extends Fragment {
 
@@ -48,9 +54,14 @@ public class ItineraryFragment extends Fragment {
     private int itinerarypos;
 
     private SavedItinerary itinerary;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
+     *
+     * When we select an itinerary from the ItineraryPlannerFragment
+     * we need to know which itinerary to pass to the ItineraryFragment,
+     * so we pass the itineraries position in the arraylist ItineraryManager.saveditineraries
      *
      * @param  itinerarypos  the position of the selected itinerary as stored in
      *                       ItineraryManager.saveditineraries
@@ -122,6 +133,10 @@ public class ItineraryFragment extends Fragment {
         return root;
     }
 
+    /**
+     * Used to set up the itinerary views properly for an itienrary
+     * that has already been planned
+     */
     private void setItineraryDescription()
     {
         //Hides plan itinerary, shows total time and cost,
@@ -137,6 +152,11 @@ public class ItineraryFragment extends Fragment {
         totalCost.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * onClickListner for the showItinerary button, which
+     * shows the itinerary route on the map when pressed,
+     * drawing markers, polylines and zooming out as necessary
+     */
     public class showItineraryListener implements View.OnClickListener
     {
         @Override
@@ -147,6 +167,16 @@ public class ItineraryFragment extends Fragment {
         }
     }
 
+    /**
+     * OnClickListener for planItinerary button, which
+     * starts a dialog to prompt for the transport budget
+     * The dialog persists until a valid input is given.
+     * If all destination nodes are valid (ie. within out dataset)
+     * the optimal itinerary will be generated along with the transport
+     * modes, and the itinerary view and map will be updated to show the route
+     * If not all of the destinations are valid, a toast will tell the
+     * user that the nodes are not supported.
+     */
     public class planItineraryListener implements View.OnClickListener
     {
         @Override
@@ -207,7 +237,8 @@ public class ItineraryFragment extends Fragment {
 
                                     //Automatically save to budget
                                     BudgetManager.totalBudget += budget;
-                                    BudgetManager.totalRemaining += budget;
+                                    BudgetManager.totalSpent += totalcost;
+                                    BudgetManager.totalRemaining = BudgetManager.totalBudget - BudgetManager.totalSpent;
                                     BudgetManager.expItemsArr.add(new ExpItem("Transport",
                                             Double.toString(totalcost)));
 

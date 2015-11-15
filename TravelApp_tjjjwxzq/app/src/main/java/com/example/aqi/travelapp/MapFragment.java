@@ -33,6 +33,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * MapFragment connects to the Google Api client
+ * and creates the MapView that shows the map
+ * Also contains methods for handling locations and addresses
+ */
 public class MapFragment extends Fragment implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -79,23 +84,21 @@ public class MapFragment extends Fragment implements
         googleMap = mMapView.getMap();
 
         if (googleMap != null){
-            Log.d(TAG,"setting my locstion");
             googleMap.setMyLocationEnabled(true);
         }
 
+        //Get map switch
         Switch mapTypeSwitch = (Switch) root.findViewById(R.id.mapTypeSwitch);
 
-        //set the switch to ON
-        mapTypeSwitch.setChecked(true);
         //attach a listener to check for changes in state
         mapTypeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
                 if (isChecked) {
-                    MainActivity.mapfragment.setNormalMap();
+                    googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
                 } else {
-                    MainActivity.mapfragment.setSatelliteMap();
+                    googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                 }
 
             }
@@ -104,34 +107,6 @@ public class MapFragment extends Fragment implements
         return root;
     }
 
-    // Help me to compute the Bounds for start and end points
-    LatLngBounds computeLatLngBounds(ArrayList<Double> lats, ArrayList<Double> lons){
-        //Get the max and min lats and lons
-        Collections.sort(lats);
-        Collections.sort(lons);
-
-        LatLng southwest = new LatLng(lats.get(0),lons.get(0));
-        LatLng northeast = new LatLng(lats.get(lats.size()-1), lons.get(lons.size()-1));
-        return  new LatLngBounds(southwest, northeast);
-    }
-
-    // method to draw the route, include different colours for different modes of transportation
-    private void drawLine(Marker fromMarker, Marker toMarker, int transportmode){
-        int color;
-        if (transportmode == 0){
-            color = ContextCompat.getColor(getActivity(),R.color.colorWalk);//walking
-        } else if (transportmode == 1){
-            color = ContextCompat.getColor(getActivity(),R.color.colorBus);//public transport
-        } else {
-            color = ContextCompat.getColor(getActivity(),R.color.colorTaxi);//taxi
-        }
-        PolylineOptions options = new PolylineOptions()
-                .add(fromMarker.getPosition())
-                .add(toMarker.getPosition())
-                .color(color);
-
-        googleMap.addPolyline(options);
-    }
 
 
     @Override
@@ -153,6 +128,8 @@ public class MapFragment extends Fragment implements
 
     @Override
     public void onConnectionSuspended(int i) {
+        Toast.makeText(getActivity(),"Location services suspended. Please reconnect to use maps",
+                Toast.LENGTH_SHORT).show();
         Log.i(TAG, "Location services suspended. Please reconnect.");
     }
 
@@ -184,20 +161,6 @@ public class MapFragment extends Fragment implements
         }
     }
 
-    // Locates and displays current location when the map is first connected
-    private void handleNewLocation(Location location) {
-        Log.d(TAG, "handling new location");
-            Log.d(TAG, location.toString());
-            googleMap.clear();
-            double currentLatitude = location.getLatitude();
-            double currentLongitude = location.getLongitude();
-            LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-            MarkerOptions options = new MarkerOptions()
-                    .position(latLng);
-                    //.title(foundFromLocation);
-            googleMap.addMarker(options);
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
-    }
 
     @Override
     public void onLocationChanged(Location location) {
@@ -245,7 +208,6 @@ public class MapFragment extends Fragment implements
     @Override
     public void onStop() {
         //Make root layout gone
-        Log.d(TAG, "calling onStop in map fragment");
          if (mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
             mGoogleApiClient.disconnect();
@@ -256,6 +218,72 @@ public class MapFragment extends Fragment implements
 
     }
 
+
+    /**
+     * Given arraylists of latitudes and longitudes, computes and
+     * returns the maximum and minimum (lat,lon) in a LatLngBounds
+     * @param lats arraylist of latitudes
+     * @param lons arraylist of longitudes
+     * @return LatLngBounds from the southwestern to northeastern most
+     */
+    private LatLngBounds computeLatLngBounds(ArrayList<Double> lats, ArrayList<Double> lons){
+        //Get the max and min lats and lons
+        Collections.sort(lats);
+        Collections.sort(lons);
+
+        LatLng southwest = new LatLng(lats.get(0),lons.get(0));
+        LatLng northeast = new LatLng(lats.get(lats.size()-1), lons.get(lons.size()-1));
+        return  new LatLngBounds(southwest, northeast);
+    }
+
+    /**
+     * Draws a polyline between two markers, with a color
+     * corresponding to the transportMode
+     * @param fromMarker
+     * @param toMarker
+     * @param transportmode
+     */
+    private void drawLine(Marker fromMarker, Marker toMarker, int transportmode){
+        int color;
+        if (transportmode == 0){
+            color = ContextCompat.getColor(getActivity(),R.color.colorWalk);//walking
+        } else if (transportmode == 1){
+            color = ContextCompat.getColor(getActivity(),R.color.colorBus);//public transport
+        } else {
+            color = ContextCompat.getColor(getActivity(),R.color.colorTaxi);//taxi
+        }
+        PolylineOptions options = new PolylineOptions()
+                .add(fromMarker.getPosition())
+                .add(toMarker.getPosition())
+                .color(color);
+
+        googleMap.addPolyline(options);
+    }
+
+    /**
+     * Finds users location and displays it on the map
+     * when the fragment is first created
+     * @param location
+     */
+    private void handleNewLocation(Location location) {
+            googleMap.clear();
+            double currentLatitude = location.getLatitude();
+            double currentLongitude = location.getLongitude();
+            LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+            MarkerOptions options = new MarkerOptions()
+                    .position(latLng);
+                    //.title(foundFromLocation);
+            googleMap.addMarker(options);
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+    }
+
+
+    /**
+     * Gets String address from a lat and lon
+     * @param lat latitude
+     * @param lon longitude
+     * @return address
+     */
     public String getAddressfromLocation(double lat, double lon)
     {
         String address = "";
@@ -267,6 +295,7 @@ public class MapFragment extends Fragment implements
                 address += add.getAddressLine(i);
             if(add.getPostalCode()!=null)
                 address += " " + add.getPostalCode();
+            //include the postal code if there is one
 
         }
         catch(Exception e)
@@ -278,6 +307,11 @@ public class MapFragment extends Fragment implements
 
     }
 
+    /**
+     * Gets the latitude and longitude of an address
+     * @param address address String
+     * @return array contianing lat and lon
+     */
     public double[] getLocationfromAddress(String address)
     {
         double[] latlon = new double[2];
@@ -298,8 +332,13 @@ public class MapFragment extends Fragment implements
 
     }
 
-    //Update for searching only one location
-    //Returns the address string
+    /**
+     * Updates the map to display a single destination
+     * and draw a marker. Returns the address so
+     * that the address text view can be updated as well
+     * @param destination destination to display
+     * @return
+     */
     public String update(String destination)
     {
         googleMap.clear();
@@ -310,7 +349,6 @@ public class MapFragment extends Fragment implements
 
         //Get the placename to put into the text view
         String placeName = getAddressfromLocation(latlonarr[0],latlonarr[1]);
-        Log.d(TAG,"placeName"+placeName);
 
         //Add marker and update the camera
         LatLng latlon = new LatLng(latlonarr[0],latlonarr[1]);
@@ -327,10 +365,14 @@ public class MapFragment extends Fragment implements
         return placeName;
     }
 
-    //Update to show all the nodes in an itinerary
+    /**
+     * Updates the map to show a list of nodes,
+     * drawing markers and polylines to show the route
+     * @param destinations list of destination nodes
+     * @param transportmodes transport modes between nodes
+     */
     public void update(ArrayList<String> destinations, int[] transportmodes){
 
-        Log.d(TAG, "updating itienrary on map");
         googleMap.clear();
         ArrayList<Double> lats = new ArrayList<>();
         ArrayList<Double> lons = new ArrayList<>();
@@ -358,23 +400,13 @@ public class MapFragment extends Fragment implements
         drawLine(markers.get(destinations.size()-1),markers.get(0),transportmodes[0]);
 
         LatLngBounds latLngBounds = computeLatLngBounds(lats, lons);
-        Log.d(TAG, "Lat lon bounds are " + latLngBounds);
 
         try {
             googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 200));
         } catch (Exception ex){
             ex.printStackTrace();
-            Log.d(TAG, "CAMERA PROBLEM");
             googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 500, 500, 200));
         }
-    }
-
-    public void setNormalMap(){
-        googleMap.setMapType(googleMap.MAP_TYPE_NORMAL); //normal mapType
-    }
-
-    public void setSatelliteMap(){
-        googleMap.setMapType(googleMap.MAP_TYPE_SATELLITE); //satellite mapType
     }
 
 }

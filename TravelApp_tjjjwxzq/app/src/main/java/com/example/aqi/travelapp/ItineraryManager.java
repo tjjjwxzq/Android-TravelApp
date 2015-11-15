@@ -8,6 +8,17 @@ import com.google.common.collect.Collections2;
 
 import java.util.ArrayList;
 
+/**
+ * Class to manage and store itinerary info.
+ * Keeps a list of Savedltinerary's in memory which
+ * it reads from a file when the user tries to add
+ * a destination to an itinerary.
+ * The SavedItinerary objects info is written to file
+ * when the the activity stops
+ * This class contains methods to write and read itineraries
+ * to and from a file, check whether destinations are valid (
+ * whether they are in our dataset)
+ */
 public class ItineraryManager{
 
     private static final String TAG = "ItineraryManager";
@@ -16,24 +27,7 @@ public class ItineraryManager{
 
     public static ArrayList<SavedItinerary> saveditineraries;
 
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_itinerary);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-    }
-*/
-    /**
+   /**
      * Loads saved itineraries from file
      * Lazily loaded when user first chooses to add a place to an existing
      * or new itinerary. Never loaded after that (since the itineraries are held
@@ -195,8 +189,8 @@ public class ItineraryManager{
         ArrayList<String> fastit;
         ArrayList<String> slowit;
         fastit = FastApproxSolver.getTwoOpt(FastApproxSolver.planItineraryNN(properdestinations));
-        //slowit = CrappyBruteSolver.getOptimalItinerary(CrappyBruteSolver.generatePermutations(properdestinations));
-        return method==0?fastit:fastit;
+        slowit = CrappyBruteSolver.getOptimalItinerary(CrappyBruteSolver.generatePermutations(properdestinations));
+        return method==0?fastit:slowit;
     }
 
 }

@@ -1,9 +1,13 @@
 package com.example.aqi.travelapp;
 
 /**
- * Created by Arbiter on 12/11/2015.
  * Contains methods to do fuzzy matching of
  * two strings
+ * Originally written to filter the destination
+ * names to see if they fall within our data set
+ * (since the saved names as returned by
+ * the Google Places API may not be exactly the
+ * same as those saved in the Destinations class
  */
 public class FuzzyStringMatcher {
 
@@ -12,7 +16,7 @@ public class FuzzyStringMatcher {
      * @param a
      * @param b
      * @param c
-     * @return
+     * @return min(a,b,c)
      */
     private static int minimum(int a, int b, int c)
     {
@@ -56,6 +60,18 @@ public class FuzzyStringMatcher {
         return distance[lhs.length()][rhs.length()];
     }
 
+    /**
+     * Computes a normalized match score between two strings
+     * which may be composed of many words. Since the words
+     * may be the same but interchanged (eg. Zoo Singapore
+     * and Singapore Zoo), the string is first split into words
+     * and the Levenshtein distance between the two closest
+     * matching words is used to compute the score, which ranges
+     * from 0 (no match) to 1 (perfect match)
+     * @param lhs string to match
+     * @param rhs string to match
+     * @return normalized fuzzy score between 0 and 1
+     */
     public static double computeFuzzyScore(String lhs, String rhs)
     {
         //Split the strings into words (space as word boundary)
