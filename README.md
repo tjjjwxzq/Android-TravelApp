@@ -39,12 +39,13 @@ By using the searchbar, the user can easily find the tourist attractions they wa
 ![Image of itinerary list](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062298.jpg) 
 ![Image of itinerary planner](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062295.jpg)
 ![Image of planned itinerary](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062290.jpg)
+![Image of drawn polyline](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062308.jpg)
 
-With that, we come to the Itinerary Planner, where the user can select an Itinerary and specify a budget. The App will then calculate the fastest and cheapest way based on the budget specified. This includes deciding the order of seeing the attractions, and starts and ends at your original position (for example, your hotel). Our optimisation algorithm is fast and effective, and will return a quick result even if you wanted to visit 100 attractions at once (we wouldn't recommend doing that though)!
+With that, we come to the Itinerary Planner, where the user can select an Itinerary and specify a budget. The App will then calculate the fastest and cheapest way based on the budget specified, and draw it on the map. This includes deciding the order of seeing the attractions, and starts and ends at your original position (for example, your hotel). Our optimisation algorithm is fast and effective, and will return a quick result even if you wanted to visit 100 attractions at once (we wouldn't recommend doing that though)!
 
 4) Budget Manager <br />
 
-![Image of budget manager](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062299.jpg)
+![Image of budget manager](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062307.jpg)
 ![Image of adding moneys](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062303.jpg)
 ![Image of editing stuff](https://github.com/tjjjwxzq/Android-TravelApp/blob/master/screenshots/resized/photo127526564546062302.jpg)
 
