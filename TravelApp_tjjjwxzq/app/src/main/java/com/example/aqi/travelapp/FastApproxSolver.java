@@ -99,7 +99,9 @@ public class FastApproxSolver {
 
                 if(newtimecost < timecost)
                 {
+                    timecost = newtimecost;
                     itinerary = newitinerary;
+
 
                     System.out.println("Assigning new itinerary: " + itinerary);
                     i = 1;

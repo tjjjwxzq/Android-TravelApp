@@ -3,4 +3,13 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorWalk">#89D475</color>
+    <color name="colorBus">#78D2E5</color>
+    <color name="colorTaxi">#F18D9D</color>
+    <color name="colorBudget">#6073C6</color>
+    <color name="colorSpent">#FF4081</color>
+    <color name="colorBalance">#303F9F</color>
+    <color name="colorBudgetBg">#8794C6</color>
+    <color name="colorIconGrey">#6D6D6D</color>
+    <color name="colorItineraryBg">#EA78A4</color>
 </resources>

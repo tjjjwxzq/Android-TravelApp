@@ -26,6 +26,8 @@ import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.AutocompletePredictionBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -136,12 +138,22 @@ public class PlaceAutocompleteAdapter
                 //Skip the autocomplete query if no constraints are given
                 if(constraint != null){
                     ///Query the autocomplete API for the (constraint) search string
-                    //Hack to make it turn up only singapore results
-                    mResultList = getAutocomplete(constraint + "Singapore");
+                    mResultList = getAutocomplete(constraint);
                     if(mResultList!=null)
                     {
                         //The API successfully returned results
                         results.values = mResultList;
+                        //add filtering to results list here based on whether
+                        //the autocomplete prediction full text contains "Singapore"
+                        mResultList = new ArrayList<AutocompletePrediction>(
+                                Collections2.filter(mResultList, new Predicate<AutocompletePrediction>() {
+                                    @Override
+                                    public boolean apply(AutocompletePrediction input) {
+                                        return input.getFullText(null).toString().contains("Singapore");
+                                    }
+                                })
+                        );
+                        Log.d(TAG, "results list" + mResultList);
                         results.count = mResultList.size();
                     }
                 }

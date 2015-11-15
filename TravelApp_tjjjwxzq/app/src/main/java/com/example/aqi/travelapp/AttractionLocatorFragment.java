@@ -2,8 +2,8 @@ package com.example.aqi.travelapp;
 
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -37,6 +37,8 @@ import com.google.android.gms.maps.model.LatLngBounds;
 public class AttractionLocatorFragment extends Fragment
  implements GoogleApiClient.OnConnectionFailedListener {
 
+    private static final String TAG = "AttrLocFrag";
+
     private View root;
 
     protected GoogleApiClient mGoogleApiClient;
@@ -45,14 +47,16 @@ public class AttractionLocatorFragment extends Fragment
 
     private AutoCompleteTextView mAutocompleteView;
 
-    private TextView mPlaceDetailsText;
+    public static TextView mPlaceDetailsText;
 
-    private Button mPlaceButton;
+    public static Button mPlaceButton;
+
+    private static FragmentManager fragmentManager;
+
+    private Button mFindButton;
 
     private static final LatLngBounds SINGAPORE = new LatLngBounds(
             new LatLng(1.251484, 103.618240), new LatLng(1.464026, 104.110222));
-
-    private static final String TAG = "AttrLocFrag";
 
     public void onCreate(Bundle savedInstanceState)
     {
@@ -65,6 +69,10 @@ public class AttractionLocatorFragment extends Fragment
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addApi(Places.GEO_DATA_API)
                 .build();
+
+        fragmentManager = getFragmentManager();
+
+
     }
 
     @Override
@@ -72,19 +80,19 @@ public class AttractionLocatorFragment extends Fragment
         super.onStart();
         if(mGoogleApiClient != null)
             mGoogleApiClient.connect();
+
+        //Set map to visible
+        getActivity().findViewById(R.id.myMapFragment).setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onStop(){
         if(mGoogleApiClient!=null && mGoogleApiClient.isConnected())
             mGoogleApiClient.disconnect();
+
         super.onStop();
     }
 
-    public static Fragment newInstance(Context context) {
-        AttractionLocatorFragment frag = new AttractionLocatorFragment();
-        return frag;
-    }
 
     @Nullable
     @Override
@@ -109,6 +117,10 @@ public class AttractionLocatorFragment extends Fragment
         //that cover the entire world (no filter)
         mPlaceAdapter = new PlaceAutocompleteAdapter(this.getActivity(), mGoogleApiClient, SINGAPORE, null);
         mAutocompleteView.setAdapter(mPlaceAdapter);
+
+        //Retrieve the Find button
+        mFindButton = (Button) root.findViewById(R.id.btn_findloc);
+        mFindButton.setOnClickListener(MainActivity.searchlistner);
 
 
         return root;
@@ -173,6 +185,7 @@ public class AttractionLocatorFragment extends Fragment
             //Format details of the place for display and show it in a TextView
             mPlaceDetailsText.setText(formatPlaceDetails(getResources(), place.getName(),
                     place.getAddress()));
+            mPlaceDetailsText.setVisibility(View.VISIBLE);
 
             //Make add to itinerary button visible and pass the place name to its onClickListener
             mPlaceButton.setOnClickListener(new addtoItinerary(place.getName()));
@@ -215,7 +228,7 @@ public class AttractionLocatorFragment extends Fragment
      * Listener creates a dialogfragment which allows user to choose either
      * to save to an existing itinerary or a new itinerary
      */
-    public class addtoItinerary implements View.OnClickListener {
+    public static class addtoItinerary implements View.OnClickListener {
 
         //Pass the placename to the dialog
         private CharSequence placename;
@@ -228,11 +241,14 @@ public class AttractionLocatorFragment extends Fragment
         @Override
         public void onClick(View view)
         {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            FragmentTransaction ft = fragmentManager.beginTransaction();
             DialogFragment newFragment = AddToItDialog1.newInstance(placename);
             newFragment.show(ft,"dialog");
         }
 
     }
+
+
+
 
 }

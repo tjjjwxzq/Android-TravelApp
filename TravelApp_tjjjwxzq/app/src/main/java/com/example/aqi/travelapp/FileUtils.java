@@ -10,7 +10,6 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Arbiter on 10/11/2015.
@@ -19,8 +18,8 @@ public class FileUtils {
 
     private static final String TAG = "FileUtils";
 
-    public static void writeToFile(Context context, String filename,
-                                   ArrayList<ArrayList<String>> itineraries )
+    public static void writeItineraryToFile(Context context, String filename,
+                                            ArrayList<ArrayList<String>> itineraries)
     {
         try{
             FileOutputStream fileout = context.
@@ -45,7 +44,7 @@ public class FileUtils {
 
     }
 
-    public static ArrayList<SavedItinerary> readFile(Context context, String filename)
+    public static ArrayList<SavedItinerary> readItinerariesFromFile(Context context, String filename)
     {
 
         ArrayList<SavedItinerary> saveditineraries = new ArrayList<SavedItinerary>();
@@ -84,6 +83,82 @@ public class FileUtils {
 
         return saveditineraries;
 
+    }
 
+    public static void writeBudgetToFile(Context context, String filename,
+                                         double totalBudget, double totalSpent, double totalRemaining,
+                                         ArrayList<ExpItem> expItems)
+    {
+        Log.d(TAG, "writing file");
+        try{
+
+            FileOutputStream fileout = context.openFileOutput(filename,Context.MODE_PRIVATE);
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileout);
+            BufferedWriter buffWriter = new BufferedWriter(outputStreamWriter);
+
+            buffWriter.write(Double.toString(totalBudget));
+            buffWriter.newLine();
+            buffWriter.write(Double.toString(totalSpent));
+            buffWriter.newLine();
+            buffWriter.write(Double.toString(totalRemaining));
+            buffWriter.newLine();
+
+            for(int i =0; i< expItems.size();i++)
+            {
+                buffWriter.write(expItems.get(i).toString());
+                buffWriter.newLine();
+            }
+
+            buffWriter.close();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static ArrayList<Object> readBudgetFromFile(Context context, String filename)
+    {
+        Log.d(TAG, "reading file");
+        ArrayList<Object> returnarr = new ArrayList<>();
+        String line;
+        double [] totals = new double[3];
+        ArrayList<ExpItem> expItemsArr = new ArrayList<>();
+        returnarr.add(totals);
+        returnarr.add(expItemsArr);
+        try{
+            FileInputStream filein = context.openFileInput(filename);
+            InputStreamReader inputStreamReader = new InputStreamReader(filein);
+            BufferedReader buffReader = new BufferedReader(inputStreamReader);
+
+
+            if((line = buffReader.readLine())==null)
+                return returnarr;
+
+            Log.d(TAG, "reading" + line);
+
+            totals[0] = Double.parseDouble(line);
+            for(int i =1; i <3; i++)
+            {
+                totals[i] = Double.parseDouble(buffReader.readLine());
+                Log.d(TAG, "reading" + totals[i]);
+            }
+
+            while((line = buffReader.readLine())!=null || !line.isEmpty())
+            {
+                Log.d(TAG, "reading" + line);
+                String[] fields = line.split(",");
+                expItemsArr.add(new ExpItem(fields[0],fields[1]));
+            }
+
+            buffReader.close();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return returnarr;
     }
 }

@@ -8,9 +8,9 @@
     <string name="title_activity_itinerary">ItineraryActivity</string>
     <string name="addtoit">Add to itnerary</string>
     <string name="pref_file_key">SavedItineraries</string>
-    <string name="walktext">Walk for %1$s</string>
-    <string name="bustext">Take public transport for %1$s at %2$s</string>
-    <string name="taxitext">Take a taxi for %1$s at %2$s</string>
+    <string name="walktext">Walk for %1$smin</string>
+    <string name="bustext">Take public transport for %1$smin at &#36;%2$s</string>
+    <string name="taxitext">Take a taxi for %1$smin at &#36;%2$s</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

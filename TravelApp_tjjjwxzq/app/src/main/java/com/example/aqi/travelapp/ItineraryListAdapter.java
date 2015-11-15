@@ -1,19 +1,14 @@
 package com.example.aqi.travelapp;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Arbiter on 12/11/2015.
@@ -76,16 +71,17 @@ public class ItineraryListAdapter extends BaseAdapter {
         //but an itinerary with just one destination doesn't make sense
         {
 
-            Log.d(TAG, "Itinerary has been planned, fetching list view");
             //The destination node name at this position
             String node1 = itinerary.itinerary.get(finposition);
             //The destination node name at the next position
-            String node2 = finposition+1<itinerary.itinerary.size()?
-                    itinerary.itinerary.get(finposition+1): itinerary.itinerary.get(0);
+            String node2 = position+1<itinerary.itinerary.size()?
+                    itinerary.itinerary.get(position+1): itinerary.itinerary.get(0);
+
 
             LinearLayout transportll = (LinearLayout) view.findViewById(R.id.itinerary_transport_layout);
             ImageView transportIcon = (ImageView) view.findViewById(R.id.itinerary_transport_icon);
             TextView transportName = (TextView) view.findViewById(R.id.itinerary_transport_text);
+            transportll.setVisibility(View.GONE);
 
             Log.d(TAG, "saved itinerary " + itinerary);
 
@@ -108,7 +104,7 @@ public class ItineraryListAdapter extends BaseAdapter {
                         transportIcon.setImageResource(R.drawable.bus_icon);
                         transportstr = context.getResources().getString(R.string.bustext);
                         transportName.setText(String.format(transportstr,
-                                CostUtils.getTime(1,node1,node2), CostUtils.getTime(2,node1,node2)));
+                                CostUtils.getTime(1,node1,node2), CostUtils.getCost(1,node1,node2)));
                         break;
                     case 2:
                         transportIcon.setImageResource(R.drawable.taxi_icon);
@@ -125,6 +121,8 @@ public class ItineraryListAdapter extends BaseAdapter {
             Log.d(TAG, "Itinerary not planned, just showing det");
             if(position!=itinerary.destinations.size())
                nodeName.setText(itinerary.destinations.get(finposition));
+            else
+                nodeName.setText("");
         }
 
         return view;

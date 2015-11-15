@@ -27,4 +27,5 @@ dependencies {
     compile 'io.janusproject.guava:guava:19.0.0'
     compile 'com.google.android.gms:play-services-location:8.1.0'
     compile 'com.google.android.gms:play-services-maps:8.1.0'
+    compile files('libs/frej.jar')
 }
